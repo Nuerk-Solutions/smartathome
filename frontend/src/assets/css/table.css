@@ -1,0 +1,12 @@
+.table-dvb {
+    width: 100%;
+}
+
+.table-dvb, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.table-dvb td {
+    padding: 5px;
+}

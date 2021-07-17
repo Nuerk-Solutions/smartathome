@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/smartathome/static/css/main.b41d426c.chunk.css",
-    "main.js": "/smartathome/static/js/main.f2c8828b.chunk.js",
-    "main.js.map": "/smartathome/static/js/main.f2c8828b.chunk.js.map",
+    "main.js": "/smartathome/static/js/main.fed8b5b8.chunk.js",
+    "main.js.map": "/smartathome/static/js/main.fed8b5b8.chunk.js.map",
     "runtime-main.js": "/smartathome/static/js/runtime-main.2df91ea6.js",
     "runtime-main.js.map": "/smartathome/static/js/runtime-main.2df91ea6.js.map",
-    "static/js/2.bbc3ec01.chunk.js": "/smartathome/static/js/2.bbc3ec01.chunk.js",
-    "static/js/2.bbc3ec01.chunk.js.map": "/smartathome/static/js/2.bbc3ec01.chunk.js.map",
+    "static/js/2.f596882f.chunk.js": "/smartathome/static/js/2.f596882f.chunk.js",
+    "static/js/2.f596882f.chunk.js.map": "/smartathome/static/js/2.f596882f.chunk.js.map",
     "index.html": "/smartathome/index.html",
     "static/css/main.b41d426c.chunk.css.map": "/smartathome/static/css/main.b41d426c.chunk.css.map",
-    "static/js/2.bbc3ec01.chunk.js.LICENSE.txt": "/smartathome/static/js/2.bbc3ec01.chunk.js.LICENSE.txt",
+    "static/js/2.f596882f.chunk.js.LICENSE.txt": "/smartathome/static/js/2.f596882f.chunk.js.LICENSE.txt",
     "static/media/arrow.4b2c169b.svg": "/smartathome/static/media/arrow.4b2c169b.svg",
     "static/media/bell.6364af4c.svg": "/smartathome/static/media/bell.6364af4c.svg",
     "static/media/bolt.fcf018bc.svg": "/smartathome/static/media/bolt.fcf018bc.svg",
@@ -21,8 +21,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.2df91ea6.js",
-    "static/js/2.bbc3ec01.chunk.js",
+    "static/js/2.f596882f.chunk.js",
     "static/css/main.b41d426c.chunk.css",
-    "static/js/main.f2c8828b.chunk.js"
+    "static/js/main.fed8b5b8.chunk.js"
   ]
 }

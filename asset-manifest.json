@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/smartathome/static/css/main.b41d426c.chunk.css",
-    "main.js": "/smartathome/static/js/main.fed8b5b8.chunk.js",
-    "main.js.map": "/smartathome/static/js/main.fed8b5b8.chunk.js.map",
+    "main.js": "/smartathome/static/js/main.fa43c56b.chunk.js",
+    "main.js.map": "/smartathome/static/js/main.fa43c56b.chunk.js.map",
     "runtime-main.js": "/smartathome/static/js/runtime-main.2df91ea6.js",
     "runtime-main.js.map": "/smartathome/static/js/runtime-main.2df91ea6.js.map",
     "static/js/2.f596882f.chunk.js": "/smartathome/static/js/2.f596882f.chunk.js",
@@ -23,6 +23,6 @@
     "static/js/runtime-main.2df91ea6.js",
     "static/js/2.f596882f.chunk.js",
     "static/css/main.b41d426c.chunk.css",
-    "static/js/main.fed8b5b8.chunk.js"
+    "static/js/main.fa43c56b.chunk.js"
   ]
 }

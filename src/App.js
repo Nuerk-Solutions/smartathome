@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {CSSTransition} from 'react-transition-group';
-import * as dvb from "dvbjs";
 
 import {ReactComponent as BellIcon} from './icons/bell.svg';
 import {ReactComponent as MessengerIcon} from './icons/messenger.svg';
@@ -10,21 +9,34 @@ import {ReactComponent as CogIcon} from './icons/cog.svg';
 import {ReactComponent as ChevronIcon} from './icons/chevron.svg';
 import {ReactComponent as ArrowIcon} from './icons/arrow.svg';
 import {ReactComponent as BoltIcon} from './icons/bolt.svg';
+import {DvbWidget} from "./Dvb";
 
 function App() {
     return (
-        <div>
-            <Navbar>
-                <NavItem icon={<PlusIcon/>}/>
-                <NavItem icon={<BellIcon/>}/>
-                <NavItem icon={<MessengerIcon/>}/>
+        <table cellPadding="0" cellSpacing="0" className="main-table">
+            <tbody>
+            <tr>
+                <td>
+                    <DvbWidget name="Malterstraße"/>
+                </td>
+                <td>
+                    <Navbar>
+                        <NavItem icon={<PlusIcon/>}/>
+                        <NavItem icon={<BellIcon/>}/>
+                        <NavItem icon={<MessengerIcon/>}/>
 
-                <NavItem icon={<CaretIcon/>}>
-                    <DropdownMenu/>
-                </NavItem>
-            </Navbar>
-            <DvbWidget name="Thomas"/>
-        </div>
+                        <NavItem icon={<CaretIcon/>}>
+                            <DropdownMenu/>
+                        </NavItem>
+                    </Navbar>
+                </td>
+            </tr>
+            <tr>
+                <td>Test3</td>
+                <td>Test4</td>
+            </tr>
+            </tbody>
+        </table>
     );
 }
 
@@ -126,25 +138,6 @@ function NavItem(props) {
             </a>
             {open && props.children}
         </li>
-    );
-}
-
-function DvbWidget(props) {
-    dvb.findStop("Malterstraße").then((data) => {
-        console.dir({ data }, { depth: 7, maxArrayLength: 2 });
-    });
-    const stopID = "33000146"; // Malterstraße
-    const timeOffset = 5;
-    const numResults = 2;
-
-    dvb.monitor(stopID, timeOffset, numResults).then((data) => {
-        console.dir(data, { depth: 7, maxArrayLength: 2 });
-    });
-
-    return (
-        <div>
-            <p>{props.name}</p>
-        </div>
     );
 }
 

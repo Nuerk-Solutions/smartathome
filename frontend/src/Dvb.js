@@ -52,10 +52,10 @@ export function DvbWidget(props) {
                     </thead>
                     <tbody>
                     {json.map(linie => (
-                        <tr key={linie.index} id={linie.index}>
+                        <tr key={linie.id + linie.scheduledTime.getTime()} id={linie.id + linie.scheduledTime.getTime()}>
                             <td>{linie.line}</td>
                             <td>{linie.direction}</td>
-                            <td>{getMinutesBetweenDates(new Date(), linie.scheduledTime)} min</td>
+                            <td>{linie.arrivalTimeRelative} min (+{linie.delayTime})</td>
                         </tr>
                     ))}
                     </tbody>
@@ -63,9 +63,4 @@ export function DvbWidget(props) {
             </div>
         );
     }
-}
-
-function getMinutesBetweenDates(startDate, endDate) {
-    const diff = endDate.getTime() - startDate.getTime();
-    return Math.round(diff / 60000);
 }

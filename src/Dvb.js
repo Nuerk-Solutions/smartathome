@@ -8,24 +8,30 @@ const stopID = "33000146"; // Malterstraße
 const timeOffset = 0;
 const numResults = 10;
 
+
 export function DvbWidget(props) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [json, setJson] = useState([]);
+    const [seconds, setSeconds] = useState(-1);
 
     useEffect(() => {
-        dvb.monitor(stopID, timeOffset, numResults)
-            .then(result => {
-                    console.dir(result);
-                    setIsLoaded(true);
-                    setJson(result);
-                },
-                (error) => {
-                    setIsLoaded(true);
-                    setError(error);
-                }
-            )
-    }, []);
+        const timer = seconds >= 0 && setInterval(() => setSeconds(seconds - 1), 1000);
+        if (seconds < 0) {
+            setSeconds(5);
+            dvb.monitor(stopID, timeOffset, numResults)
+                .then(result => {
+                        setIsLoaded(true);
+                        setJson(result);
+                    },
+                    (error) => {
+                        setIsLoaded(true);
+                        setError(error);
+                    }
+                )
+        }
+        return () => clearInterval(timer);
+    }, [seconds]);
 
     if (error) {
         return <div>Error: {error.message}</div>
@@ -35,22 +41,23 @@ export function DvbWidget(props) {
         return (
             <div>
                 <h1>{props.name}</h1>
+                <p>Seconds to next reload: {seconds}</p>
                 <table className="table-dvb">
                     <thead>
-                        <tr>
-                            <th>Linie</th>
-                            <th>Richtung</th>
-                            <th>Ankunft</th>
-                        </tr>
+                    <tr>
+                        <th>Linie</th>
+                        <th>Richtung</th>
+                        <th>Ankunft</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {json.map(linie => (
-                            <tr key={linie.index} id={linie.index}>
-                                <td>{linie.line}</td>
-                                <td>{linie.direction}</td>
-                                <td>{getMinutesBetweenDates(new Date(), linie.scheduledTime)} min</td>
-                            </tr>
-                        ))}
+                    {json.map(linie => (
+                        <tr key={linie.index} id={linie.index}>
+                            <td>{linie.line}</td>
+                            <td>{linie.direction}</td>
+                            <td>{getMinutesBetweenDates(new Date(), linie.scheduledTime)} min</td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             </div>

@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {CSSTransition} from 'react-transition-group';
+import * as dvb from "dvbjs";
 
 import {ReactComponent as BellIcon} from './icons/bell.svg';
 import {ReactComponent as MessengerIcon} from './icons/messenger.svg';
@@ -12,36 +13,38 @@ import {ReactComponent as BoltIcon} from './icons/bolt.svg';
 
 function App() {
     return (
-        <Navbar>
-            <NavItem icon={<PlusIcon/>}/>
-            <NavItem icon={<BellIcon/>}/>
-            <NavItem icon={<MessengerIcon/>}/>
+        <div>
+            <Navbar>
+                <NavItem icon={<PlusIcon/>}/>
+                <NavItem icon={<BellIcon/>}/>
+                <NavItem icon={<MessengerIcon/>}/>
 
-            <NavItem icon={<CaretIcon/>}>
-                <DropdownMenu/>
-            </NavItem>
-        </Navbar>
+                <NavItem icon={<CaretIcon/>}>
+                    <DropdownMenu/>
+                </NavItem>
+            </Navbar>
+            <DvbWidget name="Thomas"/>
+        </div>
     );
 }
 
 function DropdownMenu() {
-
     const [activeMenu, setActiveMenu] = useState('main');
-    const [menuHeight, setMenuHeight] = useState(null as any);
-    const dropdownRef = useRef(null as any);
+    const [menuHeight, setMenuHeight] = useState(null);
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
         setMenuHeight(dropdownRef.current.firstChild.offsetHeight)
     }, [])
 
-    function calcHeight(el: any) {
+    function calcHeight(el) {
         const height = el.offsetHeight;
         setMenuHeight(height);
     }
 
-    function DropdownItem(props: any) {
+    function DropdownItem(props) {
         return (
-            <a href="smartathome/#" className="menu-item" onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}>
+            <a href="/#" className="menu-item" onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}>
                 <span className="icon-button">{props.leftIcon}</span>
                 {props.children}
 
@@ -89,7 +92,7 @@ function DropdownMenu() {
     );
 }
 
-function Navbar(props: any) {
+function Navbar(props) {
     return (
         <nav className="navbar">
             <ul className="navbar-nav"> {props.children}</ul>
@@ -97,9 +100,9 @@ function Navbar(props: any) {
     );
 }
 
-function NavItem(props: any) {
+function NavItem(props) {
     const [open, setOpen] = useState(false);
-    const NavItemRef = useRef() as any;
+    const NavItemRef = useRef();
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside, true);
@@ -108,8 +111,8 @@ function NavItem(props: any) {
         };
     }, []);
 
-    const handleClickOutside = ((event: any) => {
-        const domNode: any = NavItemRef.current;
+    const handleClickOutside = ((event) => {
+        const domNode = NavItemRef.current;
 
         if (!domNode || !domNode.contains(event.target)) {
             setOpen(false);
@@ -118,11 +121,30 @@ function NavItem(props: any) {
 
     return (
         <li className="nav-item" ref={NavItemRef}>
-            <a href="smartathome/#" className="icon-button" onClick={() => setOpen(!open)}>
+            <a href="/#" className="icon-button" onClick={() => setOpen(!open)}>
                 {props.icon}
             </a>
             {open && props.children}
         </li>
+    );
+}
+
+function DvbWidget(props) {
+    dvb.findStop("Malterstraße").then((data) => {
+        console.dir({ data }, { depth: 7, maxArrayLength: 2 });
+    });
+    const stopID = "33000146"; // Malterstraße
+    const timeOffset = 5;
+    const numResults = 2;
+
+    dvb.monitor(stopID, timeOffset, numResults).then((data) => {
+        console.dir(data, { depth: 7, maxArrayLength: 2 });
+    });
+
+    return (
+        <div>
+            <p>{props.name}</p>
+        </div>
     );
 }
 

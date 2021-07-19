@@ -13,10 +13,30 @@
     local('MaterialIcons-Regular');
 }
 
+h1 {
+    margin: 0 0 0.3em 10px;
+    vertical-align: center;
+    position: center;
+}
+
 .monitor-div {
     background-color: var(--bg-primary);
-    margin: 10px;
-    padding: 10px;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.dropShadow {
+    background-color: var(--bg-accent);
+    box-shadow: 0 2px 2px 0 #00000024, 0 3px 1px -2px #0000001f, 0 1px 5px 0 #00000033;
+}
+
+.main-div {
+    height: 90%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .tram {
@@ -71,8 +91,8 @@
 /*    border: 1px solid white;*/
 /*}*/
 .table-dvb td:first-child {
-    min-width: 0.4em;
-    max-width: 2em;
+    min-width: 0.1em;
+    max-width: 0.3em;
     word-break: break-all;
 }
 
@@ -120,4 +140,9 @@
     padding-top: 3px;
     margin-right: 2px;
     float: left;
+}
+
+.spinner-pos {
+    display: block;
+    margin: 0;
 }

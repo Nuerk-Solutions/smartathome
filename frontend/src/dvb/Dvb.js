@@ -5,11 +5,12 @@ import WarningIcon from '@material-ui/icons/Warning';
 import CancelIcon from '@material-ui/icons/Cancel';
 import HelpIcon from '@material-ui/icons/Help';
 import EventNoteIcon from '@material-ui/icons/EventNote';
+import LoadingSpinner from "../components/LoadingSpinner";
 
 //HBF: 33000028
 //Malterstraße: 33000146
 
-const stopID = "33000028"; // Malterstraße
+const stopID = "33000146"; // Malterstraße
 const timeOffset = 0;
 const numResults = 10;
 
@@ -28,7 +29,6 @@ export function DvbWidget(props) {
                 .then(result => {
                         setIsLoaded(true);
                         setJson(result);
-                        console.dir(JSON.stringify(result));
                     },
                     (error) => {
                         setIsLoaded(true);
@@ -37,12 +37,30 @@ export function DvbWidget(props) {
                 )
         }
         return () => clearInterval(timer);
-    }, [seconds]);
 
+    }, [seconds]);
     if (error) {
-        return <div>Fehler: {error.message}</div>
+        return (
+            <div>
+                <div className="monitor-div">
+                    <h1>Fehler</h1>
+                    <div className="main-div dropShadow">
+                        <h2>{error.message}</h2>
+                    </div>
+                </div>
+            </div>
+        );
     } else if (!isLoaded) {
-        return <div>Laden...</div>
+        return (
+            <div>
+                <div className="monitor-div">
+                    <h1>{props.name}</h1>
+                    <div className="main-div dropShadow">
+                        <LoadingSpinner style="spinner-pos"/>
+                    </div>
+                </div>
+            </div>
+        );
     } else {
         return (
             <div className="monitor-div">
@@ -92,7 +110,7 @@ function DepartureComponent(props) {
                         delayTime={props.linie.delayTime}/>
                 </div>
                 {props.linie.state !== "Canceled" &&
-                <small className={props.linie.state === "Delayed" && "delayedIcon"}>
+                <small className={props.linie.state === "Delayed" ? "delayedIcon" : ""}>
                     {destinationTime.toLocaleTimeString([], {timeStyle: 'short'}) + " Uhr"}
                 </small>
                 }
@@ -111,7 +129,7 @@ function DepartureStatusIcon(props) {
         case "Delayed":
             return (
                 <div className="delayedIcon">
-                    <WarningIcon  style={{fontSize: 15}}/>
+                    <WarningIcon style={{fontSize: 15}}/>
                     <small className="delayTime">+{props.delayTime}</small>
                     <EventNoteIcon className="delayCalenderIcon" style={{fontSize: 15}}/>
                 </div>

@@ -13,29 +13,29 @@ import {DvbWidget} from "./dvb/Dvb";
 
 function App() {
     return (
-        // <table cellPadding="0" cellSpacing="0" className="main-table">
-        //     <tbody>
-        //     <tr>
-        //         <td className="row-bg">
+        <table cellPadding="0" cellSpacing="0" className="main-table">
+            <tbody>
+            <tr>
+                <td>
                     <DvbWidget name="Malterstraße"/>
-            //     </td>
-            //     <td>
-            //         <Navbar>
-            //             <NavItem icon={<PlusIcon/>}/>
-            //             <NavItem icon={<BellIcon/>}/>
-            //             <NavItem icon={<MessengerIcon/>}/>
-            //             <NavItem icon={<CaretIcon/>}>
-            //                 <DropdownMenu/>
-            //             </NavItem>
-            //         </Navbar>
-            //     </td>
-            // </tr>
-        //     <tr>
-        //         <td>Test3</td>
-        //         <td>Test4</td>
-        //     </tr>
-        //     </tbody>
-        // </table>
+                </td>
+                <td>
+                    <Navbar>
+                        <NavItem icon={<PlusIcon/>}/>
+                        <NavItem icon={<BellIcon/>}/>
+                        <NavItem icon={<MessengerIcon/>}/>
+                        <NavItem icon={<CaretIcon/>}>
+                            <DropdownMenu/>
+                        </NavItem>
+                    </Navbar>
+                </td>
+            </tr>
+            <tr>
+                <td>Test3</td>
+                <td>Test4</td>
+            </tr>
+            </tbody>
+        </table>
     );
 }
 

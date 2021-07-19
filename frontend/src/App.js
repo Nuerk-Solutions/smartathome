@@ -9,34 +9,34 @@ import {ReactComponent as CogIcon} from './icons/cog.svg';
 import {ReactComponent as ChevronIcon} from './icons/chevron.svg';
 import {ReactComponent as ArrowIcon} from './icons/arrow.svg';
 import {ReactComponent as BoltIcon} from './icons/bolt.svg';
-import {DvbWidget} from "./Dvb";
+import {DvbWidget} from "./dvb/Dvb";
 
 function App() {
     return (
-        <table cellPadding="0" cellSpacing="0" className="main-table">
-            <tbody>
-            <tr>
-                <td>
+        // <table cellPadding="0" cellSpacing="0" className="main-table">
+        //     <tbody>
+        //     <tr>
+        //         <td className="row-bg">
                     <DvbWidget name="Malterstraße"/>
-                </td>
-                <td>
-                    <Navbar>
-                        <NavItem icon={<PlusIcon/>}/>
-                        <NavItem icon={<BellIcon/>}/>
-                        <NavItem icon={<MessengerIcon/>}/>
-
-                        <NavItem icon={<CaretIcon/>}>
-                            <DropdownMenu/>
-                        </NavItem>
-                    </Navbar>
-                </td>
-            </tr>
-            <tr>
-                <td>Test3</td>
-                <td>Test4</td>
-            </tr>
-            </tbody>
-        </table>
+        //         </td>
+        //         <td>
+        //             <Navbar>
+        //                 <NavItem icon={<PlusIcon/>}/>
+        //                 <NavItem icon={<BellIcon/>}/>
+        //                 <NavItem icon={<MessengerIcon/>}/>
+        //
+        //                 <NavItem icon={<CaretIcon/>}>
+        //                     <DropdownMenu/>
+        //                 </NavItem>
+        //             </Navbar>
+        //         </td>
+        //     </tr>
+        //     <tr>
+        //         <td>Test3</td>
+        //         <td>Test4</td>
+        //     </tr>
+        //     </tbody>
+        // </table>
     );
 }
 

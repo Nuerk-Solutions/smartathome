@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import * as dvb from "dvbjs";
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 //HBF: 33000028
 //Malterstraße: 33000146
@@ -23,6 +24,7 @@ export function DvbWidget(props) {
                 .then(result => {
                         setIsLoaded(true);
                         setJson(result);
+                        console.dir(JSON.stringify(result));
                     },
                     (error) => {
                         setIsLoaded(true);
@@ -34,43 +36,56 @@ export function DvbWidget(props) {
     }, [seconds]);
 
     if (error) {
-        return <div>Error: {error.message}</div>
+        return <div>Fehler: {error.message}</div>
     } else if (!isLoaded) {
-        return <div>Loading...</div>
+        return <div>Laden...</div>
     } else {
         return (
-            <div>
+            <div className="monitor-div">
                 <h1>{props.name}</h1>
-                <p>Seconds to next reload: {seconds}</p>
-                <table className="table-dvb">
-                    <thead>
-                    <tr>
-                        <th>Linie</th>
-                        <th>Richtung</th>
-                        <th>Ankunft</th>
-                    </tr>
-                    </thead>
+                <table className="table-dvb" cellSpacing="10">
                     <tbody>
                     {json.map(linie => (
-                        <tr key={linie.id + linie.scheduledTime.getTime()} id={linie.id + linie.scheduledTime.getTime()}>
-                            <td>{linie.line}</td>
-                            <td>{linie.direction}</td>
-                            <td>{linie.arrivalTimeRelative} min (+{linie.delayTime})</td>
+                        <tr key={linie.id + linie.scheduledTime.getTime()}
+                            id={linie.id + linie.scheduledTime.getTime()}>
+                            <td className="linie-tr"><LinienIcon name={linie.mode.name} linie={linie.line}/></td>
+                            <td>
+                                <div>{linie.direction}</div>
+                                <small>Steig {linie.platform.name}</small>
+                            </td>
+                            <td>
+                                <DepartureComponent linie={linie}/>
+                            </td>
                         </tr>
                     ))}
                     </tbody>
                 </table>
+                <p>Nächste Aktualisierung in {seconds} sekunden.</p>
             </div>
         );
     }
 }
 
-function TransportIcon(props) {
+function LinienIcon(props) {
     return (
-        <div>
-            <svg width="36" height="36">
-                <image xlinkHref={props.iconUrl}  width="36" height="36" />
-            </svg>
+        <div className={props.name.toLowerCase()}>
+            {props.linie}
         </div>
     );
+}
+
+function DepartureComponent(props) {
+    const destinationTime = props.linie.arrivalTime || props.linie.scheduledTime;
+    const timeDifferenz = props.linie.arrivalTimeRelative || props.linie.scheduledTimeRelative;
+
+    return (
+        <div>
+            <div>{timeDifferenz > 0 ? "in " + (timeDifferenz > 90 ? Math.floor(timeDifferenz / 60) + " St." : timeDifferenz + " Min.") : "Jetzt"}</div>
+            <small>{destinationTime.toLocaleTimeString([], {timeStyle: 'short'}) + " Uhr"}</small>
+        </div>
+    );
+}
+
+function DepartureStatusIcon(props) {
+    // const test = <CheckCircleIcon/>{props.linie.delayTime};
 }

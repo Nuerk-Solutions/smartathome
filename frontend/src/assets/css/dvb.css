@@ -1,12 +1,98 @@
+:root {
+    --bg-primary: #323232;
+    --bg-secondary: #fdc400;
+    --bg-accent: #424242;
+    --text-color: #dadce1;
+}
+
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Material Icons'),
+    local('MaterialIcons-Regular');
+}
+
+.monitor-div {
+    background-color: var(--bg-primary);
+    margin: 10px;
+    padding: 10px;
+}
+
+.tram {
+    background: #DD0B2F;
+    padding: 2px 8px;
+    margin: 0 auto;
+}
+
+.train {
+    background: #009551;
+    border-radius: 20px;
+    padding: 2px 8px;
+    margin: 0 auto;
+}
+
+.citybus {
+    background: #005E79;
+    border-radius: 20px;
+    padding: 2px 8px;
+    margin: 0 auto;
+}
+
+.plusbus {
+    background: #a31977;
+    border-radius: 20px;
+    padding: 2px 8px;
+    margin: 0 auto;
+}
+
+.suburbanrailway {
+    background: #00A15E;
+    border-radius: 5px;
+    padding: 2px 4px;
+    margin-top: 3px;
+    font-size: 60%;
+}
+
 .table-dvb {
+    background-color: var(--bg-accent);
     width: 100%;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%)
 }
 
-.table-dvb, td {
-    border: 1px solid black;
-    border-collapse: collapse;
+/*.table-dvb td {*/
+/*    border: 1px solid white;*/
+/*}*/
+.table-dvb td:first-child {
+    min-width: 0.4em;
+    max-width: 1em;
+    word-break: break-all;
 }
 
-.table-dvb td {
-    padding: 5px;
+.linie-tr {
+    margin: 0 auto;
+    display: table-cell;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    vertical-align: middle;
 }
+
+.material-icons-smaller {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    display: inline;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    vertical-align: -15%;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+}
+/**/

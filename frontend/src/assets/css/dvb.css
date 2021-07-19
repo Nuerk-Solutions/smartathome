@@ -57,7 +57,7 @@
 .table-dvb {
     background-color: var(--bg-accent);
     width: 100%;
-    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%)
+    box-shadow: 0 2px 2px 0 #00000024, 0 3px 1px -2px #0000001f, 0 1px 5px 0 #00000033;
 }
 
 .table-dvb td {
@@ -65,7 +65,7 @@
 }
 .table-dvb td:first-child {
     min-width: 0.4em;
-    max-width: 1em;
+    max-width: 2em;
     word-break: break-all;
 }
 
@@ -79,22 +79,25 @@
 }
 
 .onTimeIcon{
-    color: rgb(54, 150, 23);
-    /*padding-right: 3px;*/
+    color: #369617FF;
 }
 
 .delayedIcon{
-    color:rgb(232, 62, 62);
+    color: #E83E3EFF;
 }
 
 .cancelIcon{
-    /*margin-right: 3px;*/
-    /*vertical-align: -5%;*/
-    color:rgb(232, 62, 62);
+    color: #E83E3EFF;
+}
+
+.unknownIcon {
+    color: #ffffff;
 }
 
 .statusIcon {
-    margin-top: 50px;
+    padding-top: 3px;
+    margin-right: 2px;
+    float: left;
 }
 
 

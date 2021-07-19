@@ -85,11 +85,12 @@ function DepartureComponent(props) {
         <div>
             <div>{timeDifferenz > 0 ? "in " + (timeDifferenz > 90 ? Math.floor(timeDifferenz / 60) + " St." : timeDifferenz + " Min.") : "Jetzt"}</div>
             <div>
-                <DepartureStatusIcon
-                    state={props.linie.state}
-                    delayTime={props.linie.delayTime}/>
-
-                <small> {destinationTime.toLocaleTimeString([], {timeStyle: 'short'}) + " Uhr"}</small>
+                <div className="statusIcon">
+                    <DepartureStatusIcon
+                        state={props.linie.state}
+                        delayTime={props.linie.delayTime}/>
+                </div>
+                <small>{destinationTime.toLocaleTimeString([], {timeStyle: 'short'}) + " Uhr"}</small>
             </div>
         </div>
     );
@@ -101,21 +102,21 @@ function DepartureStatusIcon(props) {
     switch (props.state) {
         case "InTime":
             return (
-                <CheckCircleIcon className="onTimeIcon" style={{ fontSize: 15}}/>
+                <CheckCircleIcon className="onTimeIcon" style={{fontSize: 15}}/>
             );
         case "Delayed":
             return (
-                <WarningIcon className="delayedIcon" style={{ fontSize: 15}}/>
+                <WarningIcon className="delayedIcon" style={{fontSize: 15}}/>
             );
         case "Cancelled":
             return (
                 <div>
-                    <CancelIcon className="cancelIcon" style={{ fontSize: 15}}/> Fällt aus
+                    <CancelIcon className="cancelIcon" style={{fontSize: 15}}/> Fällt aus
                 </div>
             );
         case "Unknown":
             return (
-                <HelpIcon/>
+                <HelpIcon className="unknownIcon" style={{fontSize: 15}}/>
             )
         default:
             return (

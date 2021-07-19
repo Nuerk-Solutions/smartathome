@@ -1,208 +1,184 @@
 [
   {
-    "arrivalTime": "2021-07-19T13:33:00.000Z",
-    "scheduledTime": "2021-07-19T13:33:00.000Z",
-    "id": "voe:11007: :R:j21",
-    "line": "7",
-    "direction": "Weixdorf",
+    "arrivalTime": "2021-07-19T13:49:00.000Z",
+    "scheduledTime": "2021-07-19T13:49:00.000Z",
+    "id": "voe:23360: :H:j21",
+    "line": "360",
+    "direction": "Bannewitz Windbergstraße",
     "platform": {
-      "name": "1",
+      "name": "6",
       "type": "Platform"
     },
-    "arrivalTimeRelative": 60,
-    "scheduledTimeRelative": 60,
+    "arrivalTimeRelative": -1,
+    "scheduledTimeRelative": -1,
     "delayTime": 0,
-    "state": "InTime",
+    "state": "Unknown",
     "mode": {
-      "title": "Straßenbahn",
-      "name": "Tram",
-      "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-tram.svg"
+      "title": "PlusBus",
+      "name": "PlusBus",
+      "iconUrl": "https://m.dvb.de/img/mot_icons/plusBus.svg"
     },
     "diva": {
-      "number": 11007,
-      "network": "voe"
-    }
-  },
-  {
-    "arrivalTime": "2021-07-19T13:34:00.000Z",
-    "scheduledTime": "2021-07-19T13:34:00.000Z",
-    "id": "voe:11002: :H:j21",
-    "line": "2",
-    "direction": "Gorbitz",
-    "platform": {
-      "name": "2",
-      "type": "Platform"
-    },
-    "arrivalTimeRelative": 61,
-    "scheduledTimeRelative": 61,
-    "delayTime": 0,
-    "state": "InTime",
-    "mode": {
-      "title": "Straßenbahn",
-      "name": "Tram",
-      "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-tram.svg"
-    },
-    "diva": {
-      "number": 11002,
-      "network": "voe"
-    }
-  },
-  {
-    "arrivalTime": "2021-07-19T13:37:00.000Z",
-    "scheduledTime": "2021-07-19T13:37:00.000Z",
-    "id": "voe:11002: :R:j21",
-    "line": "2",
-    "direction": "Kleinzschachwitz",
-    "platform": {
-      "name": "1",
-      "type": "Platform"
-    },
-    "arrivalTimeRelative": 64,
-    "scheduledTimeRelative": 64,
-    "delayTime": 0,
-    "state": "InTime",
-    "mode": {
-      "title": "Straßenbahn",
-      "name": "Tram",
-      "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-tram.svg"
-    },
-    "diva": {
-      "number": 11002,
-      "network": "voe"
-    }
-  },
-  {
-    "arrivalTime": "2021-07-19T13:39:00.000Z",
-    "scheduledTime": "2021-07-19T13:39:00.000Z",
-    "id": "voe:11007: :H:j21",
-    "line": "7",
-    "direction": "Pennrich",
-    "platform": {
-      "name": "2",
-      "type": "Platform"
-    },
-    "arrivalTimeRelative": 66,
-    "scheduledTimeRelative": 66,
-    "delayTime": 0,
-    "state": "InTime",
-    "mode": {
-      "title": "Straßenbahn",
-      "name": "Tram",
-      "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-tram.svg"
-    },
-    "diva": {
-      "number": 11007,
-      "network": "voe"
-    }
-  },
-  {
-    "arrivalTime": "2021-07-19T13:43:00.000Z",
-    "scheduledTime": "2021-07-19T13:43:00.000Z",
-    "id": "voe:11007: :R:j21",
-    "line": "7",
-    "direction": "Weixdorf",
-    "platform": {
-      "name": "1",
-      "type": "Platform"
-    },
-    "arrivalTimeRelative": 70,
-    "scheduledTimeRelative": 70,
-    "delayTime": 0,
-    "state": "InTime",
-    "mode": {
-      "title": "Straßenbahn",
-      "name": "Tram",
-      "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-tram.svg"
-    },
-    "diva": {
-      "number": 11007,
-      "network": "voe"
-    }
-  },
-  {
-    "arrivalTime": "2021-07-19T13:44:00.000Z",
-    "scheduledTime": "2021-07-19T13:44:00.000Z",
-    "id": "voe:11002: :H:j21",
-    "line": "2",
-    "direction": "Gorbitz",
-    "platform": {
-      "name": "2",
-      "type": "Platform"
-    },
-    "arrivalTimeRelative": 71,
-    "scheduledTimeRelative": 71,
-    "delayTime": 0,
-    "state": "InTime",
-    "mode": {
-      "title": "Straßenbahn",
-      "name": "Tram",
-      "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-tram.svg"
-    },
-    "diva": {
-      "number": 11002,
-      "network": "voe"
-    }
-  },
-  {
-    "arrivalTime": "2021-07-19T13:47:00.000Z",
-    "scheduledTime": "2021-07-19T13:47:00.000Z",
-    "id": "voe:11002: :R:j21",
-    "line": "2",
-    "direction": "Kleinzschachwitz",
-    "platform": {
-      "name": "1",
-      "type": "Platform"
-    },
-    "arrivalTimeRelative": 74,
-    "scheduledTimeRelative": 74,
-    "delayTime": 0,
-    "state": "InTime",
-    "mode": {
-      "title": "Straßenbahn",
-      "name": "Tram",
-      "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-tram.svg"
-    },
-    "diva": {
-      "number": 11002,
+      "number": 23360,
       "network": "voe"
     }
   },
   {
     "arrivalTime": "2021-07-19T13:49:00.000Z",
     "scheduledTime": "2021-07-19T13:49:00.000Z",
-    "id": "voe:11007: :H:j21",
-    "line": "7",
-    "direction": "Pennrich",
+    "id": "ddb:92D01: :H:j21",
+    "line": "S1",
+    "direction": "Pirna Bahnhof",
     "platform": {
-      "name": "2",
+      "name": "13",
+      "type": "Railtrack"
+    },
+    "arrivalTimeRelative": -1,
+    "scheduledTimeRelative": -1,
+    "delayTime": 0,
+    "state": "InTime",
+    "mode": {
+      "title": "S-Bahn",
+      "name": "SuburbanRailway",
+      "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-metropolitan.svg"
+    },
+    "diva": {
+      "number": 92,
+      "network": "ddb"
+    }
+  },
+  {
+    "arrivalTime": "2021-07-19T13:49:00.000Z",
+    "scheduledTime": "2021-07-19T13:49:00.000Z",
+    "id": "vms:60672:D:R:j20",
+    "line": "672",
+    "direction": "Mittweida",
+    "platform": {
+      "name": "6",
       "type": "Platform"
     },
-    "arrivalTimeRelative": 76,
-    "scheduledTimeRelative": 76,
+    "arrivalTimeRelative": -1,
+    "scheduledTimeRelative": -1,
     "delayTime": 0,
     "state": "Unknown",
+    "mode": {
+      "title": "Regio-Bus",
+      "name": "IntercityBus",
+      "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-bus.svg"
+    },
+    "diva": {
+      "number": 60672,
+      "network": "vms"
+    }
+  },
+  {
+    "arrivalTime": "2021-07-19T13:49:00.000Z",
+    "scheduledTime": "2021-07-19T13:49:00.000Z",
+    "id": "voe:23360: :R:j21",
+    "line": "360",
+    "direction": "Ammonstraße / Budapester Straße",
+    "platform": {
+      "name": "5",
+      "type": "Platform"
+    },
+    "arrivalTimeRelative": -1,
+    "scheduledTimeRelative": -1,
+    "delayTime": 0,
+    "state": "InTime",
+    "mode": {
+      "title": "PlusBus",
+      "name": "PlusBus",
+      "iconUrl": "https://m.dvb.de/img/mot_icons/plusBus.svg"
+    },
+    "diva": {
+      "number": 23360,
+      "network": "voe"
+    }
+  },
+  {
+    "arrivalTime": "2021-07-19T13:50:00.000Z",
+    "scheduledTime": "2021-07-19T13:50:00.000Z",
+    "id": "voe:11008: :R:j21",
+    "line": "8",
+    "direction": "Hellerau",
+    "platform": {
+      "name": "3",
+      "type": "Platform"
+    },
+    "arrivalTimeRelative": 0,
+    "scheduledTimeRelative": 0,
+    "delayTime": 0,
+    "state": "InTime",
     "mode": {
       "title": "Straßenbahn",
       "name": "Tram",
       "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-tram.svg"
     },
     "diva": {
-      "number": 11007,
+      "number": 11008,
       "network": "voe"
     }
   },
   {
-    "arrivalTime": "2021-07-19T13:53:00.000Z",
-    "scheduledTime": "2021-07-19T13:53:00.000Z",
-    "id": "voe:11007: :R:j21",
-    "line": "7",
-    "direction": "Weixdorf",
+    "arrivalTime": "2021-07-19T13:51:00.000Z",
+    "scheduledTime": "2021-07-19T13:51:00.000Z",
+    "id": "voe:11003: :R:j21",
+    "line": "3",
+    "direction": "Coschütz",
+    "platform": {
+      "name": "4",
+      "type": "Platform"
+    },
+    "arrivalTimeRelative": 1,
+    "scheduledTimeRelative": 1,
+    "delayTime": 0,
+    "state": "InTime",
+    "mode": {
+      "title": "Straßenbahn",
+      "name": "Tram",
+      "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-tram.svg"
+    },
+    "diva": {
+      "number": 11003,
+      "network": "voe"
+    }
+  },
+  {
+    "arrivalTime": "2021-07-19T13:51:00.000Z",
+    "scheduledTime": "2021-07-19T13:51:00.000Z",
+    "id": "ddb:90D15: :R:j21",
+    "line": "RE15",
+    "direction": "Hoyerswerda Bahnhof",
+    "platform": {
+      "name": "2",
+      "type": "Railtrack"
+    },
+    "arrivalTimeRelative": 1,
+    "scheduledTimeRelative": 1,
+    "delayTime": 0,
+    "state": "InTime",
+    "mode": {
+      "title": "Zug",
+      "name": "Train",
+      "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-train.svg"
+    },
+    "diva": {
+      "number": 90,
+      "network": "ddb"
+    }
+  },
+  {
+    "arrivalTime": "2021-07-19T13:51:00.000Z",
+    "scheduledTime": "2021-07-19T13:51:00.000Z",
+    "id": "voe:11010: :R:j21",
+    "line": "10",
+    "direction": "Striesen",
     "platform": {
       "name": "1",
       "type": "Platform"
     },
-    "arrivalTimeRelative": 80,
-    "scheduledTimeRelative": 80,
+    "arrivalTimeRelative": 1,
+    "scheduledTimeRelative": 1,
     "delayTime": 0,
     "state": "InTime",
     "mode": {
@@ -211,22 +187,46 @@
       "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-tram.svg"
     },
     "diva": {
-      "number": 11007,
+      "number": 11010,
       "network": "voe"
     }
   },
   {
-    "arrivalTime": "2021-07-19T13:54:00.000Z",
-    "scheduledTime": "2021-07-19T13:54:00.000Z",
-    "id": "voe:11002: :H:j21",
-    "line": "2",
-    "direction": "Gorbitz",
+    "arrivalTime": "2021-07-19T13:51:00.000Z",
+    "scheduledTime": "2021-07-19T13:51:00.000Z",
+    "id": "ddb:90D03: :H:j21",
+    "line": "RE3",
+    "direction": "Hof Hbf",
     "platform": {
-      "name": "2",
+      "name": "11",
+      "type": "Railtrack"
+    },
+    "arrivalTimeRelative": 1,
+    "scheduledTimeRelative": 1,
+    "delayTime": 0,
+    "state": "InTime",
+    "mode": {
+      "title": "Zug",
+      "name": "Train",
+      "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-train.svg"
+    },
+    "diva": {
+      "number": 90,
+      "network": "ddb"
+    }
+  },
+  {
+    "arrivalTime": "2021-07-19T13:52:00.000Z",
+    "scheduledTime": "2021-07-19T13:52:00.000Z",
+    "id": "voe:11003: :H:j21",
+    "line": "3",
+    "direction": "Wilder Mann",
+    "platform": {
+      "name": "3",
       "type": "Platform"
     },
-    "arrivalTimeRelative": 81,
-    "scheduledTimeRelative": 81,
+    "arrivalTimeRelative": 2,
+    "scheduledTimeRelative": 2,
     "delayTime": 0,
     "state": "InTime",
     "mode": {
@@ -235,7 +235,7 @@
       "iconUrl": "https://www.dvb.de/assets/img/trans-icon/transport-tram.svg"
     },
     "diva": {
-      "number": 11002,
+      "number": 11003,
       "network": "voe"
     }
   }

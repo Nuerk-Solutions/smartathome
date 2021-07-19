@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import * as dvb from "dvbjs";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import WarningIcon from '@material-ui/icons/Warning';
+import CancelIcon from '@material-ui/icons/Cancel';
+import HelpIcon from '@material-ui/icons/Help';
 
 //HBF: 33000028
 //Malterstraße: 33000146
 
-const stopID = "33000146"; // Malterstraße
+const stopID = "33000028"; // Malterstraße
 const timeOffset = 0;
 const numResults = 10;
 
@@ -81,11 +84,42 @@ function DepartureComponent(props) {
     return (
         <div>
             <div>{timeDifferenz > 0 ? "in " + (timeDifferenz > 90 ? Math.floor(timeDifferenz / 60) + " St." : timeDifferenz + " Min.") : "Jetzt"}</div>
-            <small>{destinationTime.toLocaleTimeString([], {timeStyle: 'short'}) + " Uhr"}</small>
+            <div>
+                <DepartureStatusIcon
+                    state={props.linie.state}
+                    delayTime={props.linie.delayTime}/>
+
+                <small> {destinationTime.toLocaleTimeString([], {timeStyle: 'short'}) + " Uhr"}</small>
+            </div>
         </div>
     );
 }
 
+//Todo: To early by subtraction arrival time to planned time
 function DepartureStatusIcon(props) {
     // const test = <CheckCircleIcon/>{props.linie.delayTime};
+    switch (props.state) {
+        case "InTime":
+            return (
+                <CheckCircleIcon className="onTimeIcon" style={{ fontSize: 15}}/>
+            );
+        case "Delayed":
+            return (
+                <WarningIcon className="delayedIcon" style={{ fontSize: 15}}/>
+            );
+        case "Cancelled":
+            return (
+                <div>
+                    <CancelIcon className="cancelIcon" style={{ fontSize: 15}}/> Fällt aus
+                </div>
+            );
+        case "Unknown":
+            return (
+                <HelpIcon/>
+            )
+        default:
+            return (
+                <div>Fehler</div>
+            );
+    }
 }

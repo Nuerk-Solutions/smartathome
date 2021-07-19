@@ -64,3 +64,13 @@ export function DvbWidget(props) {
         );
     }
 }
+
+function TransportIcon(props) {
+    return (
+        <div>
+            <svg width="36" height="36">
+                <image xlinkHref={props.iconUrl}  width="36" height="36" />
+            </svg>
+        </div>
+    );
+}

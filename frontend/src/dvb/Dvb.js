@@ -4,6 +4,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import WarningIcon from '@material-ui/icons/Warning';
 import CancelIcon from '@material-ui/icons/Cancel';
 import HelpIcon from '@material-ui/icons/Help';
+import EventNoteIcon from '@material-ui/icons/EventNote';
 
 //HBF: 33000028
 //Malterstraße: 33000146
@@ -90,7 +91,11 @@ function DepartureComponent(props) {
                         state={props.linie.state}
                         delayTime={props.linie.delayTime}/>
                 </div>
-                <small>{destinationTime.toLocaleTimeString([], {timeStyle: 'short'}) + " Uhr"}</small>
+                {props.linie.state !== "Canceled" &&
+                <small className={props.linie.state === "Delayed" && "delayedIcon"}>
+                    {destinationTime.toLocaleTimeString([], {timeStyle: 'short'}) + " Uhr"}
+                </small>
+                }
             </div>
         </div>
     );
@@ -98,7 +103,6 @@ function DepartureComponent(props) {
 
 //Todo: To early by subtraction arrival time to planned time
 function DepartureStatusIcon(props) {
-    // const test = <CheckCircleIcon/>{props.linie.delayTime};
     switch (props.state) {
         case "InTime":
             return (
@@ -106,12 +110,17 @@ function DepartureStatusIcon(props) {
             );
         case "Delayed":
             return (
-                <WarningIcon className="delayedIcon" style={{fontSize: 15}}/>
+                <div className="delayedIcon">
+                    <WarningIcon  style={{fontSize: 15}}/>
+                    <small className="delayTime">+{props.delayTime}</small>
+                    <EventNoteIcon className="delayCalenderIcon" style={{fontSize: 15}}/>
+                </div>
             );
-        case "Cancelled":
+        case "Canceled":
             return (
-                <div>
-                    <CancelIcon className="cancelIcon" style={{fontSize: 15}}/> Fällt aus
+                <div className="cancelIcon">
+                    <CancelIcon style={{fontSize: 15}}/>
+                    <small className="cancelText">Fällt aus</small>
                 </div>
             );
         case "Unknown":
@@ -120,7 +129,7 @@ function DepartureStatusIcon(props) {
             )
         default:
             return (
-                <div>Fehler</div>
+                <div>No State</div>
             );
     }
 }

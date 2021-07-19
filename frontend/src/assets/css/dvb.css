@@ -39,6 +39,13 @@
     margin: 0 auto;
 }
 
+.intercitybus {
+    background: #005E79;
+    border-radius: 20px;
+    padding: 2px 8px;
+    margin: 0 auto;
+}
+
 .plusbus {
     background: #a31977;
     border-radius: 20px;
@@ -60,9 +67,9 @@
     box-shadow: 0 2px 2px 0 #00000024, 0 3px 1px -2px #0000001f, 0 1px 5px 0 #00000033;
 }
 
-.table-dvb td {
-    border: 1px solid white;
-}
+/*.table-dvb td {*/
+/*    border: 1px solid white;*/
+/*}*/
 .table-dvb td:first-child {
     min-width: 0.4em;
     max-width: 2em;
@@ -86,8 +93,23 @@
     color: #E83E3EFF;
 }
 
+.delayCalenderIcon {
+    padding-left: 10px;
+}
+
+.delayTime {
+    position: relative;
+    bottom: 2px;
+}
+
 .cancelIcon{
-    color: #E83E3EFF;
+    color: #f67d2c;
+}
+
+.cancelText {
+    position: relative;
+    bottom: 3px;
+    margin-left: 3px;
 }
 
 .unknownIcon {

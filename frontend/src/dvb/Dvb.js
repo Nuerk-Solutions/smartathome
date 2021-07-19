@@ -10,7 +10,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 //HBF: 33000028
 //Malterstraße: 33000146
 
-const stopID = "33000028"; // Malterstraße
+const stopID = "33000146"; // Malterstraße
 const timeOffset = 0;
 const numResults = 10;
 

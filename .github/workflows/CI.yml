@@ -51,4 +51,4 @@ jobs:
       run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       
     - name: Deploy with rsync
-      run: rsync -avz ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/3ed2108e-9c34-47f1-9146-133208ba65b6/test
+      run: rsync -avz -e "ssh -i ${{ secrets.SSH_PRIVATE_KEY }}" ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/3ed2108e-9c34-47f1-9146-133208ba65b6/test

@@ -51,7 +51,7 @@ jobs:
       run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
   
     - name: Deploy with rsync
-      uses: matheusvanzan/sshpass-action@v1
+      uses: matheusvanzan/sshpass-action@v2
       with:
         host: ${{ secrets.SSH_HOST }}
         port: ${{ secrets.SSH_PORT }}

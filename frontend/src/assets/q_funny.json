@@ -1,0 +1,32 @@
+{
+  "success": {
+    "total": 1
+  },
+  "contents": {
+    "quotes": [
+      {
+        "quote": "You can't succeed coming to the potluck with only a fork.",
+        "length": "64",
+        "author": "Dave Liniger",
+        "tags": {
+          "0": "funny",
+          "1": "inspire",
+          "2": "team-building",
+          "4": "working-with-people"
+        },
+        "category": "funny",
+        "language": "en",
+        "date": "2021-07-20",
+        "permalink": "https://theysaidso.com/quote/dave-liniger-you-cant-succeed-coming-to-the-potluck-with-only-a-fork",
+        "id": "KWCgqBUJddn2kfXjAX9m7geF",
+        "background": "https://theysaidso.com/img/qod/qod-funny.jpg",
+        "title": "Funny Quote of the day"
+      }
+    ]
+  },
+  "baseurl": "https://theysaidso.com",
+  "copyright": {
+    "year": 2023,
+    "url": "https://theysaidso.com"
+  }
+}

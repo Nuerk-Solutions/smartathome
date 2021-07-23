@@ -1,0 +1,34 @@
+{
+  "success": {
+    "total": 1
+  },
+  "contents": {
+    "quotes": [
+      {
+        "quote": "I don't know any other way to lead but by example.",
+        "length": "50",
+        "author": "Don Shula",
+        "tags": {
+          "0": "example",
+          "1": "football",
+          "2": "leadership",
+          "3": "management",
+          "4": "sports",
+          "6": "tod"
+        },
+        "category": "sports",
+        "language": "en",
+        "date": "2021-07-20",
+        "permalink": "https://theysaidso.com/quote/don-shula-i-dont-know-any-other-way-to-lead-but-by-example",
+        "id": "jR9TguFNeDGHbHdDbTnyGweF",
+        "background": "https://theysaidso.com/img/qod/qod-sports.jpg",
+        "title": "Sports Quote of the day"
+      }
+    ]
+  },
+  "baseurl": "https://theysaidso.com",
+  "copyright": {
+    "year": 2023,
+    "url": "https://theysaidso.com"
+  }
+}

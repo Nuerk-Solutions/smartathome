@@ -1,0 +1,29 @@
+{
+  "success": {
+    "total": 1
+  },
+  "contents": {
+    "quotes": [
+      {
+        "quote": "Perpetual inspiration is as necessary to the life of goodness, holiness and happiness as perpetual respiration is necessary to animal life.",
+        "length": "139",
+        "author": "Andrew Bonar Law",
+        "tags": [
+          "life"
+        ],
+        "category": "life",
+        "language": "en",
+        "date": "2021-07-20",
+        "permalink": "https://theysaidso.com/quote/andrew-bonar-law-perpetual-inspiration-is-as-necessary-to-the-life-of-goodness-h",
+        "id": "RJ0O6KRiakX2rnYxCnEv4QeF",
+        "background": "https://theysaidso.com/img/qod/qod-life.jpg",
+        "title": "Quote of the day about life"
+      }
+    ]
+  },
+  "baseurl": "https://theysaidso.com",
+  "copyright": {
+    "year": 2023,
+    "url": "https://theysaidso.com"
+  }
+}

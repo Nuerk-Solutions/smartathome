@@ -5,7 +5,7 @@ import WarningIcon from '@material-ui/icons/Warning';
 import CancelIcon from '@material-ui/icons/Cancel';
 import HelpIcon from '@material-ui/icons/Help';
 import EventNoteIcon from '@material-ui/icons/EventNote';
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../assets/components/LoadingSpinner";
 
 //HBF: 33000028
 //Malterstraße: 33000146
@@ -27,6 +27,7 @@ export function DvbWidget(props) {
             setSeconds(5);
             dvb.monitor(stopID, timeOffset, numResults)
                 .then(result => {
+                        setError(null);
                         setIsLoaded(true);
                         setJson(result);
                     },
@@ -73,7 +74,7 @@ export function DvbWidget(props) {
                             <td className="linie-tr"><LinienIcon name={linie.mode.name} linie={linie.line}/></td>
                             <td>
                                 <div>{linie.direction}</div>
-                                <small>Steig {linie.platform.name}</small>
+                                <small>Steig </small>
                             </td>
                             <td>
                                 <DepartureComponent linie={linie}/>

@@ -18,7 +18,7 @@ function App() {
         //     <tbody>
         //     <tr>
         //         <td>
-        //             <DvbWidget name="Malterstraße"/>
+                    <DvbWidget name="Malterstraße"/>
         //         </td>
         //         <td>
         //             <Navbar>
@@ -33,7 +33,7 @@ function App() {
         //     </tr>
         //     <tr>
         //         <td>
-                    <Quote />
+        //             <Quote />
         //         </td>
         //         <td>Test4</td>
         //     </tr>

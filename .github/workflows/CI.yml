@@ -41,6 +41,18 @@ jobs:
         github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
         repository: ${{ github.repository }}
 
+    - name: SSH Deployv1
+      uses: appleboy/ssh-action@v0.1.4
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }} 
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+            cd /home/test/
+            git pull origin master
+            git status
+
     - name: Install SSH Key
       uses: shimataro/ssh-key-action@v2
       with:

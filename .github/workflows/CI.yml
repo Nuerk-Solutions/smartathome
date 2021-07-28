@@ -49,6 +49,6 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }} 
         port: ${{ secrets.SSH_PORT }}
         script: |
-            cd /home/test/
+            cd /home/test/smartathome/
             git pull origin master
             git status

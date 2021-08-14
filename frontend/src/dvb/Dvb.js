@@ -28,7 +28,6 @@ export function DvbWidget(props) {
 
     useEffect(() => {
         dvb.findStop(stop).then((data) => {
-            console.log(JSON.stringify(data));
             setName(data[0].name);
             setStopID(data[0].id);
         });
@@ -37,7 +36,7 @@ export function DvbWidget(props) {
     useEffect(() => {
         // const timer = seconds >= 0 && setInterval(() => setSeconds(seconds - 1), 1000);
         const timer = seconds <= refreshDelay && setInterval(() => setSeconds(seconds + 1), timeout);
-        if (seconds > refreshDelay) {
+        if (seconds > refreshDelay || seconds === -1) {
             setSeconds(0);
             dvb.monitor(stopID, offset, amount)
                 .then(result => {

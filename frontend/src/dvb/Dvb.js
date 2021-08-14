@@ -19,8 +19,8 @@ export function DvbWidget(props) {
     const [json, setJson] = useState([]);
     const [seconds, setSeconds] = useState(-1);
     const [name, setName] = useState(props.name);
-    const { stop = name, amount = 15, offset = 0 } = useParams();
-    const [stopID, setStopID] = useState("33000146");
+    const {stop = name, amount = 15, offset = 0} = useParams();
+    const [stopID, setStopID] = useState(null);
 
     let timeout = 100;
     let refreshDelay = 31 * 10; //30 seconds
@@ -30,13 +30,15 @@ export function DvbWidget(props) {
         dvb.findStop(stop).then((data) => {
             setName(data[0].name);
             setStopID(data[0].id);
+        }, () => { //Default handling, when dvb#findStop returns no result
+            setStopID("33000146");
         });
-    }, [name]);
+    }, []);
+
 
     useEffect(() => {
-        // const timer = seconds >= 0 && setInterval(() => setSeconds(seconds - 1), 1000);
         const timer = seconds <= refreshDelay && setInterval(() => setSeconds(seconds + 1), timeout);
-        if (seconds > refreshDelay || seconds === -1) {
+        if ((seconds > refreshDelay || seconds === -1) && stopID != null) {
             setSeconds(0);
             dvb.monitor(stopID, offset, amount)
                 .then(result => {
@@ -52,7 +54,7 @@ export function DvbWidget(props) {
         }
         return () => clearInterval(timer);
 
-    }, [seconds]);
+    }, [stopID, seconds]);
     if (error) {
         return (
             <div>

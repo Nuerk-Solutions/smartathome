@@ -6,26 +6,40 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import HelpIcon from '@material-ui/icons/Help';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import LoadingSpinner from "../assets/components/LoadingSpinner";
+import {LinearProgress} from "@material-ui/core";
+import {useParams} from "react-router-dom";
 
 //HBF: 33000028
 //Malterstraße: 33000146
-
-const stopID = "33000146"; // Malterstraße
-const timeOffset = 0;
-const numResults = 10;
-
+// const stopID = "33000146"; // Malterstraße
 
 export function DvbWidget(props) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [json, setJson] = useState([]);
     const [seconds, setSeconds] = useState(-1);
+    const [name, setName] = useState(props.name);
+    const { stop = name, amount = 15, offset = 0 } = useParams();
+    const [stopID, setStopID] = useState("33000146");
+
+    let timeout = 100;
+    let refreshDelay = 31 * 10; //30 seconds
+    const progress = seconds * 100 / 300;
 
     useEffect(() => {
-        const timer = seconds >= 0 && setInterval(() => setSeconds(seconds - 1), 1000);
-        if (seconds < 0) {
-            setSeconds(5);
-            dvb.monitor(stopID, timeOffset, numResults)
+        dvb.findStop(stop).then((data) => {
+            console.log(JSON.stringify(data));
+            setName(data[0].name);
+            setStopID(data[0].id);
+        });
+    }, [name]);
+
+    useEffect(() => {
+        // const timer = seconds >= 0 && setInterval(() => setSeconds(seconds - 1), 1000);
+        const timer = seconds <= refreshDelay && setInterval(() => setSeconds(seconds + 1), timeout);
+        if (seconds > refreshDelay) {
+            setSeconds(0);
+            dvb.monitor(stopID, offset, amount)
                 .then(result => {
                         setError(null);
                         setIsLoaded(true);
@@ -55,7 +69,7 @@ export function DvbWidget(props) {
         return (
             <div>
                 <div className="monitor-div">
-                    <h1>{props.name}</h1>
+                    <h1>{name}</h1>
                     <div className="main-div dropShadow">
                         <LoadingSpinner style="spinner-pos"/>
                     </div>
@@ -65,7 +79,7 @@ export function DvbWidget(props) {
     } else {
         return (
             <div className="monitor-div">
-                <h1>{props.name}</h1>
+                <h1>{name}</h1>
                 <table className="table-dvb" cellSpacing="10">
                     <tbody>
                     {json.map(linie => (
@@ -83,7 +97,8 @@ export function DvbWidget(props) {
                     ))}
                     </tbody>
                 </table>
-                <p>Nächste Aktualisierung in {seconds} sekunden.</p>
+                <p>Nächste Aktualisierung in {Math.floor(seconds / 10)} sekunden.</p>
+                <LinearProgress variant="determinate" color="secondary" value={progress >= 102 ? 0 : progress}/>
             </div>
         );
     }

@@ -8,5 +8,5 @@ app.get('*', (req, res) => {
    res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
 
-app.listen(3000);
+app.listen(2086);
 console.log("Server Ready!");

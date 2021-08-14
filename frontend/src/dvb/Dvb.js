@@ -97,7 +97,7 @@ export function DvbWidget(props) {
                     ))}
                     </tbody>
                 </table>
-                <p>Nächste Aktualisierung in {Math.floor(seconds / 10)} sekunden.</p>
+                {/*<p>Nächste Aktualisierung in {Math.floor(seconds / 10)} sekunden.</p>*/}
                 <LinearProgress variant="determinate" color="secondary" value={progress >= 102 ? 0 : progress}/>
             </div>
         );

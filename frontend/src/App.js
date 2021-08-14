@@ -15,7 +15,7 @@ function App() {
         //         <td>
         <Router>
             <Switch>
-                <Route exact path ='/dvb/:stop?/:amount?/:offset?' component={() => <DvbWidget name={"Malterstraße"}/>}/>
+                <Route exact path ='/:stop?/:amount?/:offset?' component={() => <DvbWidget name={"Malterstraße"}/>}/>
             </Switch>
             {/*<DvbWidget stopName="Hbf"/>*/}
         </Router>

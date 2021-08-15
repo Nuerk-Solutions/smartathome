@@ -24,7 +24,7 @@ function App() {
             </Navbar>
 
             <Switch>
-                <Route path='/dvb/:stop?/:amount?/:offset?'
+                <Route path='*/dvb/:stop?/:amount?/:offset?'
                        children={() => <DvbWidget name={"Malterstraße"}/>}/>
             </Switch>
         </Router>

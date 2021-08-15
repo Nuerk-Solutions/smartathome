@@ -10,13 +10,14 @@ import {ReactComponent as CaretIcon} from './icons/caret.svg';
 import {ReactComponent as PlusIcon} from './icons/plus.svg';
 import {DvbWidget} from "./dvb/Dvb";
 import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
+import Quote from "./qutoe/Quote";
 
 function App() {
     return (
         <Router>
             <Navbar>
-                <NavItem icon={<PlusIcon/>} path={"/dvb"}/>
-                <NavItem icon={<BellIcon/>} path={"/asd"}/>
+                <NavItem icon={<PlusIcon/>} destinationPath="/dvb"/>
+                <NavItem icon={<BellIcon/>} destinationPath="/quote"/>
                 <NavItem icon={<MessengerIcon/>}/>
                 <NavItem icon={<CaretIcon/>}>
                     <DropdownMenu/>
@@ -24,8 +25,9 @@ function App() {
             </Navbar>
 
             <Switch>
-                <Route path='*/dvb/:stop?/:amount?/:offset?'
+                <Route path="*/dvb/:stop?/:amount?/:offset?"
                        children={() => <DvbWidget name={"Malterstraße"}/>}/>
+                <Route path="*/quote" children={() => <Quote />}/>
             </Switch>
         </Router>
     );
@@ -124,7 +126,7 @@ function NavItem(props) {
 
     return (
         <li className="nav-item" ref={NavItemRef}>
-            <Link to={props.path} className="icon-button" onClick={() => setOpen(!open)}>
+            <Link to={props.destinationPath || "#"} className="icon-button" onClick={() => setOpen(!open)}>
                 {props.icon}
             </Link>
             {open && props.children}

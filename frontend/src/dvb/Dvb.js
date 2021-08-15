@@ -26,31 +26,36 @@ export function DvbWidget(props) {
     let refreshDelay = 31 * 10; //30 seconds
     const progress = seconds * 100 / 300;
 
+    function fetchData() {
+        setStopID(arguments[0]);
+        dvb.monitor(arguments[0], offset, amount)
+            .then(result => {
+                    setError(null);
+                    setIsLoaded(true);
+                    setJson(result);
+                },
+                (error) => {
+                    setIsLoaded(true);
+                    setError(error);
+                }
+            )
+    }
+
     useEffect(() => {
         dvb.findStop(stop).then((data) => {
             setName(data[0].name);
-            setStopID(data[0].id);
+            fetchData(data[0].id);
         }, () => { //Default handling, when dvb#findStop returns no result
-            setStopID("33000146");
+            fetchData("33000146");
         });
     }, []);
 
 
     useEffect(() => {
         const timer = seconds <= refreshDelay && setInterval(() => setSeconds(seconds + 1), timeout);
-        if ((seconds > refreshDelay || seconds === -1) && stopID != null) {
+        if (seconds > refreshDelay) {
             setSeconds(0);
-            dvb.monitor(stopID, offset, amount)
-                .then(result => {
-                        setError(null);
-                        setIsLoaded(true);
-                        setJson(result);
-                    },
-                    (error) => {
-                        setIsLoaded(true);
-                        setError(error);
-                    }
-                )
+            fetchData(stopID);
         }
         return () => clearInterval(timer);
 

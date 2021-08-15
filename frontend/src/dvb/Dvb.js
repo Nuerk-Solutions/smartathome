@@ -9,20 +9,17 @@ import LoadingSpinner from "../assets/components/LoadingSpinner";
 import {LinearProgress} from "@material-ui/core";
 import {useParams} from "react-router-dom";
 
-//HBF: 33000028
-//Malterstraße: 33000146
-// const stopID = "33000146"; // Malterstraße
-
 export function DvbWidget(props) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [json, setJson] = useState([]);
     const [seconds, setSeconds] = useState(-1);
+
     const [name, setName] = useState(props.name);
-    const {stop = name, amount = 15, offset = 0} = useParams();
     const [stopID, setStopID] = useState(null);
 
-    let timeout = 100;
+    const {stop = name, amount = 15, offset = 0} = useParams();
+
     let refreshDelay = 31 * 10; //30 seconds
     const progress = seconds * 100 / 300;
 
@@ -52,7 +49,7 @@ export function DvbWidget(props) {
 
 
     useEffect(() => {
-        const timer = seconds <= refreshDelay && setInterval(() => setSeconds(seconds + 1), timeout);
+        const timer = seconds <= refreshDelay && setInterval(() => setSeconds(seconds + 1), 100); // 1000ms = 1sec
         if (seconds > refreshDelay) {
             setSeconds(0);
             fetchData(stopID);
@@ -60,6 +57,7 @@ export function DvbWidget(props) {
         return () => clearInterval(timer);
 
     }, [stopID, seconds]);
+
     if (error) {
         return (
             <div>
@@ -94,7 +92,7 @@ export function DvbWidget(props) {
                             <td className="linie-tr"><LinienIcon name={linie.mode.name} linie={linie.line}/></td>
                             <td>
                                 <div>{linie.direction}</div>
-                                <small>Steig </small>
+                                <small>Steig {linie.platform.name}</small>
                             </td>
                             <td>
                                 <DepartureComponent linie={linie}/>

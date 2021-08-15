@@ -4,41 +4,30 @@ import {ReactComponent as CogIcon} from './icons/cog.svg';
 import {ReactComponent as ChevronIcon} from './icons/chevron.svg';
 import {ReactComponent as ArrowIcon} from './icons/arrow.svg';
 import {ReactComponent as BoltIcon} from './icons/bolt.svg';
+import {ReactComponent as BellIcon} from './icons/bell.svg';
+import {ReactComponent as MessengerIcon} from './icons/messenger.svg';
+import {ReactComponent as CaretIcon} from './icons/caret.svg';
+import {ReactComponent as PlusIcon} from './icons/plus.svg';
 import {DvbWidget} from "./dvb/Dvb";
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
 
 function App() {
     return (
-        // <table cellPadding="0" cellSpacing="0" className="main-table">
-        //     <tbody>
-        //     <tr>
-        //         <td>
         <Router>
+            <Navbar>
+                <NavItem icon={<PlusIcon/>} path={"/dvb"}/>
+                <NavItem icon={<BellIcon/>} path={"/asd"}/>
+                <NavItem icon={<MessengerIcon/>}/>
+                <NavItem icon={<CaretIcon/>}>
+                    <DropdownMenu/>
+                </NavItem>
+            </Navbar>
+
             <Switch>
-                <Route exact path ='/:stop?/:amount?/:offset?' component={() => <DvbWidget name={"Malterstraße"}/>}/>
+                <Route path='/dvb/:stop?/:amount?/:offset?'
+                       children={() => <DvbWidget name={"Malterstraße"}/>}/>
             </Switch>
-            {/*<DvbWidget stopName="Hbf"/>*/}
         </Router>
-        //         </td>
-        //         <td>
-        //             <Navbar>
-        //                 <NavItem icon={<PlusIcon/>}/>
-        //                 <NavItem icon={<BellIcon/>}/>
-        //                 <NavItem icon={<MessengerIcon/>}/>
-        //                 <NavItem icon={<CaretIcon/>}>
-        //                     <DropdownMenu/>
-        //                 </NavItem>
-        //             </Navbar>
-        //         </td>
-        //     </tr>
-        //     <tr>
-        //         <td>
-        //             <Quote />
-        //         </td>
-        //         <td>Test4</td>
-        //     </tr>
-        //     </tbody>
-        // </table>
     );
 }
 
@@ -135,9 +124,9 @@ function NavItem(props) {
 
     return (
         <li className="nav-item" ref={NavItemRef}>
-            <a href="#" className="icon-button" onClick={() => setOpen(!open)}>
+            <Link to={props.path} className="icon-button" onClick={() => setOpen(!open)}>
                 {props.icon}
-            </a>
+            </Link>
             {open && props.children}
         </li>
     );

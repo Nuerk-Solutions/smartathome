@@ -3,6 +3,7 @@
     --bg-secondary: #fdc400;
     --bg-accent: #424242;
     --text-color: #dadce1;
+    --nav-size: 60px;
 }
 
 @font-face {
@@ -21,8 +22,7 @@ h1, p {
 
 .monitor-div {
     background-color: var(--bg-primary);
-    height: 100vh;
-    /*height: calc(100vh - calc(100vh - 100%));*/
+    height: calc(100vh - var(--nav-size));
     margin: 0 auto;
     padding: 0;
 

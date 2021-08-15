@@ -23,7 +23,71 @@ export function DvbWidget(props) {
     let refreshDelay = 31 * 10; //30 seconds
     const progress = seconds * 100 / 300;
 
-    function fetchData() {
+    useEffect(() => {
+        dvb.findStop(stop).then((data) => {
+            setName(data[0].name);
+            getDvbData(data[0].id);
+        }, () => { //Default handling, when dvb#findStop returns no result
+            getDvbData("33000146");
+        });
+    }, []);
+
+
+    useEffect(() => {
+        const timer = seconds <= refreshDelay && setInterval(() => setSeconds(seconds + 1), 100); // 1000ms = 1sec
+        if (seconds > refreshDelay) {
+            setSeconds(0);
+            getDvbData(stopID);
+        }
+        return () => clearInterval(timer);
+
+    }, [seconds]);
+
+    if (error) {
+        return (
+            <StateVisualComponent
+                title={"Fehler"}
+                content={<h2>{error.message}</h2>}
+            />
+        );
+    } else if (!isLoaded) {
+        return (
+            <StateVisualComponent
+                title={name}
+                content={<LoadingSpinner style="spinner-pos"/>}
+            />
+        );
+    } else {
+        return (
+            <div className="monitor-div">
+                <h1>{name}</h1>
+                <table className="table-dvb" cellSpacing="10">
+                    <tbody>
+
+                    {json.map(linie => (
+                        <tr key={linie.id + linie.scheduledTime.getTime()}
+                            id={linie.id + linie.scheduledTime.getTime()}>
+                            <td className="linie-tr">
+                                <LinienIconComponent name={linie.mode.name} linie={linie.line}/>
+                            </td>
+                            <td>
+                                <div>{linie.direction}</div>
+                                <small>Steig {linie.platform.name}</small>
+                            </td>
+                            <td>
+                                <DepartureComponent linie={linie}/>
+                            </td>
+                        </tr>
+                    ))}
+
+                    </tbody>
+                </table>
+                <LinearProgress variant="determinate" color="secondary" value={progress >= 102 ? 0 : progress}/>
+            </div>
+        );
+    }
+
+    function getDvbData() {
         setStopID(arguments[0]);
         dvb.monitor(arguments[0], offset, amount)
             .then(result => {
@@ -37,78 +101,22 @@ export function DvbWidget(props) {
                 }
             )
     }
-
-    useEffect(() => {
-        dvb.findStop(stop).then((data) => {
-            setName(data[0].name);
-            fetchData(data[0].id);
-        }, () => { //Default handling, when dvb#findStop returns no result
-            fetchData("33000146");
-        });
-    }, []);
-
-
-    useEffect(() => {
-        const timer = seconds <= refreshDelay && setInterval(() => setSeconds(seconds + 1), 100); // 1000ms = 1sec
-        if (seconds > refreshDelay) {
-            setSeconds(0);
-            fetchData(stopID);
-        }
-        return () => clearInterval(timer);
-
-    }, [stopID, seconds]);
-
-    if (error) {
-        return (
-            <div>
-                <div className="monitor-div">
-                    <h1>Fehler</h1>
-                    <div className="main-div dropShadow">
-                        <h2>{error.message}</h2>
-                    </div>
-                </div>
-            </div>
-        );
-    } else if (!isLoaded) {
-        return (
-            <div>
-                <div className="monitor-div">
-                    <h1>{name}</h1>
-                    <div className="main-div dropShadow">
-                        <LoadingSpinner style="spinner-pos"/>
-                    </div>
-                </div>
-            </div>
-        );
-    } else {
-        return (
-            <div className="monitor-div">
-                <h1>{name}</h1>
-                <table className="table-dvb" cellSpacing="10">
-                    <tbody>
-                    {json.map(linie => (
-                        <tr key={linie.id + linie.scheduledTime.getTime()}
-                            id={linie.id + linie.scheduledTime.getTime()}>
-                            <td className="linie-tr"><LinienIcon name={linie.mode.name} linie={linie.line}/></td>
-                            <td>
-                                <div>{linie.direction}</div>
-                                <small>Steig {linie.platform.name}</small>
-                            </td>
-                            <td>
-                                <DepartureComponent linie={linie}/>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-                {/*<p>Nächste Aktualisierung in {Math.floor(seconds / 10)} sekunden.</p>*/}
-                <LinearProgress variant="determinate" color="secondary" value={progress >= 102 ? 0 : progress}/>
-            </div>
-        );
-    }
 }
 
-function LinienIcon(props) {
+function StateVisualComponent(props) {
+    return (
+        <div>
+            <div className="monitor-div">
+                <h1>{props.title}</h1>
+                <div className="main-div dropShadow">
+                    {props.content}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function LinienIconComponent(props) {
     return (
         <div className={props.name.toLowerCase()}>
             {props.linie}
@@ -122,10 +130,10 @@ function DepartureComponent(props) {
 
     return (
         <div>
-            <div>{timeDifferenz > 0 ? "in " + (timeDifferenz > 90 ? Math.floor(timeDifferenz / 60) + " St." : timeDifferenz + " Min.") : "Jetzt"}</div>
+            <div>{timeDifferenz > 0 ? "in " + (timeDifferenz > 90 ? Math.floor(timeDifferenz / 60) + " St." : timeDifferenz + " Min.") : timeDifferenz < 0 && props.linie.state === "InTime" ? "Vor Zeitplan" : "Jetzt"}</div>
             <div>
                 <div className="statusIcon">
-                    <DepartureStatusIcon
+                    <DepartureStatusIconComponent
                         state={props.linie.state}
                         delayTime={props.linie.delayTime}/>
                 </div>
@@ -139,8 +147,7 @@ function DepartureComponent(props) {
     );
 }
 
-//Todo: To early by subtraction arrival time to planned time
-function DepartureStatusIcon(props) {
+function DepartureStatusIconComponent(props) {
     switch (props.state) {
         case "InTime":
             return (

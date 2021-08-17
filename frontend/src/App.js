@@ -9,7 +9,7 @@ import {ReactComponent as MessengerIcon} from './icons/messenger.svg';
 import {ReactComponent as CaretIcon} from './icons/caret.svg';
 import {ReactComponent as PlusIcon} from './icons/plus.svg';
 import {DvbWidget} from "./dvb/Dvb";
-import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
 import Quote from "./qutoe/Quote";
 
 function App() {

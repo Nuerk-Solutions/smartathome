@@ -14,9 +14,10 @@ import Quote from "./qutoe/Quote";
 
 function App() {
     return (
-        <Router>
+        <Router
+        forceRefresh={true}>
             <Navbar>
-                <NavItem icon={<PlusIcon/>} destinationPath="/dvb"/>
+                <NavItem icon={<PlusIcon/>} destinationPath="/"/>
                 <NavItem icon={<BellIcon/>} destinationPath="/quote"/>
                 <NavItem icon={<MessengerIcon/>}/>
                 <NavItem icon={<CaretIcon/>}>
@@ -25,7 +26,7 @@ function App() {
             </Navbar>
 
             <Switch>
-                <Route exact path="/dvb/:stop?/:amount?/:offset?"
+                <Route path="/:stop?/:amount?/:offset?"
                        children={() => <DvbWidget name={"Malterstraße"}/>}/>
                 <Route path="/quote" children={() => <Quote />}/>
             </Switch>

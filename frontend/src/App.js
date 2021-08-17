@@ -26,7 +26,7 @@ function App() {
             </Navbar>
 
             <Switch>
-                <Route path="/:stop?/:amount?/:offset?"
+                <Route exact path="/:stop?/:amount?/:offset?"
                        children={() => <DvbWidget name={"Malterstraße"}/>}/>
                 <Route path="/quote" children={() => <Quote />}/>
             </Switch>

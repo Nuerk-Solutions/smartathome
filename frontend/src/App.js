@@ -17,7 +17,7 @@ function App() {
         <Router
         forceRefresh={true}>
             <Navbar>
-                <NavItem icon={<PlusIcon/>} destinationPath="/dvb/asd"/>
+                <NavItem icon={<PlusIcon/>} destinationPath="/"/>
                 <NavItem icon={<BellIcon/>} destinationPath="/quote"/>
                 <NavItem icon={<MessengerIcon/>}/>
                 <NavItem icon={<CaretIcon/>}>
@@ -26,7 +26,7 @@ function App() {
             </Navbar>
 
             <Switch>
-                <Route exact path="/dvb/asd"
+                <Route exact path="/:stop?/:amount?/:offset?"
                        children={() => <DvbWidget name={"Malterstraße"}/>}/>
                 <Route path="/quote" children={() => <Quote />}/>
             </Switch>

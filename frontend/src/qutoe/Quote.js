@@ -13,11 +13,11 @@ export default () => {
     const [contentArray, setContentArray] = useState({quote: [], background: []})
 
     useEffect(() => {
-        fetch('http://localhost:3000/categories.json')
+        cachedFetch('https://quotes.rest/qod/categories.json')
             .then(res => res.json())
             .then(result => {
                     let array = [];
-                    result.map(item => {
+                    [result].map(item => {
                         let cat = Object.keys(item.contents.categories);
                         for (let i = 0; i < cat.length; i++) {
                             array.push(cat[i]);

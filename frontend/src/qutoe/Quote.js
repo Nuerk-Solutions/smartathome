@@ -89,37 +89,19 @@ export default () => {
                 <Carousel autoPlay autoFocus infiniteLoop swipeable emulateTouch
                           showArrows={false} showThumbs={false} showStatus={false}
                           interval={10000} transitionTime={1000} width={"75%"}>
+
+
                     {
-                        contentArray.background.map((background, id) => (
-                            <CarouselItem
-                                key={Math.random()}
-                                image={background}
-                                caption={"Test"}
-                            />
-                        ))
+                        contentArray.quote.map((quote, index) => {
+                            const background = contentArray.background[index];
+                            return (
+                                <CarouselItem
+                                    key={Math.random()}
+                                    image={background}
+                                    caption={quote}
+                                />)
+                        })
                     }
-
-                    {/*{*/}
-
-                    {/*       [contentArray].map(item => (*/}
-                    {/*           <div key={Math.random()}>*/}
-                    {/*               {item.quote}*/}
-                    {/*               <br />*/}
-                    {/*           </div>*/}
-                    {/*       ))*/}
-
-                    {/*    [contentArray].map(item => {*/}
-                    {/*        console.log(item);*/}
-
-                    {/*        return (*/}
-                    {/*        <CarouselItem*/}
-                    {/*            key={Math.random()}*/}
-                    {/*            image={item.background}*/}
-                    {/*            caption={item.quote}*/}
-                    {/*        />*/}
-                    {/*        );*/}
-                    {/*    })}*/}
-                    {/*}*/}
                 </Carousel>
             </div>
         );

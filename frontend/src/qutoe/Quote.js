@@ -34,20 +34,6 @@ export default () => {
     }, []);
 
     useEffect(() => {
-        // fetch('https://quotes.rest/qod/categories.json')
-        // fetch('http://localhost:3000/q_day.json')
-        //     .then(res => res.json())
-        //     .then(result => {
-        //             setError(null);
-        //             setJson(result);
-        //             setIsLoaded(true);
-        //         },
-        //         (error) => {
-        //             setIsLoaded(true);
-        //             setError(error);
-        //         }
-        //     )
-        // fetchCategories();
         if (isEmpty(categories)) return;
         for (const categoriesKey in categories) {
             cachedFetch("http://localhost:3000/q_" + categories[categoriesKey] + ".json")
@@ -117,23 +103,6 @@ function CarouselItem(props) {
         </div>
     );
 }
-
-// const preFlightCategoriesFetch = () => {
-//     return         fetch('https://quotes.rest/qod/categories.json')
-//         .then(res => res.json())
-//         .then(result => {
-//                 setError(null);
-//                 setIsLoaded(true);
-//                 setJson(result);
-//                 console.dir(JSON.stringify(result));
-//             },
-//             (error) => {
-//                 setIsLoaded(true);
-//                 setError(error);
-//             }
-//         )
-// }, [])
-// }
 
 function wait(ms) {
     return new Promise((fulfill) => setTimeout(fulfill, ms));

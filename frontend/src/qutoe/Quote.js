@@ -7,7 +7,6 @@ import LoadingSpinner from "../assets/components/LoadingSpinner";
 export default () => {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [json, setJson] = useState([]);
     const [categories, setCategories] = useState([]);
     const baseUrl = "https://quotes.rest/qod.json?category=";
     const [contentArray, setContentArray] = useState({quote: [], background: []})
@@ -74,9 +73,7 @@ export default () => {
             <div>
                 <Carousel autoPlay autoFocus infiniteLoop swipeable emulateTouch
                           showArrows={false} showThumbs={false} showStatus={false}
-                          interval={10000} transitionTime={1000} width={"75%"}>
-
-
+                          interval={10000} transitionTime={1000}>
                     {
                         contentArray.quote.map((quote, index) => {
                             const background = contentArray.background[index];

@@ -169,13 +169,14 @@ function DepartureStatusIconComponent(props) {
                     <small className="cancelText">Fällt aus</small>
                 </div>
             );
+            //Actually can be removed
         case "Unknown":
             return (
                 <HelpIcon className="unknownIcon" style={{fontSize: 15}}/>
             )
         default:
             return (
-                <div>No State</div>
-            );
+                <HelpIcon className="unknownIcon" style={{fontSize: 15}}/>
+            )
     }
 }

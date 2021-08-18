@@ -92,8 +92,8 @@ export function DvbWidget(props) {
         dvb.monitor(arguments[0], offset, amount)
             .then(result => {
                     setError(null);
-                    setIsLoaded(true);
                     setJson(result);
+                    setIsLoaded(true);
                 },
                 (error) => {
                     setIsLoaded(true);

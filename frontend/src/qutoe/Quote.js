@@ -36,7 +36,7 @@ export default () => {
     useEffect(() => {
         if (isEmpty(categories)) return;
         for (const categoriesKey in categories) {
-            cachedFetch("http://localhost:3000/q_" + categories[categoriesKey] + ".json")
+            cachedFetch(categories[categoriesKey])
                 .then(res => res.json())
                 .then(result => {
                         setError(null);

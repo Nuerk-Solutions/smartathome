@@ -36,12 +36,12 @@ export function DvbWidget(props) {
     useEffect(() => {
         const timer = seconds <= refreshDelay && setInterval(() => setSeconds(seconds + 1), 100); // 1000ms = 1sec
         if (seconds > refreshDelay) {
-            setSeconds(0);
             getDvbData(stopID);
+            setSeconds(0);
         }
         return () => clearInterval(timer);
 
-    }, [seconds]);
+    }, [seconds, json]);
 
     if (error) {
         return (

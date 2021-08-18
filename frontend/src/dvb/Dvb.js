@@ -8,6 +8,7 @@ import EventNoteIcon from '@material-ui/icons/EventNote';
 import LoadingSpinner from "../assets/components/LoadingSpinner";
 import {LinearProgress} from "@material-ui/core";
 import {useParams} from "react-router-dom";
+import './../assets/css/dvb.css';
 
 export function DvbWidget(props) {
     const [error, setError] = useState(null);

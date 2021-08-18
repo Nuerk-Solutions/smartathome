@@ -104,10 +104,6 @@ function CarouselItem(props) {
     );
 }
 
-function wait(ms) {
-    return new Promise((fulfill) => setTimeout(fulfill, ms));
-}
-
 function isEmpty(value) {
     return (value == null || value.length === 0 || value === "undefined");
 }

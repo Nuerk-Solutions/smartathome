@@ -72,15 +72,15 @@ export default () => {
     } else {
         return (
             <div>
-                <Carousel autoPlay autoFocus infiniteLoop swipeable emulateTouch
+                <Carousel autoPlay autoFocus infiniteLoop swipeable dynamicHeight={false}
                           showArrows={false} showThumbs={false} showStatus={false}
-                          interval={10000} transitionTime={1000}>
+                          interval={10000} transitionTime={1000} width={"50%"}>
                     {
                         contentArray.quote.map((quote, index) => {
                             const background = contentArray.background[index];
                             return (
                                 <CarouselItem
-                                    key={Math.random()}
+                                    key={index}
                                     image={background}
                                     caption={quote}
                                 />)

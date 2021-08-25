@@ -65,9 +65,8 @@ export function DvbWidget(props) {
                 <table className="table-dvb" cellSpacing="10">
                     <tbody>
 
-                    {json.map(linie => (
-                        <tr key={linie.id + linie.scheduledTime.getTime()}
-                            id={linie.id + linie.scheduledTime.getTime()}>
+                    {json.map((linie, index) => (
+                        <tr key={index}>
                             <td className="linie-tr">
                                 <LinienIconComponent name={linie.mode.name} linie={linie.line}/>
                             </td>

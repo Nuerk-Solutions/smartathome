@@ -130,7 +130,7 @@ function DepartureComponent(props) {
 
     return (
         <div>
-            <div>{timeDifferenz > 0 ? "in " + (timeDifferenz > 90 ? Math.floor(timeDifferenz / 60) + " St." : timeDifferenz + " Min.") : timeDifferenz < 0 && props.linie.state === "InTime" ? "Vor Zeitplan" : "Jetzt"}</div>
+            <div>{timeDifferenz > 0 ? "in " + (timeDifferenz > 90 ? Math.floor(timeDifferenz / 60) + " St." : timeDifferenz + " Min.") : timeDifferenz < 0 && props.linie.state === "InTime" ? Math.abs(timeDifferenz) + " min vor Zeitplan" : "Jetzt"}</div>
             <div>
                 <div className="statusIcon">
                     <DepartureStatusIconComponent

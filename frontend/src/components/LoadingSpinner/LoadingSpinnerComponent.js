@@ -1,6 +1,7 @@
 import React from "react";
+import './LoadingSpinner.css'
 
-export default function LoadingSpinner(props) {
+export default (props) => {
     return (
         <div className="loadingSpinner-div">
             <svg className={props.style + " svg-spinner"} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">

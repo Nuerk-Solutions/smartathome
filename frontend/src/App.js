@@ -1,10 +1,10 @@
 import React from 'react';
-import {ReactComponent as BellIcon} from './icons/bell.svg';
-import {ReactComponent as MessengerIcon} from './icons/messenger.svg';
-import {ReactComponent as PlusIcon} from './icons/plus.svg';
-import {DvbWidget} from "./dvb/Dvb";
+import {ReactComponent as BellIcon} from './assets/icons/bell.svg';
+import {ReactComponent as MessengerIcon} from './assets/icons/messenger.svg';
+import {ReactComponent as PlusIcon} from './assets/icons/plus.svg';
+import {DvbWidget} from "./components/Dvb/DvbComponent";
 import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
-import Quote from "./qutoe/Quote";
+import Quote from "./components/Quote/QuoteComponent";
 
 function App() {
     return (

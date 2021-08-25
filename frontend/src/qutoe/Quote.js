@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {Carousel} from "react-responsive-carousel";
 import LoadingSpinner from "../assets/components/LoadingSpinner";
+import './../assets/css/carousel.css';
 
 //https://www.npmjs.com/package/react-responsive-carousel
 export default () => {

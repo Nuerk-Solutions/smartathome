@@ -2,6 +2,7 @@ import React from 'react';
 import {ReactComponent as BellIcon} from './assets/icons/bell.svg';
 import {ReactComponent as MessengerIcon} from './assets/icons/messenger.svg';
 import {ReactComponent as PlusIcon} from './assets/icons/plus.svg';
+import {ReactComponent as ArrowIcon} from './assets/icons/arrow.svg';
 import {DvbWidget} from "./components/Dvb/DvbComponent";
 import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
 import Quote from "./components/Quote/QuoteComponent";
@@ -14,6 +15,7 @@ function App() {
                 <NavItem icon={<PlusIcon/>} destinationPath="/dvb"/>
                 <NavItem icon={<BellIcon/>} destinationPath="/quote"/>
                 <NavItem icon={<MessengerIcon/>} destinationPath="/cron"/>
+                <NavItem icon={<ArrowIcon/>} destinationPath="https://iamsainikhil.com/weather-react/"/>
             </Navbar>
 
             <Switch>
@@ -39,9 +41,9 @@ function NavItem(props) {
 
     return (
         <li className="nav-item">
-            <Link to={props.destinationPath || "#"} className="icon-button">
+            <a href={props.destinationPath || "#"} className="icon-button">
                 {props.icon}
-            </Link>
+            </a>
             {open && props.children}
         </li>
     );

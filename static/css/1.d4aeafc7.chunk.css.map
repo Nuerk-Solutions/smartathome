@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/containers/weather-forecast/WeatherForecastStyle.scss"],"names":[],"mappings":"AACE,yBADF,oBAEI,gBAAiB,CAKpB,CAHC,yBAJF,oBAKI,YAAa,CAEhB","file":"1.d4aeafc7.chunk.css","sourcesContent":[".weather-background {\n  @media (max-width: 767px) {\n    min-height: 24rem;\n  }\n  @media (min-width: 768px) {\n    height: 36rem; // 576px\n  }\n}\n"]}

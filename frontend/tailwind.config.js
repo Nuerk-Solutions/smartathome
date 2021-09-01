@@ -5,7 +5,6 @@ module.exports = {
     enabled: true,
     content: ['./src/**/*.html', './src/**/*.js', './src/**/*.jsx'],
   },
-  darkMode: true,
   prefix: '',
   important: false,
   separator: ':',

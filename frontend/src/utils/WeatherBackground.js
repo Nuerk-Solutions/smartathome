@@ -73,19 +73,13 @@ const getWeatherBackground = (data) => {
 
   if (icon) {
     switch (icon) {
-      case '01d':
+      case '01d': case '02d':
         return dusk ? 'dusk' : dawn ? 'dawn' : 'clear-day'
-      case '01n':
+      case '01n': case '02n':
         return dusk ? 'dusk' : dawn ? 'dawn' : 'clear-night'
       case '10d':  case '09d': case '13d':
         return `overcast-${type}`
-      case 'wind':
-        return `cloudy-${type}`
-      case '04d': case '04n':
-        return `cloudy-${type}`
-      case '02d': case '03d':
-        return `cloudy-${type}`
-      case '02n': case '03n':
+      case '04d': case '04n': case '03d': case '03n':
         return `cloudy-${type}`
       case '11d':
         return 'thunderstorm'

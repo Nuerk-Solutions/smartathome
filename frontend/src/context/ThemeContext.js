@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, {createContext, useEffect, useState} from 'react'
 import moment from 'moment-timezone'
 
-const ThemeContext = React.createContext({
+const ThemeContext = createContext({
     theme: 'light',
     toggleTheme: () => {
     }

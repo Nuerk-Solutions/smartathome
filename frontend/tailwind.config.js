@@ -1,13 +1,8 @@
-/** @format */
+// tailwind.config.js
 
 module.exports = {
-  purge: {
-    enabled: true,
-    content: ['./src/**/*.html', './src/**/*.js', './src/**/*.jsx'],
-  },
-  prefix: '',
-  important: false,
-  separator: ':',
+  purge:  ['./src/**/*.html', './src/**/*.js', './src/**/*.jsx'],
+  darkMode: false,
   theme: {
     colors: {
       transparent: 'transparent',

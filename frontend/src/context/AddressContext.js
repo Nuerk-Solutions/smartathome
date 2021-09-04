@@ -34,7 +34,8 @@ class AddressContextProvider extends Component {
   }
 
   formatCoords = (latitude, longitude) => {
-    return `${latitude},${longitude}`
+    // return `${latitude},${longitude}`
+    return `${longitude},${latitude}`
   }
 
   /**
@@ -43,20 +44,23 @@ class AddressContextProvider extends Component {
   updateAddress = async (latlong) => {
     let hit = {}
     try {
-      const {hits} = (
-        await axios.get(`https://weather-react-api-dev.now.sh/address/coords/${latlong}`)
+      const {features} = (
+        // await axios.get(`https://weather-react-api-dev.now.sh/address/coords/${latlong}`)
+          await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${latlong}.json?access_token=pk.eyJ1IjoiZGVyZWNoMWUiLCJhIjoiY2t0NjA1MWEyMGRzZjJwanB1NzkxdnhoMiJ9.XCZgdSBLLFhVMn2ZEH7rDQ&language=de`)
       ).data
-      hit = hits[0]
+      hit = features[0]
+      console.log(hit);
 
       if (isValid(hit)) {
-        const city = hit.city ? hit.city[0] : ''
-        const state = hit.administrative ? hit.administrative[0] : ''
-        const country = hit.country ? hit.country : ''
-        const cityName = `${validName(city)}${validName(state)}${validName(
-          country,
-          false
-        )}`
-        const cityId = hit.objectID ? hit.objectID : ''
+        // const city = hit.city ? hit.city[0] : ''
+        // const state = hit.administrative ? hit.administrative[0] : ''
+        // const country = hit.country ? hit.country : ''
+        // const cityName = `${validName(city)}${validName(state)}${validName(
+        //   country,
+        //   false
+        // )}`
+        const cityName = hit.place_name_de;
+        const cityId = hit.id ? hit.id : ''
         this.updateState({
           showLoader: false,
           address: {

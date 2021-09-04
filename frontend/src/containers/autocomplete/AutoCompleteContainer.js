@@ -56,31 +56,28 @@ export default class AutoCompleteContainer extends Component {
             ? this.context.latlong
             : '00,00'
 
-        const {hits} = (
+        const {features} = (
           await axios.get(
-            `https://weather-react-api-dev.now.sh/places/query/${this.state.city}/${latlong}`
+            // `https://weather-react-api-dev.now.sh/places/query/${this.state.city}/${latlong}`
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.state.city}.json?access_token=pk.eyJ1IjoiZGVyZWNoMWUiLCJhIjoiY2t0NjA1MWEyMGRzZjJwanB1NzkxdnhoMiJ9.XCZgdSBLLFhVMn2ZEH7rDQ&language=de`
           )
         ).data
 
         // populate addresses and show them if matching cities exist
-        if (isValid(hits)) {
-          const results = hits.map((hit) => {
-            // city value lives in default array of locale_names
-            const city = `${
-              hit['locale_names'].en
-                ? hit['locale_names'].en[0]
-                : hit['locale_names'].default[0]
-            }`
-            // state value lives in administrative array
-            const state = `${hit.administrative ? hit.administrative[0] : ''}`
-            // country value lives in country object in different languages and gran the "en" version if available or else the default version
-            const country = `${
-              hit.country.en ? hit.country.en : hit.country.default
-            }`
-
-            // prettier-ignore
-            const cityName = `${validName(city)}${validName(state)}${validName(country, false)}`
-            const {lat, lng} = hit['_geoloc']
+        if (isValid(features)) {
+          const results = features.map((hit) => {
+            // // city value lives in default array of locale_names
+            // const city = hit.context[hit.context.length >= 3 ? hit.context.length - 3 : 0].text
+            // // state value lives in administrative array
+            // const state = hit.context[hit.context.length >= 3 ? hit.context.length - 2 : 1].text
+            // // country value lives in country object in different languages and gran the "en" version if available or else the default version
+            // const country = hit.context.length < 3 ? '' : hit.context[hit.context.length >= 3 ? hit.context.length - 1 : 2].text
+            //
+            // // prettier-ignore
+            // const cityName = `${validName(city)}${validName(state)}${validName(country, false)}`
+            const cityName = hit.place_name_de
+            const lng = hit.geometry.coordinates[0];
+            const lat = hit.geometry.coordinates[1];
             return {
               cityName: cityName,
               cityId: hit.objectID,

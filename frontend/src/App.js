@@ -12,7 +12,7 @@ function App() {
 
     return (
         <Router>
-            <div className={` bg-${theme} tracking-wider border-box wrapper`}>
+            <div className={`bg-${theme} tracking-wider border-box wrapper`}>
                 <div>
                     <HeaderComponent/>
                 </div>
@@ -20,7 +20,7 @@ function App() {
                     <Suspense
                         fallback={<LoaderComponent loaderText='Loading components'/>}>
                         <Switch>
-                            <Route path='/' exact component={HomeContainer}></Route>
+                            <Route path='/' exact component={HomeContainer}/>
                         </Switch>
                     </Suspense>
                 </div>

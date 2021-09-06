@@ -81,7 +81,7 @@ export default class AutoCompleteContainer extends Component {
             return {
               cityName: cityName,
               cityId: hit.objectID,
-              latlong: `${lat},${lng}`,
+              latlong: `${lng},${lat}`,
             }
           })
           // results is an array of `address` objects with cityName, objectID, and latlong properties

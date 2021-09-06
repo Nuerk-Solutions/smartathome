@@ -49,7 +49,6 @@ class AddressContextProvider extends Component {
           await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${latlong}.json?access_token=pk.eyJ1IjoiZGVyZWNoMWUiLCJhIjoiY2t0NjA1MWEyMGRzZjJwanB1NzkxdnhoMiJ9.XCZgdSBLLFhVMn2ZEH7rDQ&language=de`)
       ).data
       hit = features[0]
-      console.log(hit);
 
       if (isValid(hit)) {
         // const city = hit.city ? hit.city[0] : ''
@@ -102,7 +101,7 @@ class AddressContextProvider extends Component {
           address: {
             cityName,
           },
-          latlong: this.formatCoords(Latitude, Longitude),
+          latlong: this.formatCoords(Longitude, Latitude),
         })
       } else {
         this.updateState({showLoader: false})

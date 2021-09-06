@@ -26,7 +26,7 @@ export default (props) => {
                         backgroundColor: `${theme === 'dark' ? '#3a3a3a' : '#e2e8f0'}`,
                         letterSpacing: '0.05em',
                     }}
-                    className={`data-hj-whitelist block appearance-none w-full border-none rounded-full shadow py-3 pl-12 pr-6 mb-3 leading-tight focus:outline-none focus:bg-gray-200 truncate text-${colorTheme}`}
+                    className={`data-hj-whitelist block appearance-none w-full border-none rounded-full shadow py-3 pl-12 pr-6 mb-3 leading-tight focus:outline-none focus:bg-gray-200 truncate placeholder-gray-500 text-${colorTheme}`}
                     id='grid-first-name'
                     type='text'
                     placeholder='Stadtname oder PLZ eingeben'

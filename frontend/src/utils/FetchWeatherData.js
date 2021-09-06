@@ -9,7 +9,7 @@ axiosRetry(axios, {retryDelay: axiosRetry.exponentialDelay})
 
 const getURL = (latlong) => {
   const args = latlong.split(",");
-  return `https://api.openweathermap.org/data/2.5/onecall?lat=${args[0]}&lon=${args[1]}&exclude=minutely,flags&lang=de&units=metric&cnt=7&appid=992c820be22089cd7521bb068ba020c2`
+  return `https://api.openweathermap.org/data/2.5/onecall?lat=${args[1]}&lon=${args[0]}&exclude=minutely,flags&lang=de&units=metric&cnt=7&appid=992c820be22089cd7521bb068ba020c2`
   // return `${API_URL}/forecast/coords/${latlong}?extend=hourly&exclude=minutely,flags`
 }
 

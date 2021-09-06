@@ -64,7 +64,8 @@ export default ({address, latlong, weatherCurrent}) => {
 
     // format and set date & time based on the dateObj
     const datetimeSetter = (dateObj) => {
-        setDate(!isUndefined(dateObj) ? dateObj.format('dddd, DD. MMMM YYYY') : '')
+        const format = new Intl.DateTimeFormat('de-DE', {weekday: "long", day: "2-digit", month: "long", year: "numeric"}).format;
+        setDate(!isUndefined(dateObj) ? format(dateObj) : '')
         setTime(!isUndefined(dateObj) ? dateObj.format('HH:mm:ss') : '')
         formattedDateTimeRef.current = dateObj ? dateObj : null
     }

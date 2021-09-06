@@ -28,11 +28,11 @@ export default (props) => {
 
     return (
         <div
-            className={`md:hover:bg-${theme} md:hover:text-${colorTheme} items-center text-center sm:flex-1 sm:py-1 sm:pb-3 cursor-pointer  ${
-                index === selectedIndex ? `bg-${theme} text-${colorTheme}` : ''
+            className={`md:hover:bg-${colorTheme} md:hover:text-${theme} items-center text-center sm:flex-1 sm:py-1 sm:pb-3 cursor-pointer  ${
+                index === selectedIndex ? `bg-${colorTheme} text-${theme}` : ''
             }`}
             onClick={selectedDay}>
-            <div className='flex flex-row flex-no-wrap sm:flex-col sm:flex-wrap justify-around items-center px-2'>
+            <div className='flex flex-row flex-no-wrap sm:flex-col sm:flex-wrap justify-around items-center'>
                 <p className='flex w-1/6 sm:w-full sm:justify-center text-base font-semibold'>
                     {new Date(day.dt * 1000).toLocaleString('de-DE', {weekday: "short"})}
                 </p>

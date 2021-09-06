@@ -23,7 +23,7 @@ export default ({Timeframe}) => {
 
     return (
         <div
-            className={`border-none flex flex-col justify-start items-center mx-3 mb-3 w-full font-light text-${theme} md:text-light`}>
+            className={`border-none flex flex-col justify-start items-center mx-3 mb-3 w-full font-light text-${colorTheme} md:text-light`}>
             <div>
                 {getWeatherIcon(Timeframe).startsWith('wi') ? (
                     <p className='text-5xl mt-4' title={Timeframe.description}>

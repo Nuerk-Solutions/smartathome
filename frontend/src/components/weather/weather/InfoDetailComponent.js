@@ -42,9 +42,9 @@ export default ({weatherCurrent}) => {
                                             }
                                         </p>
                                     ) : (
-                                        <img
-                                            src={`/weather/${getWeatherIcon(weatherCurrent)}.svg`}
-                                            alt='icon'
+                                        <object
+                                            data={`/weather/${getWeatherIcon(weatherCurrent)}.svg`}
+                                            // alt='icon'
                                             title={weatherCurrent.description}
                                             className='-mt-2 -ml-4 sm:mx-0 w-32 h-32 object-contain'
                                         />

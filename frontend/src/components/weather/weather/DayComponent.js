@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 import {WeatherUnitContext} from '../../../context/WeatherUnitContext'
-import {cToF, fToC} from '../../../utils/TemperatureConvert'
+import {cToF} from '../../../utils/TemperatureConvert'
 import getWeatherIcon from '../../../utils/WeatherIcon'
 import FormatTime from '.././../../utils/FormatTime'
 import WeatherIconComponent from './WeatherIconComponent'

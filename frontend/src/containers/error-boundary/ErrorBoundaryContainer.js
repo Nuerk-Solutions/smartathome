@@ -26,18 +26,11 @@ export default class ErrorBoundaryContainer extends Component {
       <div>
         {this.state.hasError ? (
           <div className='flex'>
-            <div className='w-1/6'></div>
+            <div className='w-1/6'/>
             <div className='flex-col w-2/3 justify-center text-center'>
               <ErrorComponent
-                errorMessage={'Something went wrong. Reload the page!'}
+                errorMessage={'Etwas ist schief gelaufen. Seite aktualisieren!'}
               />
-              <button
-                className='font-semibold py-3 px-6 rounded-full capitalize text-sun'
-                onClick={() =>
-                  Sentry.showReportDialog({eventId: this.state.eventId})
-                }>
-                Report feedback
-              </button>
             </div>
           </div>
         ) : (

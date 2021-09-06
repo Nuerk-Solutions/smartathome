@@ -28,19 +28,28 @@
     "react-scripts": "4.0.3",
     "react-toggle": "^4.1.2",
     "react-transition-group": "^4.4.2",
-    "reactjs-crontab": "^4.5.0",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
+    "scss": "node-sass src/sass/styles.scss -o src/styles/",
+    "watch-scss": "node-sass --watch src/sass/styles.scss -o src/styles/",
+    "build-scss": "npm run scss",
+    "watch:style": "postcss src/styles/styles.css -o src/styles/main.css -w",
+    "build:style": "postcss src/styles/styles.css -o src/styles/main.css",
+    "watch-css": "npm-run-all -p watch-scss watch:style",
+    "build-css": "npm-run-all -s build-scss build:style",
+    "start-react": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-react",
+    "build-react": "react-scripts build",
+    "build": "npm-run-all -s build-css build-react",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!lodash-es)/\" --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {
@@ -58,7 +67,6 @@
   "devDependencies": {
     "@craco/craco": "^6.2.0",
     "autoprefixer": "^9.8.6",
-    "postcss": "^7.0.36",
     "postcss-cli": "^7.1.0",
     "react-test-renderer": "^17.0.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.9"

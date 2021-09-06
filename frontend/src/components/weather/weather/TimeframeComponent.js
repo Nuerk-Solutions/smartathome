@@ -30,9 +30,9 @@ export default ({Timeframe}) => {
                         <WeatherIconComponent type={getWeatherIcon(Timeframe)}/>
                     </p>
                 ) : (
-                    <object
-                        data={`/weather/${getWeatherIcon(Timeframe)}.svg`}
-                        // alt='icon'
+                    <img
+                        src={`/weather/${getWeatherIcon(Timeframe)}.svg`}
+                        alt='icon'
                         title={Timeframe.description}
                         className='w-16 h-16 object-contain'
                     />

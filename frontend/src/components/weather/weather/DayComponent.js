@@ -45,9 +45,9 @@ export default (props) => {
                             <WeatherIconComponent type={getWeatherIcon(day)}/>
                         </p>
                     ) : (
-                        <object
-                            data={`/weather/${getWeatherIcon(day)}.svg`}
-                            // alt='icon'
+                        <img
+                            src={`/weather/${getWeatherIcon(day)}.svg`}
+                            alt='icon'
                             title={day.description}
                             className='sm:-mt-2 sm:-mb-1 mx-auto w-12 h-12 sm:w-16 sm:h-16 object-contain'
                         />

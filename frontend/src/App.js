@@ -62,9 +62,9 @@ function NavItem(props) {
 
     return (
         <li className="nav-item">
-            <a href={props.destinationPath || "#"} className="icon-button">
+            <Link to={props.destinationPath || "#"} className="icon-button">
                 {props.icon}
-            </a>
+            </Link>
             {open && props.children}
         </li>
     );

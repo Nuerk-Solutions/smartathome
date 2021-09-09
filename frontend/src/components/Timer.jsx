@@ -17,7 +17,7 @@ export default () => {
     useEffect(() => {
         const pumpState = state ? 'On' : 'Off'
 
-        fetch(`http://87.187.220.123/pump/${pumpState}`)
+        fetch(`https://panel.nuerk-solutions.de/pump/${pumpState}`)
             .then(result => result.json())
             .then(result => {
                     setIsLoaded(true);

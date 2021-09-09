@@ -17,7 +17,7 @@ export default () => {
     useEffect(() => {
         const pumpState = state ? 'On' : 'Off'
 
-        fetch(`http://sv-out.fritz.box/cm?cmnd=Power%20${pumpState}`)
+        fetch(`//sv-out.fritz.box/cm?cmnd=Power%20${pumpState}`)
             .then(result => result.json())
             .then(result => {
                     setIsLoaded(true);

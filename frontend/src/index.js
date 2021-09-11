@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import './assets/css/index.css';
+import './assets/css/index.css';
 import {ThemeContextProvider} from './context/ThemeContext'
-import './styles/main.css'
+// import './styles/main.css'
 import App from './App';
 
 ReactDOM.render(

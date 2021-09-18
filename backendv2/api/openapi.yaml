@@ -61,7 +61,13 @@ paths:
       description: Create Task
       operationId: createTask
       requestBody:
-        $ref: '#/components/requestBodies/Timer'
+        description: Testdesc
+        x-name: timer
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Timer'
       responses:
         "201":
           description: Task created successfully

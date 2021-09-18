@@ -1,8 +1,6 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
-var swaggerValidator = require('swagger-object-validator');
-var validator = new swaggerValidator.Handler('https://raw.githubusercontent.com/derech1e/smartathome/master/backendv2/api/openapi.yaml');
 
 const {nanoid} = require("nanoid");
 const idLength = 8;
@@ -15,14 +13,18 @@ const idLength = 8;
  **/
 exports.createTask = function (req, body) {
     return new Promise(function (resolve, reject) {
+        // console.log(req.body)
         let task = {
             id: nanoid(idLength),
-            ...body
+            ...req.body
         };
 
+
         try {
+            // console.log("2");
+            // console.log(body)
             req.app.db.get("tasks").push(task).write();
-            return resolve(utils.respondWithCode(201));
+            return resolve(utils.respondWithCode(201, {message: "Test"}));
         } catch (error) {
             console.log("3");
             return reject(utils.respondWithCode(error.code, {message: error}));

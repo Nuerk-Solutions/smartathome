@@ -15,9 +15,15 @@
   "private": true,
   "dependencies": {
     "connect": "^3.2.0",
-    "js-yaml": "^3.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "js-yaml": "^3.14.1",
+    "lowdb": "^1.0.0",
+    "morgan": "^1.10.0",
+    "nanoid": "^3.1.25",
     "nodemon": "^2.0.12",
-    "oas3-tools": "^2.2.3"
+    "oas3-tools": "^2.2.3",
+    "request": "^2.88.2"
   },
   "nodemonConfig": {
     "ext": "js",

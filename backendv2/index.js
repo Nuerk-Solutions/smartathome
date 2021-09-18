@@ -10,7 +10,7 @@ const {join} = require('path');
 // Local DB inits
 const adapter = new FileSync(join(__dirname,'..','db.json'));
 const db = low(adapter);
-db.defaults({ todos:[] }).write();
+db.defaults({ tasks:[] }).write();
 
 var oas3Tools = require('oas3-tools');
 var serverPort = 8080;

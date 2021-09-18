@@ -23,7 +23,8 @@
     "nanoid": "^3.1.25",
     "nodemon": "^2.0.12",
     "oas3-tools": "^2.2.3",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "swagger-object-validator": "^1.4.0"
   },
   "nodemonConfig": {
     "ext": "js",

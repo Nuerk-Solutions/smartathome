@@ -1,5 +1,11 @@
 'use strict';
 
+var utils = require('../utils/writer.js');
+var swaggerValidator = require('swagger-object-validator');
+var validator = new swaggerValidator.Handler('https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/yaml/petstore.yaml');
+
+const {nanoid} = require("nanoid");
+const idLength = 8;
 
 /**
  * Create Task
@@ -7,10 +13,21 @@
  * body Timer Pet object that needs to be added to the store
  * no response value expected for this operation
  **/
-exports.createTask = function(body) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.createTask = function (req, body) {
+    return new Promise(function (resolve, reject) {
+        let task = {
+            id: nanoid(idLength),
+            ...body
+        };
+
+        try {
+            req.app.db.get("tasks").push(task).write();
+            return resolve(utils.respondWithCode(201));
+        } catch (error) {
+            console.log("3");
+            return reject(utils.respondWithCode(error.code, {message: error}));
+        }
+    });
 }
 
 
@@ -20,10 +37,10 @@ exports.createTask = function(body) {
  * id Id Deleting a done task
  * no response value expected for this operation
  **/
-exports.deleteTask = function(id) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.deleteTask = function (req, id) {
+    return new Promise(function (resolve, reject) {
+        resolve();
+    });
 }
 
 
@@ -32,24 +49,10 @@ exports.deleteTask = function(id) {
  *
  * returns Tasks
  **/
-exports.getAllTasks = function() {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = [ {
-  "id" : "ytVgh",
-  "completed" : false,
-  "title" : "Coding in JavaScript"
-}, {
-  "id" : "ytVgh",
-  "completed" : false,
-  "title" : "Coding in JavaScript"
-} ];
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getAllTasks = function (req) {
+    return new Promise(function (resolve, reject) {
+        return resolve();
+    });
 }
 
 
@@ -59,20 +62,10 @@ exports.getAllTasks = function() {
  * id Id A single task id
  * returns Timer
  **/
-exports.getTaskById = function(id) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "id" : "ytVgh",
-  "completed" : false,
-  "title" : "Coding in JavaScript"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getTaskById = function (req, id) {
+    return new Promise(function (resolve, reject) {
+        return resolve();
+    });
 }
 
 
@@ -83,19 +76,9 @@ exports.getTaskById = function(id) {
  * id Id Id of task to be updated
  * returns Timer
  **/
-exports.updateTask = function(body,id) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "id" : "ytVgh",
-  "completed" : false,
-  "title" : "Coding in JavaScript"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.updateTask = function (req, body, id) {
+    return new Promise(function (resolve, reject) {
+        return resolve();
+    });
 }
 

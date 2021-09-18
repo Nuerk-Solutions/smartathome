@@ -1,0 +1,259 @@
+openapi: 3.0.0
+info:
+  title: Simple Smart Api
+  description: Api for Smart at Home
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/derechte/Smartathome/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: http://localhost:4000
+  description: Nuerk-Solutions
+tags:
+- name: tasks
+- name: pump
+paths:
+  /pump:
+    get:
+      tags:
+      - pump
+      summary: set pump state
+      description: "By passing in the appropriate options, you can toggle the state\
+        \ of the Pump\n"
+      operationId: state
+      parameters:
+      - name: state
+        in: query
+        description: Set the pump state
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: pump state succesfully set
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pump'
+        "400":
+          description: bad input parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pump'
+      x-swagger-router-controller: Pump
+  /tasks:
+    get:
+      tags:
+      - tasks
+      description: Get All Tasks
+      operationId: getAllTasks
+      responses:
+        "200":
+          description: Tasks were obtained
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tasks'
+      x-swagger-router-controller: Tasks
+    post:
+      tags:
+      - tasks
+      description: Create Task
+      operationId: createTask
+      requestBody:
+        $ref: '#/components/requestBodies/Timer'
+      responses:
+        "201":
+          description: Todo created successfully
+        "405":
+          description: Invaild input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Tasks
+  /tasks/{id}:
+    get:
+      tags:
+      - tasks
+      description: Get a Task by id
+      operationId: getTaskById
+      parameters:
+      - name: id
+        in: path
+        description: A single task id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      responses:
+        "200":
+          description: Task is obtained
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Timer'
+        "400":
+          description: Invaild Task Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Tasks
+    put:
+      tags:
+      - tasks
+      description: Update a Task
+      operationId: updateTask
+      parameters:
+      - name: id
+        in: path
+        description: Id of task to be updated
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      requestBody:
+        description: Updated a Timer object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Timer'
+        required: true
+      responses:
+        "200":
+          description: Task updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Timer'
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Tasks
+    delete:
+      tags:
+      - tasks
+      description: Deleting a task
+      operationId: deleteTask
+      parameters:
+      - name: id
+        in: path
+        description: Deleting a done task
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      responses:
+        "200":
+          description: Task succesfully deleted
+        "404":
+          description: Todo not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Tasks
+components:
+  schemas:
+    Pump:
+      required:
+      - state
+      type: object
+      properties:
+        POWER:
+          type: string
+          example: "ON"
+      example:
+        POWER: "ON"
+    Id:
+      type: string
+      description: An id of a todo
+      readOnly: true
+      example: tyVgf
+    Timer:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        name:
+          type: string
+          description: Todo title
+          example: Coding in JavaScript
+        enabled:
+          type: boolean
+          description: The status of the todo
+          example: false
+        status:
+          type: string
+          description: Timer Status
+          enum:
+          - active
+          - standby
+        duration:
+          type: integer
+          description: Length
+          example: 15
+        cron:
+          type: string
+          description: The status of the todo
+          example: "false"
+        skipUntil:
+          type: string
+          description: Skip until this date
+          example: xyz
+      example:
+        id: ytVgh
+        completed: false
+        title: Coding in JavaScript
+    Tasks:
+      type: array
+      items:
+        $ref: '#/components/schemas/Timer'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        internal_code:
+          type: string
+  requestBodies:
+    Timer:
+      description: Pet object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Timer'
+      required: true

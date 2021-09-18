@@ -1,0 +1,30 @@
+{
+  "name": "simple-smart-api",
+  "version": "1.0.0",
+  "description": "Api for Smart at Home",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "npm install",
+    "dev": "nodemon ./src/index.js",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "swagger"
+  ],
+  "license": "Unlicense",
+  "private": true,
+  "dependencies": {
+    "connect": "^3.2.0",
+    "js-yaml": "^3.3.0",
+    "nodemon": "^2.0.12",
+    "oas3-tools": "^2.2.3"
+  },
+  "nodemonConfig": {
+    "ext": "js",
+    "ignore": [
+      "*.test.ts",
+      "db/*"
+    ],
+    "delay": 2
+  }
+}

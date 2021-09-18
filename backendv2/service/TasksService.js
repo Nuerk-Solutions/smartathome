@@ -2,7 +2,7 @@
 
 var utils = require('../utils/writer.js');
 var swaggerValidator = require('swagger-object-validator');
-var validator = new swaggerValidator.Handler('https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/yaml/petstore.yaml');
+var validator = new swaggerValidator.Handler('https://raw.githubusercontent.com/derech1e/smartathome/master/backendv2/api/openapi.yaml');
 
 const {nanoid} = require("nanoid");
 const idLength = 8;

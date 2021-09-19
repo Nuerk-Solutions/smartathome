@@ -71,11 +71,11 @@ exports.deleteTask = function (req, id) {
  **/
 exports.getAllTasks = function (req) {
     return new Promise(function (resolve, reject) {
-        let todos = req.app.db.get('tasks').value();
+        let tasks = req.app.db.get('tasks').value();
         const msg = {
             statusCode: 200,
-            length: todos.length,
-            todos: todos
+            length: tasks.length,
+            tasks: tasks
         };
         return resolve(utils.responseWithJson(200, msg));
     });

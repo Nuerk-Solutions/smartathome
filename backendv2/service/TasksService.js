@@ -1,6 +1,6 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
+var utils = require('../utils/reponseUtils.js');
 
 const {nanoid} = require("nanoid");
 const idLength = 8;
@@ -13,21 +13,16 @@ const idLength = 8;
  **/
 exports.createTask = function (req, body) {
     return new Promise(function (resolve, reject) {
-        // console.log(req.body)
         let task = {
             id: nanoid(idLength),
-            ...req.body
+            ...body
         };
 
-
         try {
-            // console.log("2");
-            // console.log(body)
             req.app.db.get("tasks").push(task).write();
-            return resolve(utils.respondWithCode(201, {message: "Test"}));
+            return resolve(utils.responseCreated(task));
         } catch (error) {
-            console.log("3");
-            return reject(utils.respondWithCode(error.code, {message: error}));
+            return reject(utils.responseError(error.code, error));
         }
     });
 }

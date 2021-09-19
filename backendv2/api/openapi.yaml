@@ -129,6 +129,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       x-swagger-router-controller: Tasks
     put:
       tags:
@@ -170,6 +176,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       x-swagger-router-controller: Tasks
     delete:
       tags:
@@ -196,6 +208,12 @@ paths:
                 $ref: '#/components/schemas/Error'
         "500":
           description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
           content:
             application/json:
               schema:
@@ -272,11 +290,3 @@ components:
           type: string
         internal_code:
           type: integer
-  requestBodies:
-    Timer:
-      description: Pet object that needs to be added to the store
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Timer'

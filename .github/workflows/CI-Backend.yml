@@ -1,0 +1,22 @@
+name: Sync Backend
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+    - 'backend/**'
+
+jobs:
+  build:
+
+    runs-on: rs-1
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Deploy with rsync
+      run: rsync -avz backend/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/3ed2108e-9c34-47f1-9146-133208ba65b6/

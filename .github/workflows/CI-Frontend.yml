@@ -1,6 +1,10 @@
-name: Node.js CI
+name: Build Frontend
 
-on: [push, pull_request]
+on:
+  workflow_dispatch:
+  push:
+    paths:
+    - 'frontend/**'
 
 jobs:
   build:

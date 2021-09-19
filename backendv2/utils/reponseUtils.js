@@ -8,21 +8,24 @@ const writeResponse = function (statusCode, message, detail) {
     };
     return utils.respondWithCode(statusCode, JSON.stringify(msg));
 };
+
+const writeResponseWithJson = function (statusCode, json) {
+    return utils.respondWithCode(statusCode, json);
+};
+
 exports.responseCreated = function (detail) {
     return writeResponse(201, "Successfully created new Record!", detail);
 }
 
 exports.responseDeleted = function (detail) {
-    return writeResponse(201, "Successfully deleted Record!", detail);
+    return writeResponse(200, "Successfully deleted Record!", detail);
 }
 
-exports.responseError = function (statusCode, message, detail = '') {
+exports.responseWithCode = function (statusCode, message, detail = '') {
     return writeResponse(statusCode, message, detail);
 }
 
-exports.responseWithCode = function (statusCode, message, detail) {
-    this.statusCode = statusCode;
-    this.message = message;
-    this.detail = detail;
+exports.responseWithJson = function (statusCode, json) {
+    return writeResponseWithJson(statusCode, JSON.stringify(json));
 }
 

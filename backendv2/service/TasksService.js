@@ -2,8 +2,12 @@
 
 var utils = require('../utils/reponseUtils.js');
 
-const {nanoid} = require("nanoid");
-const idLength = 8;
+function uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : r & 0x3 | 0x8;
+        return v.toString(16);
+    });
+}
 
 /**
  * Create Task
@@ -14,7 +18,7 @@ const idLength = 8;
 exports.createTask = function (req, body) {
     return new Promise(function (resolve, reject) {
         let task = {
-            id: nanoid(idLength),
+            id: uuid(),
             ...body
         };
 
@@ -22,7 +26,7 @@ exports.createTask = function (req, body) {
             req.app.db.get("tasks").push(task).write();
             return resolve(utils.responseCreated(task));
         } catch (error) {
-            return reject(utils.responseError(error.code, error));
+            return reject(utils.responseWithCode(500, error));
         }
     });
 }
@@ -36,7 +40,26 @@ exports.createTask = function (req, body) {
  **/
 exports.deleteTask = function (req, id) {
     return new Promise(function (resolve, reject) {
-        resolve();
+
+        //find the task
+        let todo = req.app.db.get("tasks").find({
+            id: id
+        }).value()
+
+        if (todo === undefined) {
+            return reject(utils.responseWithCode(404, "Invalid Id", id));
+        }
+
+        // delete the task.
+        try {
+            req.app.db.get("tasks").remove({
+                id: id
+            }).write();
+            return resolve(utils.responseDeleted(id));
+        } catch (error) {
+            return reject(utils.responseWithCode(500, error));
+        }
+
     });
 }
 
@@ -48,7 +71,13 @@ exports.deleteTask = function (req, id) {
  **/
 exports.getAllTasks = function (req) {
     return new Promise(function (resolve, reject) {
-        return resolve();
+        let todos = req.app.db.get('tasks').value();
+        const msg = {
+            statusCode: 200,
+            length: todos.length,
+            todos: todos
+        };
+        return resolve(utils.responseWithJson(200, msg));
     });
 }
 
@@ -61,7 +90,20 @@ exports.getAllTasks = function (req) {
  **/
 exports.getTaskById = function (req, id) {
     return new Promise(function (resolve, reject) {
-        return resolve();
+
+        let todo = req.app.db.get('tasks').find({
+            id: id
+        }).value();
+
+        if (todo === undefined) {
+            return reject(utils.responseWithCode(404, "Invalid Id", id));
+        }
+
+        const msg = {
+            statusCode: 200,
+            todo: todo
+        };
+        return resolve(utils.responseWithJson(200, msg));
     });
 }
 
@@ -75,7 +117,30 @@ exports.getTaskById = function (req, id) {
  **/
 exports.updateTask = function (req, body, id) {
     return new Promise(function (resolve, reject) {
-        return resolve();
+        //find task.
+        let todo = req.app.db.get("tasks").find({
+            id: id
+        }).value();
+
+        if (todo === undefined) {
+            return reject(utils.responseWithCode(404, "Invalid Id", id));
+        }
+
+        //update that task.
+        try {
+            req.app.db.get("tasks").find({
+                id: id
+            })
+                .assign(body)
+                .write();
+            const msg = {
+                statusCode: 200,
+                todo: todo
+            };
+            return resolve(utils.responseWithJson(200, msg));
+        } catch (error) {
+            return reject(utils.responseWithCode(500, error));
+        }
     });
 }
 

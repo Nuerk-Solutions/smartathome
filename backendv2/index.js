@@ -1,34 +1,37 @@
 
-var path = require('path');
-var http = require('http');
 
-// Local DB requirements
-const low = require("lowdb");
-const FileSync = require("lowdb/adapters/FileSync");
+//General requirements
+const path = require('path');
+const http = require('http');
+const oas3Tools = require('oas3-tools');
 const {join} = require('path');
 
-// Local DB inits
-const adapter = new FileSync(join(__dirname,'..','db.json'));
-const db = low(adapter);
-db.defaults({ tasks:[] }).write();
+// DB requirements
+const low = require("lowdb");
+const FileSync = require("lowdb/adapters/FileSync");
 
-var oas3Tools = require('oas3-tools');
-var serverPort = 8080;
+// DB init & default handling
+const adapter = new FileSync(join(__dirname, '..', 'db.json'));
+const db = low(adapter);
+db.defaults({tasks: []}).write();
+
 
 // swaggerRouter configuration
-var options = {
+const serverPort = 2086;
+const options = {
     routing: {
         controllers: path.join(__dirname, './controllers')
     },
 };
 
-var expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, 'api/openapi.yaml'), options);
-var app = expressAppConfig.getApp();
+const expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, 'api/openapi.yaml'), options);
+const app = expressAppConfig.getApp();
 
 app.db = db;
 
 // Initialize the Swagger middleware
 http.createServer(app).listen(serverPort, function () {
+    console.log("Server Ready!");
     console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
     console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
 });

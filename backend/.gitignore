@@ -116,3 +116,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# Low DB Json File
+db.json

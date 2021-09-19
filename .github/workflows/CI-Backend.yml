@@ -1,0 +1,48 @@
+name: Sync Backend
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+    - 'backend/**'
+
+jobs:
+  sync:
+    runs-on: rs-1
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Deploy with rsync
+      run: rsync -avz --delete backend/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/3ed2108e-9c34-47f1-9146-133208ba65b6/
+      
+  build-frontend:
+    if: ${{ success() }}
+    needs: sync
+    runs-on: rs-1
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+    - name: NPM Ci
+      run: |
+          cd frontend/
+          npm ci
+    - name: Build
+      run: |
+        cd frontend/
+        npm run build --if-present
+    - name: Deploy with rsync
+      run: rsync -avz frontend/build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/3ed2108e-9c34-47f1-9146-133208ba65b6/build/

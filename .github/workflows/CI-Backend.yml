@@ -19,4 +19,4 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Deploy with rsync
-      run: rsync -avz backend/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/3ed2108e-9c34-47f1-9146-133208ba65b6/
+      run: rsync -avz --delete backend/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/3ed2108e-9c34-47f1-9146-133208ba65b6/

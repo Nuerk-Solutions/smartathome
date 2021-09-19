@@ -117,4 +117,4 @@ dist
 .pnp.*
 
 # Low DB Json File
-/db.json
+db.json

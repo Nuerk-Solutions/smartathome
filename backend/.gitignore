@@ -118,3 +118,6 @@ dist
 
 # Low DB Json File
 db.json
+
+# Build Files
+build/

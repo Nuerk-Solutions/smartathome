@@ -55,10 +55,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Tasks'
       x-swagger-router-controller: Tasks
+
     post:
       tags:
         - tasks
-      description: Create Task
+      summary: Create Task
       operationId: createTask
       requestBody:
         description: Testdesc
@@ -69,20 +70,18 @@ paths:
             schema:
               $ref: '#/components/schemas/Timer'
       responses:
-        "201":
+        '201':
           description: Task created successfully
-        "405":
-          description: Invaild input
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        "500":
-          description: Server error
+                $ref: "#/components/schemas/Timer"
+        default:
+          description: unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
       x-swagger-router-controller: Tasks
   /tasks/{id}:
     get:
@@ -208,6 +207,12 @@ components:
       example: tyVgf
     Timer:
       type: object
+      required:
+        - name
+        - enabled
+        - status
+        - duration
+        - cron
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -247,11 +252,14 @@ components:
         $ref: '#/components/schemas/Timer'
     Error:
       type: object
+      required:
+        - message
+        - internal_code
       properties:
         message:
           type: string
         internal_code:
-          type: string
+          type: integer
   requestBodies:
     Timer:
       description: Pet object that needs to be added to the store

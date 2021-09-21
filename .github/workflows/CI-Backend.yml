@@ -25,28 +25,22 @@ jobs:
     if: ${{ success() }}
     runs-on: rs-1
     steps:
-    - uses: actions/checkout@master
-    - name: curl
-      uses: wei/curl@v1
-      with:
-        args: |
-          --location --request POST 'https://nuerk-solutions.de/api/client/servers/517bbc7b/power' \
-          --header 'Accept: application/json' \
-          --header 'Content-Type: application/json' \
-          --header 'Authorization: Bearer v1waUO4JcuDNWoGGFo6NYVyfqqEIZg4u3QlaDcR5akeMBJdc' \
-          --data-raw '{
-            "signal": "kill"
-          }'
+    - name: Stop
+      run: |
+        --location --request POST 'https://nuerk-solutions.de/api/client/servers/517bbc7b/power' \
+        --header 'Accept: application/json' \
+        --header 'Content-Type: application/json' \
+        --header 'Authorization: Bearer v1waUO4JcuDNWoGGFo6NYVyfqqEIZg4u3QlaDcR5akeMBJdc' \
+        --data-raw '{
+          "signal": "kill"
+        }'
         
   start-server:
     needs: stop-server
     runs-on: rs-1
     steps:
-    - uses: actions/checkout@master
-    - name: curl
-      uses: wei/curl@v1
-      with:
-        args: |
+    - name: Start
+      run: |
           --location --request POST 'https://nuerk-solutions.de/api/client/servers/517bbc7b/power' \
           --header 'Accept: application/json' \
           --header 'Content-Type: application/json' \

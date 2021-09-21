@@ -17,7 +17,7 @@ db.defaults({tasks: []}).write();
 
 
 // swaggerRouter configuration
-const serverPort = 2086;
+const serverPort = 9001;
 const options = {
     routing: {
         controllers: path.join(__dirname, './controllers')

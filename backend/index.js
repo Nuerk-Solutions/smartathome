@@ -1,9 +1,10 @@
+
+
 //General requirements
 const path = require('path');
-const spdy = require("spdy")
+const http = require('http');
 const oas3Tools = require('oas3-tools');
 const {join} = require('path');
-const fs = require("fs")
 
 // DB requirements
 const low = require("lowdb");
@@ -29,15 +30,8 @@ const app = expressAppConfig.getApp();
 app.db = db;
 
 // Initialize the Swagger middleware
-spdy.createServer({
-        key: fs.readFileSync("./server.key"),
-        cert: fs.readFileSync("./server.crt")
-    },
-    app
-).listen(serverPort, (error) => {
-    if (error)
-        throw error;
+http.createServer(app).listen(serverPort, function () {
     console.log("Server Ready!");
-    console.log('Your server is listening on port %d (https://localhost:%d)', serverPort, serverPort);
-    console.log('Swagger-ui is available on https://localhost:%d/docs', serverPort);
+    console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
+    console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
 });

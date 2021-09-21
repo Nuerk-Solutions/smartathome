@@ -27,7 +27,7 @@ jobs:
     steps:
     - name: Stop
       run: |
-        --location --request POST 'https://nuerk-solutions.de/api/client/servers/517bbc7b/power' \
+        curl --location --request POST 'https://nuerk-solutions.de/api/client/servers/517bbc7b/power' \
         --header 'Accept: application/json' \
         --header 'Content-Type: application/json' \
         --header 'Authorization: Bearer v1waUO4JcuDNWoGGFo6NYVyfqqEIZg4u3QlaDcR5akeMBJdc' \
@@ -41,7 +41,7 @@ jobs:
     steps:
     - name: Start
       run: |
-          --location --request POST 'https://nuerk-solutions.de/api/client/servers/517bbc7b/power' \
+          curl --location --request POST 'https://nuerk-solutions.de/api/client/servers/517bbc7b/power' \
           --header 'Accept: application/json' \
           --header 'Content-Type: application/json' \
           --header 'Authorization: Bearer v1waUO4JcuDNWoGGFo6NYVyfqqEIZg4u3QlaDcR5akeMBJdc' \

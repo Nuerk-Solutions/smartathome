@@ -19,3 +19,38 @@ jobs:
 
     - name: Deploy with rsync
       run: rsync -avz --delete backend/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/517bbc7b-244f-4df8-b5fb-61a61026925a/
+  
+  stop-server:
+    needs: sync
+    if: ${{ success() }}
+    runs-on: rs-1
+    steps:
+    - uses: actions/checkout@master
+    - name: curl
+      uses: wei/curl@v1
+      with:
+        args: |
+          --location --request POST 'https://nuerk-solutions.de/api/client/servers/517bbc7b/power' \
+          --header 'Accept: application/json' \
+          --header 'Content-Type: application/json' \
+          --header 'Authorization: Bearer v1waUO4JcuDNWoGGFo6NYVyfqqEIZg4u3QlaDcR5akeMBJdc' \
+          --data-raw '{
+            "signal": "kill"
+          }'
+        
+  start-server:
+    needs: stop-server
+    runs-on: rs-1
+    steps:
+    - uses: actions/checkout@master
+    - name: curl
+      uses: wei/curl@v1
+      with:
+        args: |
+          --location --request POST 'https://nuerk-solutions.de/api/client/servers/517bbc7b/power' \
+          --header 'Accept: application/json' \
+          --header 'Content-Type: application/json' \
+          --header 'Authorization: Bearer v1waUO4JcuDNWoGGFo6NYVyfqqEIZg4u3QlaDcR5akeMBJdc' \
+          --data-raw '{
+            "signal": "start"
+          }'

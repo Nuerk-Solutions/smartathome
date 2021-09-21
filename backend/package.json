@@ -19,9 +19,9 @@
     "lowdb": "^1.0.0",
     "morgan": "^1.10.0",
     "nanoid": "^3.1.25",
+    "nodemon": "^2.0.12",
     "oas3-tools": "^2.2.3",
-    "request": "^2.88.2",
-    "spdy": "^4.0.2"
+    "request": "^2.88.2"
   },
   "nodemonConfig": {
     "ext": "js",
@@ -30,8 +30,5 @@
       "db/*"
     ],
     "delay": 2
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.12"
   }
 }

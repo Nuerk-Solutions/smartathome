@@ -1,13 +1,6 @@
 'use strict';
 
-var utils = require('../utils/reponseUtils.js');
-
-function uuid() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : r & 0x3 | 0x8;
-        return v.toString(16);
-    });
-}
+const utils = require('../utils/utils.js');
 
 /**
  * Create a new Job
@@ -18,7 +11,7 @@ function uuid() {
 exports.createJob = function (req, body) {
     return new Promise(function (resolve, reject) {
         let job = {
-            id: uuid(),
+            id: utils.uuid("0"),
             ...body
         };
 

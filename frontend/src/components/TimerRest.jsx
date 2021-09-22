@@ -25,12 +25,12 @@ export default () => {
         //     .then(response => setJson(response.data))
         //     .catch(error => setError(error));
 
-        fetch("https://api.nuerk-solutions.de/api/v1/timer")
+        fetch("https://api.nuerk-solutions.de/api/v1/timer", {mode: "same-origin"})
             .then(response => response.json())
             .then(response => setJson([response]))
             .catch(error => setError(error));
 
-        fetch("https://api.nuerk-solutions.de/api/v1/jobs")
+        fetch("https://api.nuerk-solutions.de/api/v1/jobs", {mode: "no-cors"})
             .then(response => response.json())
             .then(response => setJobs([response]))
             .catch(error => setError(error));

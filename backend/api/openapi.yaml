@@ -7,21 +7,20 @@ servers:
 - url: http://localhost:8080/api/v1
   description: Nuerk-Solutions
 tags:
-  - name: tasks
+  - name: jobs
+  - name: timer
   - name: pump
 paths:
   /pump:
     get:
       tags:
         - pump
-      summary: set pump state
-      description: "By passing in the appropriate options, you can toggle the state\
-        \ of the Pump\n"
+      summary: Update the Pump State
       operationId: state
       parameters:
         - name: state
           in: query
-          description: Set the pump state
+          description: Set wether the pump should be currently activeted or not.
           required: true
           style: form
           explode: true
@@ -29,13 +28,13 @@ paths:
             type: string
       responses:
         "200":
-          description: pump state succesfully set
+          description: The new state was succesfully set
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pump'
         "400":
-          description: bad input parameter
+          description: Bad input parameter
           content:
             application/json:
               schema:
@@ -45,66 +44,63 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
       x-swagger-router-controller: Pump
-  /tasks:
+  /timer:
     get:
       tags:
-        - tasks
-      description: Get All Tasks
-      operationId: getAllTasks
+        - timer
+      summary: Retrieves all Timer
+      operationId: getAllTimer
       responses:
         "200":
-          description: Tasks were obtained
+          description: Shows the Timer in a json string
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tasks'
+                $ref: '#/components/schemas/Timers'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-      x-swagger-router-controller: Tasks
-
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Timer
     post:
       tags:
-        - tasks
-      summary: Create Task
-      operationId: createTask
+        - timer
+      summary: Create a new Timer
+      operationId: createTimer
       requestBody:
-        description: Testdesc
-        x-name: timer
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Timer'
+        required: true
       responses:
-        '201':
-          description: Task created successfully
+        "201":
+          description: Timer created successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Timer"
+                $ref: '#/components/schemas/Timer'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-      x-swagger-router-controller: Tasks
-  /tasks/{id}:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Timer
+  /timer/{id}:
     get:
       tags:
-        - tasks
-      description: Get a Task by id
-      operationId: getTaskById
+        - timer
+      summary: Get a Timer by an id
+      operationId: getTimerById
       parameters:
         - name: id
           in: path
-          description: A single task id
+          description: A single Timer id
           required: true
           style: simple
           explode: false
@@ -112,7 +108,7 @@ paths:
             $ref: '#/components/schemas/Id'
       responses:
         "200":
-          description: Task is obtained
+          description: Timer is obtained
           content:
             application/json:
               schema:
@@ -135,23 +131,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      x-swagger-router-controller: Tasks
+      x-swagger-router-controller: Timer
     put:
       tags:
-        - tasks
-      description: Update a Task
-      operationId: updateTask
+        - timer
+      summary: Update a Timer by an id
+      operationId: updateTimer
       parameters:
         - name: id
           in: path
-          description: Id of task to be updated
+          description: Represents the Id of Timer to be updated
           required: true
           style: simple
           explode: false
           schema:
             $ref: '#/components/schemas/Id'
       requestBody:
-        description: Updated a Timer object
         content:
           application/json:
             schema:
@@ -159,11 +154,47 @@ paths:
         required: true
       responses:
         "200":
-          description: Task updated successfully
+          description: Timer updated successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Timer'
+        "404":
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Timer
+    delete:
+      tags:
+        - timer
+      summary: Delete a Timer by an id
+      operationId: deleteTimer
+      parameters:
+        - name: id
+          in: path
+          description: Deleting a Timer done
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        "200":
+          description: Timer succesfully deleted
         "404":
           description: Task not found
           content:
@@ -182,16 +213,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      x-swagger-router-controller: Tasks
-    delete:
+      x-swagger-router-controller: Timer
+  /jobs:
+    get:
       tags:
-        - tasks
-      description: Deleting a task
-      operationId: deleteTask
+        - jobs
+      summary: Retrieves all Jobs
+      operationId: getAllJobs
+      responses:
+        "200":
+          description: Shows the Jobs in a json string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jobs'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Jobs
+    post:
+      tags:
+        - jobs
+      summary: Create a new Job
+      operationId: createJob
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Job'
+        required: true
+      responses:
+        "201":
+          description: Job created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Jobs
+  /jobs/{id}:
+    get:
+      tags:
+        - jobs
+      summary: Get a Job by an id
+      operationId: getJobById
       parameters:
         - name: id
           in: path
-          description: Deleting a done task
+          description: A single job id
           required: true
           style: simple
           explode: false
@@ -199,9 +276,59 @@ paths:
             $ref: '#/components/schemas/Id'
       responses:
         "200":
-          description: Task succesfully deleted
+          description: Job is obtained
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        "400":
+          description: Invaild Task Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "404":
-          description: Todo not found
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Jobs
+    put:
+      tags:
+        - jobs
+      summary: Update a Job by an id
+      operationId: updateJob
+      parameters:
+        - name: id
+          in: path
+          description: Represents the Id of Job to be updated
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Job'
+        required: true
+      responses:
+        "200":
+          description: Job updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        "404":
+          description: Job not found
           content:
             application/json:
               schema:
@@ -218,7 +345,94 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      x-swagger-router-controller: Tasks
+      x-swagger-router-controller: Jobs
+    delete:
+      tags:
+        - jobs
+      summary: Delete a job by an id
+      operationId: deleteTask
+      parameters:
+        - name: id
+          in: path
+          description: Deleting a done job
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        "200":
+          description: Job succesfully deleted
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Jobs
+    patch:
+      tags:
+        - jobs
+      summary: Update the status of a Job by an id
+      operationId: patchJob
+      parameters:
+        - name: id
+          in: path
+          description: Represents the Id of Job to be updated
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobStatus'
+        required: true
+      responses:
+        "200":
+          description: Job status patched successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/Job'
+                    - $ref: '#/components/schemas/JobStatus'
+                x-content-type: application/json
+        "404":
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Jobs
 components:
   schemas:
     Pump:
@@ -233,58 +447,84 @@ components:
         POWER: "ON"
     Id:
       type: string
-      description: An id of a todo
-      example: tyVgf
+      description: An id of a task
     Timer:
-      type: object
       required:
-        - name
-        - enabled
-        - status
-        - duration
         - cron
+        - duration
+        - enabled
+        - name
+        - timestemp
+      type: object
       properties:
         id:
           $ref: '#/components/schemas/Id'
         name:
           type: string
-          description: Todo title
-          example: Coding in JavaScript
-        enabled:
-          type: boolean
-          description: The status of the todo
-          example: false
-        status:
-          type: string
-          description: Timer Status
-          enum:
-            - active
-            - standby
-        duration:
-          type: integer
-          description: Length
-          example: 15
+          description: Task name
         cron:
           type: string
           description: The status of the todo
-          example: "false"
-        skipUntil:
+        duration:
+          type: integer
+          description: Length
+        enabled:
+          type: boolean
+          description: The status of the todo
+        timestemp:
           type: string
-          description: Skip until this date
-          example: xyz
+          description: The status of the todo
       example:
-        id: ytVgh
-        completed: false
-        title: Coding in JavaScript
-    Tasks:
+        name: TestJob
+        cron: /2 * * * *
+        duration: 10
+        enabled: true
+        timestemp: 2021as
+    Timers:
       type: array
       items:
         $ref: '#/components/schemas/Timer'
-    Error:
-      type: object
+    Job:
       required:
-        - message
+        - status
+        - timeLeft
+        - timeStarted
+        - timer
+      type: object
+      properties:
+        jobId:
+          $ref: '#/components/schemas/Id'
+        timer:
+          $ref: '#/components/schemas/Timer'
+        status:
+          $ref: '#/components/schemas/JobStatus'
+        timeStarted:
+          type: string
+          description: DateTime Stared
+        timeLeft:
+          type: string
+          description: Time left until end
+      example:
+        timer: 012518380818asdasd
+        status: waiting
+        timeStarted: 2021-10-12
+        timeLeft: 10m
+    JobStatus:
+      type: string
+      enum:
+        - waiting
+        - running
+        - paused
+        - abort
+    Jobs:
+      type: array
+      items:
+        $ref: '#/components/schemas/Job'
+    Error:
+      required:
         - internal_code
+        - message
+      type: object
       properties:
         message:
           type: string

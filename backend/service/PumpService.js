@@ -1,7 +1,8 @@
 'use strict';
 
-
 const request = require("request");
+const utils = require("../utils/utils.js");
+
 /**
  * set pump state
  * By passing in the appropriate options, you can toggle the state of the Pump
@@ -12,15 +13,17 @@ const request = require("request");
 exports.state = function(state) {
   return new Promise(function(resolve, reject) {
       request({url: 'http://nuerk.dynv6.net/cm?user=admin&password=Tasmota2021!&cmnd=Power%20' + state, timeout: 3500}, function (error, response, body) {
-          const msg = {
-              ErrorCode: response.statusCode,
-              Message: response.statusMessage,
-              Detail: body
-          };
+
           if (response.statusCode !== 200 || error) {
-              return reject(JSON.stringify(msg));
+              return reject(utils.responseWithCode(response.statusCode, error));
           }
-          resolve(body);
+
+          const msg = {
+              statusCode: response.statusCode,
+              detail: response.statusMessage,
+              result: body
+          };
+          return resolve(utils.responseWithJson(200, msg));
       });
   });
 }

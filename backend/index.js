@@ -13,7 +13,7 @@ const FileSync = require("lowdb/adapters/FileSync");
 // DB init & default handling
 const adapter = new FileSync(join(__dirname, 'db.json'));
 const db = low(adapter);
-db.defaults({tasks: []}).write();
+db.defaults({jobs: [], timer: []}).write();
 
 
 // swaggerRouter configuration

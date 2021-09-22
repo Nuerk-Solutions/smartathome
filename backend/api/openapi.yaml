@@ -4,7 +4,7 @@ info:
   description: Api for Smart at Home
   version: 1.0.0
 servers:
-- url: http://localhost:8080/api/v1
+- url: http://localhost:9001/api/v1
   description: Nuerk-Solutions
 tags:
   - name: jobs
@@ -464,16 +464,16 @@ components:
           description: Timer name
         cron:
           type: string
-          description: The status of the todo
+          description: The status of the Timer
         duration:
           type: integer
           description: Length
         enabled:
           type: boolean
-          description: The status of the todo
+          description: The status of the Timer
         timestemp:
           type: string
-          description: The status of the todo
+          description: The status of the Timer
       example:
         name: TestJob
         cron: /2 * * * *
@@ -489,13 +489,13 @@ components:
         - status
         - timeLeft
         - timeStarted
-        - timer
+        - timerId
       type: object
       properties:
         jobId:
           $ref: '#/components/schemas/Id'
-        timer:
-          $ref: '#/components/schemas/Timer'
+        timerId:
+          $ref: '#/components/schemas/Id'
         status:
           $ref: '#/components/schemas/JobStatus'
         timeStarted:
@@ -505,17 +505,23 @@ components:
           type: string
           description: Time left until end
       example:
-        timer: 012518380818asdasd
+        timerId: 012518380818asdasd
         status: waiting
         timeStarted: 2021-10-12
         timeLeft: 10m
     JobStatus:
-      type: string
-      enum:
-        - waiting
-        - running
-        - paused
-        - abort
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          enum:
+            - waiting
+            - running
+            - paused
+            - abort
+      example:
+        status: abort
     Jobs:
       type: array
       items:

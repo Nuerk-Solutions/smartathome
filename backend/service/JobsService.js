@@ -126,8 +126,6 @@ exports.patchJob = function (req, body, id) {
             return reject(utils.responseWithCode(404, "Invalid Id", id));
         }
 
-        console.log(body.status)
-
         //patch that job.
         try {
             req.app.db.get("jobs").find({
@@ -137,7 +135,8 @@ exports.patchJob = function (req, body, id) {
                 .write();
             const msg = {
                 statusCode: 200,
-                todo: job
+                status: body.status,
+                job: job
             };
             return resolve(utils.responseWithJson(200, msg));
         } catch (error) {
@@ -174,7 +173,7 @@ exports.updateJob = function (req, body, id) {
                 .write();
             const msg = {
                 statusCode: 200,
-                todo: job
+                job: job
             };
             return resolve(utils.responseWithJson(200, msg));
         } catch (error) {

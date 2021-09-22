@@ -13,7 +13,8 @@ exports.createTimer = function (req, body) {
     return new Promise(function (resolve, reject) {
         let timer = {
             id: utils.uuid("1"),
-            ...body
+            timestamp: new Date().toLocaleTimeString(),
+            ...body,
         };
 
         try {

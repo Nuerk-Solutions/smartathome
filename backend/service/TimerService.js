@@ -1,5 +1,6 @@
 'use strict';
 
+const responseUtils = require('../utils/responseUtils.js');
 const utils = require('../utils/utils.js');
 
 
@@ -19,9 +20,9 @@ exports.createTimer = function (req, body) {
 
         try {
             req.app.db.get("timer").push(timer).write();
-            return resolve(utils.responseCreated(timer));
+            return resolve(responseUtils.responseCreated(timer));
         } catch (error) {
-            return reject(utils.responseWithCode(500, error));
+            return reject(responseUtils.responseWithCode(500, error));
         }
     });
 }
@@ -42,7 +43,7 @@ exports.deleteTimer = function (req, id) {
         }).value()
 
         if (timer === undefined) {
-            return reject(utils.responseWithCode(404, "Invalid Id", id));
+            return reject(responseUtils.responseWithCode(404, "Invalid Id", id));
         }
 
         // delete the task.
@@ -50,9 +51,9 @@ exports.deleteTimer = function (req, id) {
             req.app.db.get("timer").remove({
                 id: id
             }).write();
-            return resolve(utils.responseDeleted(id));
+            return resolve(responseUtils.responseDeleted(id));
         } catch (error) {
-            return reject(utils.responseWithCode(500, error));
+            return reject(responseUtils.responseWithCode(500, error));
         }
 
     });
@@ -72,7 +73,7 @@ exports.getAllTimer = function (req) {
             length: timer.length,
             timer: timer
         };
-        return resolve(utils.responseWithJson(200, msg));
+        return resolve(responseUtils.responseWithJson(200, msg));
     });
 }
 
@@ -91,14 +92,14 @@ exports.getTimerById = function (req, id) {
         }).value();
 
         if (timer === undefined) {
-            return reject(utils.responseWithCode(404, "Invalid Id", id));
+            return reject(responseUtils.responseWithCode(404, "Invalid Id", id));
         }
 
         const msg = {
             statusCode: 200,
             timer: timer
         };
-        return resolve(utils.responseWithJson(200, msg));
+        return resolve(responseUtils.responseWithJson(200, msg));
     });
 }
 
@@ -118,7 +119,7 @@ exports.updateTimer = function (req, body, id) {
         }).value();
 
         if (timer === undefined) {
-            return reject(utils.responseWithCode(404, "Invalid Id", id));
+            return reject(responseUtils.responseWithCode(404, "Invalid Id", id));
         }
 
         //update that task.
@@ -132,9 +133,9 @@ exports.updateTimer = function (req, body, id) {
                 statusCode: 200,
                 timer: timer
             };
-            return resolve(utils.responseWithJson(200, msg));
+            return resolve(responseUtils.responseWithJson(200, msg));
         } catch (error) {
-            return reject(utils.responseWithCode(500, error));
+            return reject(responseUtils.responseWithCode(500, error));
         }
     });
 }

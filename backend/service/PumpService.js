@@ -1,7 +1,7 @@
 'use strict';
 
 const request = require("request");
-const utils = require("../utils/utils.js");
+const responseUtils = require("../utils/responseUtils.js");
 
 /**
  * set pump state
@@ -15,7 +15,7 @@ exports.state = function(state) {
       request({url: 'http://nuerk.dynv6.net/cm?user=admin&password=Tasmota2021!&cmnd=Power%20' + state, timeout: 3500}, function (error, response, body) {
 
           if (response.statusCode !== 200 || error) {
-              return reject(utils.responseWithCode(response.statusCode, error));
+              return reject(responseUtils.responseWithCode(response.statusCode, error));
           }
 
           const msg = {
@@ -23,7 +23,7 @@ exports.state = function(state) {
               detail: response.statusMessage,
               result: body
           };
-          return resolve(utils.responseWithJson(200, msg));
+          return resolve(responseUtils.responseWithJson(200, msg));
       });
   });
 }

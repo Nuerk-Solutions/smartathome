@@ -1,6 +1,7 @@
 'use strict';
 
 const utils = require('../utils/utils.js');
+const responseUtils = require('../utils/responseUtils.js');
 
 /**
  * Create a new Job
@@ -17,9 +18,9 @@ exports.createJob = function (req, body) {
 
         try {
             req.app.db.get("jobs").push(job).write();
-            return resolve(utils.responseCreated(job));
+            return resolve(responseUtils.responseCreated(job));
         } catch (error) {
-            return reject(utils.responseWithCode(500, error));
+            return reject(responseUtils.responseWithCode(500, error));
         }
     });
 }
@@ -40,7 +41,7 @@ exports.deleteJob = function (req, id) {
         }).value()
 
         if (job === undefined) {
-            return reject(utils.responseWithCode(404, "Invalid Id", id));
+            return reject(responseUtils.responseWithCode(404, "Invalid Id", id));
         }
 
         // delete the job.
@@ -48,9 +49,9 @@ exports.deleteJob = function (req, id) {
             req.app.db.get("jobs").remove({
                 id: id
             }).write();
-            return resolve(utils.responseDeleted(id));
+            return resolve(responseUtils.responseDeleted(id));
         } catch (error) {
-            return reject(utils.responseWithCode(500, error));
+            return reject(responseUtils.responseWithCode(500, error));
         }
 
     });
@@ -70,7 +71,7 @@ exports.getAllJobs = function (req) {
             length: jobs.length,
             jobs: jobs
         };
-        return resolve(utils.responseWithJson(200, msg));
+        return resolve(responseUtils.responseWithJson(200, msg));
     });
 }
 
@@ -89,14 +90,14 @@ exports.getJobById = function (req, id) {
         }).value();
 
         if (job === undefined) {
-            return reject(utils.responseWithCode(404, "Invalid Id", id));
+            return reject(responseUtils.responseWithCode(404, "Invalid Id", id));
         }
 
         const msg = {
             statusCode: 200,
             job: job
         };
-        return resolve(utils.responseWithJson(200, msg));
+        return resolve(responseUtils.responseWithJson(200, msg));
     });
 }
 
@@ -116,7 +117,7 @@ exports.patchJob = function (req, body, id) {
         }).value();
 
         if (job === undefined) {
-            return reject(utils.responseWithCode(404, "Invalid Id", id));
+            return reject(responseUtils.responseWithCode(404, "Invalid Id", id));
         }
 
         //patch that job.
@@ -131,9 +132,9 @@ exports.patchJob = function (req, body, id) {
                 status: body.status,
                 job: job
             };
-            return resolve(utils.responseWithJson(200, msg));
+            return resolve(responseUtils.responseWithJson(200, msg));
         } catch (error) {
-            return reject(utils.responseWithCode(500, error));
+            return reject(responseUtils.responseWithCode(500, error));
         }
     });
 }
@@ -154,7 +155,7 @@ exports.updateJob = function (req, body, id) {
         }).value();
 
         if (job === undefined) {
-            return reject(utils.responseWithCode(404, "Invalid Id", id));
+            return reject(responseUtils.responseWithCode(404, "Invalid Id", id));
         }
 
         //update that job.
@@ -168,9 +169,9 @@ exports.updateJob = function (req, body, id) {
                 statusCode: 200,
                 job: job
             };
-            return resolve(utils.responseWithJson(200, msg));
+            return resolve(responseUtils.responseWithJson(200, msg));
         } catch (error) {
-            return reject(utils.responseWithCode(500, error));
+            return reject(responseUtils.responseWithCode(500, error));
         }
     });
 }

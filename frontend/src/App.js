@@ -11,6 +11,7 @@ import HeaderComponent from './components/weather/header/HeaderComponent'
 import FooterComponent from './components/weather/footer/FooterComponent'
 import LoaderComponent from './components/weather/loader/LoaderComponent'
 import Timer from "./components/Timer";
+import TimerRest from "./components/TimerRest";
 
 const HomeContainer = lazy(() => import('./containers/home/HomeContainer'))
 
@@ -43,7 +44,7 @@ function App() {
                 <NavItem icon={<PlusIcon/>} destinationPath="/dvb"/>
                 <NavItem icon={<BellIcon/>} destinationPath="/quote"/>
                 <NavItem icon={<MessengerIcon/>} destinationPath="/cron"/>
-                <NavItem icon={<ArrowIcon/>} destinationPath="https://iamsainikhil.com/weather-react/"/>
+                <NavItem icon={<ArrowIcon/>} destinationPath="/rest"/>
             </Navbar>
 
             <Switch>
@@ -51,6 +52,7 @@ function App() {
                        children={() => <DvbWidget name={"Malterstraße"}/>}/>
                 <Route path="/quote" children={() => <Quote />}/>
                 <Route path="/cron" children={() => <Timer/>}/>
+                <Route path="/rest" children={() => <TimerRest/>}/>
                 <DvbWidget name={"Malterstraße"}/>
             </Switch>
         </Router>

@@ -8,10 +8,7 @@ export default () => {
     const instance = axios.create({
         baseURL: 'https://api.nuerk-solutions.de/api/v1',
         timeout: 1000,
-        responseType: 'json',
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-        },
+        responseType: 'json'
     });
 
     const [json, setJson] = useState([]);
@@ -25,12 +22,12 @@ export default () => {
         //     .then(response => setJson(response.data))
         //     .catch(error => setError(error));
 
-        fetch("https://api.nuerk-solutions.de/api/v1/timer", {mode: "no-cors"})
+        fetch("https://api.nuerk-solutions.de/api/v1/timer")
             .then(response => response.json())
             .then(response => setJson([response]))
             .catch(error => setError(error));
 
-        fetch("https://api.nuerk-solutions.de/api/v1/jobs", {mode: "no-cors"})
+        fetch("https://api.nuerk-solutions.de/api/v1/jobs")
             .then(response => response.json())
             .then(response => setJobs([response]))
             .catch(error => setError(error));

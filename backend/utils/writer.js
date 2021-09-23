@@ -38,6 +38,8 @@ var writeJson = exports.writeJson = function(response, arg1, arg2) {
   if(typeof payload === 'object') {
     payload = JSON.stringify(payload, null, 2);
   }
+  response.header("Access-Control-Allow-Origin", "panel.nuerk-solutions.de");
+  response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   response.writeHead(code, {'Content-Type': 'application/json'});
   response.end(payload);
 }

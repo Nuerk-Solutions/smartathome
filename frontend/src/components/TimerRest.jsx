@@ -25,7 +25,7 @@ export default () => {
         //     .then(response => setJson(response.data))
         //     .catch(error => setError(error));
 
-        fetch("https://api.nuerk-solutions.de/api/v1/timer", {mode: "same-origin"})
+        fetch("https://api.nuerk-solutions.de/api/v1/timer", {mode: "no-cors"})
             .then(response => response.json())
             .then(response => setJson([response]))
             .catch(error => setError(error));

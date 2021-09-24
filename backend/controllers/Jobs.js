@@ -43,6 +43,16 @@ module.exports.getJobById = function getJobById (req, res, next, id) {
     });
 };
 
+module.exports.jobActionById = function jobActionById (req, res, next, id, action) {
+    Jobs.jobActionById(req, id, action)
+        .then(function (response) {
+            utils.writeJson(res, response);
+        })
+        .catch(function (response) {
+            utils.writeJson(res, response);
+        });
+};
+
 module.exports.patchJob = function patchJob (req, res, next, body, id) {
   Jobs.patchJob(req, body, id)
     .then(function (response) {

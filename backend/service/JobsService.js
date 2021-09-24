@@ -2,6 +2,9 @@
 
 const utils = require('../utils/utils.js');
 const responseUtils = require('../utils/responseUtils.js');
+const CronJobManager = require('../utils/CronJobManager');
+
+
 
 /**
  * Create a new Job
@@ -15,6 +18,13 @@ exports.createJob = function (req, body) {
             id: utils.uuid("0"),
             ...body
         };
+
+        // const cronJob = new CronJob('* * * * * *', function () {
+        //     console.log('You will see this message every second');
+        // }, null, false, 'Europe/Berlin');
+        // currentJobs.set(job.id, cronJob);
+        //
+        // console.log(currentJobs);
 
         try {
             req.app.db.get("jobs").push(job).write();
@@ -101,6 +111,44 @@ exports.getJobById = function (req, id) {
     });
 }
 
+/**
+ * Start, stop or pause a job
+ *
+ * id Id A single job id
+ * action JobAction Action type
+ * returns Job
+ **/
+exports.jobActionById = function (req, id, action) {
+    return new Promise(function (resolve, reject) {
+
+        let status = 'waiting'
+
+        CronJobManager.runActionOnCronTask(id, action)
+        switch (action) {
+            case "start":
+                status = "started"
+                break;
+            case "stop":
+                status = "stopped";
+                break;
+            case "abort":
+                status = "aborted";
+                break
+        }
+
+        req.app.db.get("jobs").find({
+            id: id
+        })
+            .set('status', status)
+            .write();
+        const msg = {
+            statusCode: 200,
+            status: status
+        };
+        resolve(responseUtils.responseWithJson(200, msg));
+    });
+}
+
 
 /**
  * Update the status of a Job by an id
@@ -111,6 +159,8 @@ exports.getJobById = function (req, id) {
  **/
 exports.patchJob = function (req, body, id) {
     return new Promise(function (resolve, reject) {
+        let status = body.status;
+
         //find job.
         let job = req.app.db.get("jobs").find({
             id: id
@@ -125,14 +175,14 @@ exports.patchJob = function (req, body, id) {
             req.app.db.get("jobs").find({
                 id: id
             })
-                .set('status', body.status)
+                .set('status', status)
                 .write();
             const msg = {
                 statusCode: 200,
-                status: body.status,
+                status: status,
                 job: job
             };
-            return resolve(responseUtils.responseWithJson(200, msg));
+            resolve(responseUtils.responseWithJson(200, msg));
         } catch (error) {
             return reject(responseUtils.responseWithCode(500, error));
         }

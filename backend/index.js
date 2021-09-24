@@ -5,10 +5,12 @@ const path = require('path');
 const http = require('http');
 const oas3Tools = require('oas3-tools');
 const {join} = require('path');
+const CronJobManager = require('./utils/CronJobManager');
 
 // DB requirements
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
+const {CronJob} = require("cron");
 
 // DB init & default handling
 const adapter = new FileSync(join(__dirname, 'db.json'));
@@ -28,6 +30,7 @@ const expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, 'api/op
 const app = expressAppConfig.getApp();
 
 app.db = db;
+CronJobManager.initAllCronTasks(db);
 
 // Initialize the Swagger middleware
 http.createServer(app).listen(serverPort, function () {

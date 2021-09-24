@@ -433,6 +433,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       x-swagger-router-controller: Jobs
+  /jobs/{id}/{action}:
+    patch:
+      tags:
+        - jobs
+      summary: "Start, stop or pause a job"
+      operationId: jobActionById
+      parameters:
+        - name: id
+          in: path
+          description: A single job id
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Id'
+        - name: action
+          in: path
+          description: Action type
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/JobAction'
+      responses:
+        "200":
+          description: Job action executed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Jobs
 components:
   schemas:
     Pump:
@@ -454,6 +491,7 @@ components:
         - duration
         - enabled
         - name
+        - timestamp
       type: object
       properties:
         id:
@@ -463,21 +501,22 @@ components:
           description: Timer name
         cron:
           type: string
-          description: The status of the Timer
+          description: The status of the todo
         duration:
           type: integer
           description: Length
         enabled:
           type: boolean
-          description: The status of the Timer
+          description: The status of the todo
         timestamp:
           type: string
-          description: The status of the Timer
+          description: The status of the todo
       example:
         name: TestJob
         cron: /2 * * * *
         duration: 10
         enabled: true
+        timestamp: 2021as
     Timers:
       type: array
       items:
@@ -508,18 +547,29 @@ components:
         timeStarted: 2021-10-12
         timeLeft: 10m
     JobStatus:
-      type: object
       required:
         - status
+      type: object
       properties:
         status:
+          type: string
           enum:
             - waiting
             - running
-            - paused
-            - abort
+            - stopped
+            - aborted
       example:
         status: abort
+    JobAction:
+      type: string
+      properties:
+        status:
+          type: string
+          enum:
+            - start
+            - stop
+            - abort
+      example: start
     Jobs:
       type: array
       items:

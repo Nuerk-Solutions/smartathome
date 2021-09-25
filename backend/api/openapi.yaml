@@ -472,8 +472,6 @@ components:
         $ref: '#/components/schemas/Timer'
     Job:
       required:
-        - timeLeft
-        - timeStarted
         - timerId
       type: object
       properties:
@@ -483,17 +481,17 @@ components:
           $ref: '#/components/schemas/Id'
         status:
           $ref: '#/components/schemas/JobStatus'
-        timeStarted:
+        dateTimeStart:
           type: string
           description: DateTime Stared
-        timeLeft:
+        dateTimeEnd:
+          type: string
+          description: Time left until end
+        dateTimeNext:
           type: string
           description: Time left until end
       example:
         timerId: 012518380818asdasd
-        status: waiting
-        timeStarted: 2021-10-12
-        timeLeft: 10m
     JobStatus:
       required:
         - status

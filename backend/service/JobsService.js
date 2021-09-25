@@ -4,6 +4,7 @@ const utils = require('../utils/utils.js');
 const responseUtils = require('../utils/responseUtils.js');
 const CronJobManager = require('../utils/CronJobManager');
 const DatabaseManager = require('../utils/DatabaseManager');
+const {cronAction} = require("../utils/CronJobManager");
 
 
 
@@ -17,12 +18,13 @@ exports.createJob = function (req, body) {
     return new Promise(function (resolve, reject) {
         let job = {
             id: utils.uuid("0"),
-            status: "waiting",
-            ...body
+            status: cronAction.WAITING,
+            ...body,
+            date: new Date().toString()
         };
 
         try {
-            DatabaseManager.addItemToDB("jobs", job);
+            CronJobManager.createCronTask(job);
             return resolve(responseUtils.responseCreated(job));
         } catch (error) {
             return reject(responseUtils.responseWithCode(500, error));

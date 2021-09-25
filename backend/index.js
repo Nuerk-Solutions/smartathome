@@ -5,6 +5,7 @@ const oas3Tools = require('oas3-tools');
 const {join} = require('path');
 const CronJobManager = require('./utils/CronJobManager');
 const DatabaseManager = require('./utils/DatabaseManager')
+const utils = require('./utils/utils')
 
 
 // swaggerRouter configuration
@@ -20,7 +21,10 @@ const app = expressAppConfig.getApp();
 
 
 app.db = DatabaseManager.initDatabase();
-CronJobManager.initAllCronTasks();
+DatabaseManager.deleteDatabase("jobs");
+CronJobManager.initCronFromConfig();
+
+
 
 // Initialize the Swagger middleware
 http.createServer(app).listen(serverPort, function () {
@@ -32,24 +36,9 @@ http.createServer(app).listen(serverPort, function () {
 
 process.stdin.resume();
 
-function exitHandler(options, exitCode) {
-    if (options.cleanup) {
-        CronJobManager.finalizeAllCronTasks();
+[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
+    process.on(eventType, function () {
+        CronJobManager.shutdownCron();
         console.log('Disposed all Jobs!');
-    }
-    if (exitCode || exitCode === 0) console.log(exitCode);
-    if (options.exit) process.exit();
-}
-
-//do something when app is closing
-process.on('exit', exitHandler.bind(null, {cleanup: true}));
-
-//catches ctrl+c event
-process.on('SIGINT', exitHandler.bind(null, {exit: true}));
-
-// catches "kill pid" (for example: nodemon restart)
-process.on('SIGUSR1', exitHandler.bind(null, {exit: true}));
-process.on('SIGUSR2', exitHandler.bind(null, {exit: true}));
-
-//catches uncaught exceptions
-process.on('uncaughtException', exitHandler.bind(null, {exit: true}));
+    });
+})

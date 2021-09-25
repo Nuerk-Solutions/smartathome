@@ -1,34 +1,51 @@
 const CronJob = require('cron').CronJob;
-const {getDatabase, setItemValueById, getItemsFromDB, deleteItemById, deleteDatabase} = require('./DatabaseManager')
+const {setItemValueById, getItemsFromDB, deleteItemById, getItemById, addItemToDB, deleteDatabase} = require('./DatabaseManager')
+const axios = require('axios')
+const utils = require('./utils')
 let currentJobs = new Map();
 
 const cronAction = exports.cronAction = {
     START: "running",
-    STOP: "stopped"
+    STOP: "stopped",
+    WAITING: "waiting"
 }
 
-const createCronTask = exports.createCronTask = function (jobId, cronString) {
+const createCronTask = exports.createCronTask = function (job) {
+    let cronString = getItemById("timer", job.timerId).cron
+    let cronOffSetString = utils.cronOffset(cronString, getItemById("timer", job.timerId).duration);
+
     const cronJob = new CronJob(cronString, function () {
-        console.log('You will see this message every second for: ' + jobId);
+        console.log(new Date().toTimeString(), "Timer-1");
     }, null, false, 'Europe/Berlin');
-    currentJobs.set(jobId, cronJob);
+    currentJobs.set(job.id, cronJob);
+
+    const cronJobPost = new CronJob(cronOffSetString, function () {
+        console.log(new Date().toTimeString(), "Timer-2");
+    }, null, true, 'Europe/Berlin');
+    currentJobs.set(utils.uuid(1), cronJobPost);
+    addItemToDB("jobs", job);
     return cronJob;
 }
 
-exports.initAllCronTasks = function () {
-    getItemsFromDB("jobs").forEach(job => {
-        let timer = getDatabase().get("timer").find({
-            id: job.timerId
-        }).value();
-        createCronTask(job.id, timer.cron);
-        runActionOnCronTask(job.id, cronAction.START)
+exports.initCronFromConfig = function () {
+    getItemsFromDB("timer").forEach(timer => {
+        axios.post('http://localhost:9001/api/v1/jobs', {
+            timerId: timer.id
+            // dateTimeStart: new Date().toLocaleTimeString(),
+            // dateTimeEnd: new Date(new Date().getTime() + timer.duration * 1000).toLocaleTimeString()
+        }).then(res => {
+            runActionOnCronTask(res.data.detail.id, cronAction.START);
+        })
+            .catch(error => {
+                console.error(error)
+            })
     })
 }
 
-exports.finalizeAllCronTasks = function () {
+exports.shutdownCron = function () {
     getItemsFromDB("jobs").forEach(job => {
+        deleteItemById("jobs", job.id);
         runActionOnCronTask(job.id, cronAction.STOP)
-        // deleteDatabase("jobs");
     })
 }
 

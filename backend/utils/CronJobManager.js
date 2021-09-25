@@ -4,7 +4,7 @@ const {
     getItemsFromDB,
     deleteItemById,
     getItemById,
-    addItemToDB
+    addItemToDB, deleteDatabase
 } = require('./DatabaseManager')
 const axios = require('axios')
 const utils = require('./utils')
@@ -19,6 +19,7 @@ const createCronTask = exports.createCronTask = function (job) {
             console.log(new Date().toTimeString(), "Timer-1");
         }, null, false, 'Europe/Berlin')
     );
+    addItemToDB("jobs", job);
 
     //Post Job
     let postJob = {
@@ -31,10 +32,9 @@ const createCronTask = exports.createCronTask = function (job) {
     currentJobs.set(postJob.id,
         new CronJob(postJob.cron, () => {
             console.log(new Date().toTimeString(), "Timer-2");
-        }, null, false, 'Europe/Berlin')
+        }, null, true, 'Europe/Berlin')
     );
     addItemToDB("jobs", postJob);
-    addItemToDB("jobs", job);
 
 }
 
@@ -58,12 +58,7 @@ exports.initCronFromConfig = function () {
 }
 
 exports.shutdownCron = function () {
-    const jobs = getItemsFromDB("jobs");
-    do {
-        jobs.forEach(job => {
-            runActionOnCronTask(job.id, utils.cronAction.STOP)
-        });
-    } while (jobs.length !== 0)
+    deleteDatabase("jobs");
 
 }
 
@@ -78,7 +73,6 @@ const runActionOnCronTask = exports.runActionOnCronTask = function (jobId, actio
             getCronTask(jobId).start();
             break;
         case utils.cronAction.STOP:
-            deleteItemById("jobs", jobId);
             getCronTask(jobId).stop();
             break;
     }

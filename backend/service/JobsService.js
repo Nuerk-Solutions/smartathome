@@ -21,16 +21,8 @@ exports.createJob = function (req, body) {
             ...body
         };
 
-        // const cronJob = new CronJob('* * * * * *', function () {
-        //     console.log('You will see this message every second');
-        // }, null, false, 'Europe/Berlin');
-        // currentJobs.set(job.id, cronJob);
-        //
-        // console.log(currentJobs);
-
         try {
-            DatabaseManager.addItemToDB(req, "jobs", job);
-            // req.app.db.get("jobs").push(job).write();
+            DatabaseManager.addItemToDB("jobs", job);
             return resolve(responseUtils.responseCreated(job));
         } catch (error) {
             return reject(responseUtils.responseWithCode(500, error));
@@ -49,7 +41,7 @@ exports.deleteJob = function (req, id) {
     return new Promise(function (resolve, reject) {
 
         //find the job
-        let job = DatabaseManager.deleteItemById(req, "jobs", id);
+        let job = DatabaseManager.deleteItemById("jobs", id);
 
         if (job === undefined) {
             return reject(responseUtils.responseWithCode(404, "Invalid Id", id));
@@ -57,7 +49,7 @@ exports.deleteJob = function (req, id) {
 
         // delete the job.
         try {
-            DatabaseManager.deleteItemById(req, "jobs", id);
+            DatabaseManager.deleteItemById("jobs", id);
             return resolve(responseUtils.responseDeleted(id));
         } catch (error) {
             return reject(responseUtils.responseWithCode(500, error));
@@ -74,7 +66,7 @@ exports.deleteJob = function (req, id) {
  **/
 exports.getAllJobs = function (req) {
     return new Promise(function (resolve, reject) {
-        let jobs = DatabaseManager.getItemsFromDB(req, "jobs");
+        let jobs = DatabaseManager.getItemsFromDB("jobs");
         const msg = {
             statusCode: 200,
             length: jobs.length,
@@ -94,7 +86,7 @@ exports.getAllJobs = function (req) {
 exports.getJobById = function (req, id) {
     return new Promise(function (resolve, reject) {
 
-        let job = DatabaseManager.getItemById(req, "jobs", id);
+        let job = DatabaseManager.getItemById("jobs", id);
 
         if (job === undefined) {
             return reject(responseUtils.responseWithCode(404, "Invalid Id", id));
@@ -157,7 +149,7 @@ exports.jobActionById = function (req, id, action) {
 exports.updateJob = function (req, body, id) {
     return new Promise(function (resolve, reject) {
         //find job.
-        let job = DatabaseManager.getItemById(req, "jobs", id);
+        let job = DatabaseManager.getItemById("jobs", id);
 
         if (job === undefined) {
             return reject(responseUtils.responseWithCode(404, "Invalid Id", id));
@@ -165,7 +157,7 @@ exports.updateJob = function (req, body, id) {
 
         //update that job.
         try {
-            DatabaseManager.updateItemById(req, "jobs", id, body);
+            DatabaseManager.updateItemById("jobs", id, body);
             const msg = {
                 statusCode: 200,
                 job: job

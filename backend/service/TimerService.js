@@ -21,7 +21,7 @@ exports.createTimer = function (req, body) {
 
         try {
             // req.app.db.get("timer").push(timer).write();
-            DatabaseManager.addItemToDB(req, "timer", timer);
+            DatabaseManager.addItemToDB("timer", timer);
             return resolve(responseUtils.responseCreated(timer));
         } catch (error) {
             return reject(responseUtils.responseWithCode(500, error));
@@ -40,7 +40,7 @@ exports.deleteTimer = function (req, id) {
     return new Promise(function (resolve, reject) {
 
         //find the task
-        let timer = DatabaseManager.getItemById(req, "timer", id);
+        let timer = DatabaseManager.getItemById("timer", id);
 
         if (timer === undefined) {
             return reject(responseUtils.responseWithCode(404, "Invalid Id", id));
@@ -48,7 +48,7 @@ exports.deleteTimer = function (req, id) {
 
         // delete the task.
         try {
-            DatabaseManager.deleteItemById(req, "timer", id);
+            DatabaseManager.deleteItemById("timer", id);
             return resolve(responseUtils.responseDeleted(id));
         } catch (error) {
             return reject(responseUtils.responseWithCode(500, error));
@@ -65,7 +65,7 @@ exports.deleteTimer = function (req, id) {
  **/
 exports.getAllTimer = function (req) {
     return new Promise(function (resolve, reject) {
-        let timer = DatabaseManager.getItemsFromDB(req, "timer");
+        let timer = DatabaseManager.getItemsFromDB("timer");
         const msg = {
             statusCode: 200,
             length: timer.length,
@@ -85,7 +85,7 @@ exports.getAllTimer = function (req) {
 exports.getTimerById = function (req, id) {
     return new Promise(function (resolve, reject) {
 
-        let timer = DatabaseManager.getItemById(req, "timer", id);
+        let timer = DatabaseManager.getItemById("timer", id);
 
         if (timer === undefined) {
             return reject(responseUtils.responseWithCode(404, "Invalid Id", id));
@@ -110,7 +110,7 @@ exports.getTimerById = function (req, id) {
 exports.updateTimer = function (req, body, id) {
     return new Promise(function (resolve, reject) {
         //find task.
-        let timer = DatabaseManager.getItemById(req, "timer", id);
+        let timer = DatabaseManager.getItemById("timer", id);
 
         if (timer === undefined) {
             return reject(responseUtils.responseWithCode(404, "Invalid Id", id));
@@ -118,7 +118,7 @@ exports.updateTimer = function (req, body, id) {
 
         //update that task.
         try {
-            DatabaseManager.updateItemById(req, "timer", id, body);
+            DatabaseManager.updateItemById("timer", id, body);
             const msg = {
                 statusCode: 200,
                 timer: timer

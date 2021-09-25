@@ -34,3 +34,9 @@ exports.cronOffset = function (cronString, offSet) {
 
     return newCronString;
 }
+
+const cronAction = exports.cronAction = {
+    START: "running",
+    STOP: "stopped",
+    WAITING: "waiting"
+}

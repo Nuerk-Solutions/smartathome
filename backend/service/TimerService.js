@@ -14,7 +14,7 @@ const DatabaseManager = require('../utils/DatabaseManager');
 exports.createTimer = function (req, body) {
     return new Promise(function (resolve, reject) {
         let timer = {
-            id: utils.uuid("1"),
+            id: utils.uuid("1000"),
             timestamp: new Date().toLocaleTimeString(),
             ...body,
         };

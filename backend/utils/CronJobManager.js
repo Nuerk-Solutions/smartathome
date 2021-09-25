@@ -1,52 +1,78 @@
 const CronJob = require('cron').CronJob;
-const {setItemValueById, getItemsFromDB, deleteItemById, getItemById, addItemToDB, deleteDatabase} = require('./DatabaseManager')
+const {
+    setItemValueById,
+    getItemsFromDB,
+    deleteItemById,
+    getItemById,
+    addItemToDB
+} = require('./DatabaseManager')
 const axios = require('axios')
 const utils = require('./utils')
 let currentJobs = new Map();
 
-const cronAction = exports.cronAction = {
-    START: "running",
-    STOP: "stopped",
-    WAITING: "waiting"
-}
 
 const createCronTask = exports.createCronTask = function (job) {
     let cronString = getItemById("timer", job.timerId).cron
-    let cronOffSetString = utils.cronOffset(cronString, getItemById("timer", job.timerId).duration);
 
-    const cronJob = new CronJob(cronString, function () {
-        console.log(new Date().toTimeString(), "Timer-1");
-    }, null, false, 'Europe/Berlin');
-    currentJobs.set(job.id, cronJob);
+    currentJobs.set(job.id,
+        new CronJob(cronString, () => {
+            console.log(new Date().toTimeString(), "Timer-1");
+        }, null, false, 'Europe/Berlin')
+    );
 
-    const cronJobPost = new CronJob(cronOffSetString, function () {
-        console.log(new Date().toTimeString(), "Timer-2");
-    }, null, true, 'Europe/Berlin');
-    currentJobs.set(utils.uuid(1), cronJobPost);
+    //Post Job
+    let postJob = {
+        id: utils.uuid("3000"),
+        status: utils.cronAction.START,
+        timerId: job.timerId,
+        cron: utils.cronOffset(cronString, getItemById("timer", job.timerId).duration)
+    };
+
+    currentJobs.set(postJob.id,
+        new CronJob(postJob.cron, () => {
+            console.log(new Date().toTimeString(), "Timer-2");
+        }, null, false, 'Europe/Berlin')
+    );
+    addItemToDB("jobs", postJob);
     addItemToDB("jobs", job);
-    return cronJob;
+
+}
+
+
+function createJob(timer, shouldStart) {
+    axios.post('http://localhost:9001/api/v1/jobs', {
+        timerId: timer.id,
+        cron: timer.cron
+    }).then(res => {
+        if (shouldStart)
+            runActionOnCronTask(res.data.detail.id, utils.cronAction.START);
+    }).catch(error => {
+        console.error(error)
+    })
 }
 
 exports.initCronFromConfig = function () {
     getItemsFromDB("timer").forEach(timer => {
-        axios.post('http://localhost:9001/api/v1/jobs', {
-            timerId: timer.id
-            // dateTimeStart: new Date().toLocaleTimeString(),
-            // dateTimeEnd: new Date(new Date().getTime() + timer.duration * 1000).toLocaleTimeString()
-        }).then(res => {
-            runActionOnCronTask(res.data.detail.id, cronAction.START);
-        })
-            .catch(error => {
-                console.error(error)
-            })
+        createJob(timer, true);
     })
 }
 
 exports.shutdownCron = function () {
-    getItemsFromDB("jobs").forEach(job => {
-        deleteItemById("jobs", job.id);
-        runActionOnCronTask(job.id, cronAction.STOP)
-    })
+    let jobs = getItemsFromDB("jobs");
+    for (let i = 0; i < jobs.length; i++) {
+        // console.log(jobs[i].id);
+        deleteItemById("jobs", jobs[i].id);
+    }
+    // getItemsFromDB("jobs").forEach(job => {
+        // console.log(job.id)
+        // deleteItemById("jobs", job.id);
+        // try {
+        //
+        //     runActionOnCronTask(job.id, utils.cronAction.STOP)
+        // } catch (e) {
+        //     console.log(e)
+        // }
+    // })
 }
 
 const getCronTask = exports.getCronTask = function (jobId) {
@@ -56,10 +82,10 @@ const getCronTask = exports.getCronTask = function (jobId) {
 
 const runActionOnCronTask = exports.runActionOnCronTask = function (jobId, action) {
     switch (action) {
-        case cronAction.START:
+        case utils.cronAction.START:
             getCronTask(jobId).start();
             break;
-        case cronAction.STOP:
+        case utils.cronAction.STOP:
             getCronTask(jobId).stop();
             break;
     }

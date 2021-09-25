@@ -440,7 +440,6 @@ components:
         - duration
         - enabled
         - name
-        - timestamp
       type: object
       properties:
         id:
@@ -473,6 +472,7 @@ components:
     Job:
       required:
         - timerId
+        - cron
       type: object
       properties:
         jobId:
@@ -481,9 +481,9 @@ components:
           $ref: '#/components/schemas/Id'
         status:
           $ref: '#/components/schemas/JobStatus'
-        dateTimeStart:
+        cron:
           type: string
-          description: DateTime Stared
+          description: Cron String
         dateTimeEnd:
           type: string
           description: Time left until end

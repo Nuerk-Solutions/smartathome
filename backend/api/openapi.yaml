@@ -65,7 +65,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      x-swagger-router-controller: Jobs
+      x-swagger-router-controller: Timer
     post:
       tags:
         - timer
@@ -131,7 +131,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      x-swagger-router-controller: Jobs
+      x-swagger-router-controller: Timer
     put:
       tags:
         - timer
@@ -177,7 +177,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      x-swagger-router-controller: Jobs
+      x-swagger-router-controller: Timer
     delete:
       tags:
         - timer
@@ -233,7 +233,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      x-swagger-router-controller: Timer
+      x-swagger-router-controller: Jobs
     post:
       tags:
         - jobs
@@ -299,7 +299,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      x-swagger-router-controller: Timer
+      x-swagger-router-controller: Jobs
     put:
       tags:
         - jobs
@@ -345,7 +345,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      x-swagger-router-controller: Timer
+      x-swagger-router-controller: Jobs
     delete:
       tags:
         - jobs
@@ -502,9 +502,9 @@ components:
         status:
           type: string
           enum:
-          - waiting
-          - running
-          - stopped
+            - waiting
+            - running
+            - stopped
       example:
         status: abort
     JobAction:

@@ -1,5 +1,5 @@
 exports.uuid = function (prefix) {
-    return (prefix + 'xxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx').replace(/[xy]/g, function (c) {
+    return (prefix + 'xxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx').replace(/[xy]/g, function (c) {
         const r = Math.random() * 16 | 0, v = c === 'x' ? r : r & 0x3 | 0x8;
         return v.toString(16);
     });
@@ -15,7 +15,8 @@ exports.cronOffset = function (cronString, offSet) {
         let timeDiff = Math.abs(59 - cronMinuteInt - offSet);
         if(timeDiff > 0) {
             if(isNaN(cronHourInt) || cronHourInt >= 23) {
-                return null
+                cronSplit[0] = timeDiff -1;
+                return cronSplit.join(' ');
             }
             cronHourInt = cronHourInt + 1;
             cronMinuteInt = timeDiff - 1;

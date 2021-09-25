@@ -4,8 +4,6 @@ info:
   description: Api for Smart at Home
   version: 1.0.0
 servers:
-- url: https://virtserver.swaggerhub.com/derechte/Smartathome/1.0.0
-  description: SwaggerHub API Auto Mocking
 - url: http://localhost:9001/api/v1
   description: Nuerk-Solutions
 tags:

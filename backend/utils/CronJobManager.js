@@ -58,21 +58,13 @@ exports.initCronFromConfig = function () {
 }
 
 exports.shutdownCron = function () {
-    let jobs = getItemsFromDB("jobs");
-    for (let i = 0; i < jobs.length; i++) {
-        // console.log(jobs[i].id);
-        deleteItemById("jobs", jobs[i].id);
-    }
-    // getItemsFromDB("jobs").forEach(job => {
-        // console.log(job.id)
-        // deleteItemById("jobs", job.id);
-        // try {
-        //
-        //     runActionOnCronTask(job.id, utils.cronAction.STOP)
-        // } catch (e) {
-        //     console.log(e)
-        // }
-    // })
+    const jobs = getItemsFromDB("jobs");
+    do {
+        jobs.forEach(job => {
+            runActionOnCronTask(job.id, utils.cronAction.STOP)
+        });
+    } while (jobs.length !== 0)
+
 }
 
 const getCronTask = exports.getCronTask = function (jobId) {
@@ -86,6 +78,7 @@ const runActionOnCronTask = exports.runActionOnCronTask = function (jobId, actio
             getCronTask(jobId).start();
             break;
         case utils.cronAction.STOP:
+            deleteItemById("jobs", jobId);
             getCronTask(jobId).stop();
             break;
     }

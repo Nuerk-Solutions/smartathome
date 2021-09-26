@@ -18,7 +18,7 @@
 }
 
 /*Circle animation*/
-circle {
+.loading-circle {
     animation: var(--animation-speed) ease-in-out infinite both circle-animation;
     display: block;
     fill: transparent;

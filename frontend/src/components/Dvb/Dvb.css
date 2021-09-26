@@ -14,15 +14,15 @@
     local('MaterialIcons-Regular');
 }
 
-h1, p {
-    margin: 0 0 0.3em 10px;
-    vertical-align: center;
-    position: center;
-}
+/*h1, p {*/
+/*    margin: 0 0 0.3em 10px;*/
+/*    vertical-align: center;*/
+/*    position: center;*/
+/*}*/
 
 .monitor-div {
     background-color: var(--bg-primary);
-    height: calc(100vh - var(--nav-size));
+    /*height: calc(100vh - var(--nav-size));*/
     margin: 0 auto;
     padding: 0;
 

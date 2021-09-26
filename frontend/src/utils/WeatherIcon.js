@@ -14,7 +14,7 @@ export default function getWeatherIcon(data) {
                 return 'day'
             case '01n':
                 return 'night'
-            case '10d':
+            case '10d': case '10n':
                 return `${type}-rain`
             case '13d':
                 if (id === 611) {

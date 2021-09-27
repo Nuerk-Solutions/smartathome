@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import * as dvb from "dvbjs";
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import WarningIcon from '@material-ui/icons/Warning';
-import CancelIcon from '@material-ui/icons/Cancel';
-import HelpIcon from '@material-ui/icons/Help';
-import EventNoteIcon from '@material-ui/icons/EventNote';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import WarningIcon from '@mui/icons-material/Warning';
+import CancelIcon from '@mui/icons-material/Cancel';
+import HelpIcon from '@mui/icons-material/Help';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinnerComponent";
-import {LinearProgress} from "@material-ui/core";
 import {useParams} from "react-router-dom";
 import './Dvb.css';
+import {LinearProgress} from "@mui/material";
 
 export function DvbWidget(props) {
     const [error, setError] = useState(null);

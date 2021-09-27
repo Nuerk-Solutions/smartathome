@@ -31,9 +31,11 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "scss": "node-sass src/sass/styles.scss -o src/styles/",
+    "build:scss": "node-sass src/sass/styles.scss -o src/styles/",
+    "build:style": "postcss src/styles/styles.css -o src/styles/main.css",
+    "build:carco": "craco build",
+    "build": "npm-run-all -s build:scss build:style build:carco",
     "start": "craco start",
-    "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },

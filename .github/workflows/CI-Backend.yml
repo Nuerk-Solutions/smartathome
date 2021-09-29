@@ -8,7 +8,7 @@ on:
 
 jobs:
   sync:
-    runs-on: rs-1
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
@@ -23,7 +23,7 @@ jobs:
   stop-server:
     needs: sync
     if: ${{ success() }}
-    runs-on: rs-1
+    runs-on: ubuntu-latest
     steps:
     - name: Stop
       run: |
@@ -37,7 +37,7 @@ jobs:
         
   start-server:
     needs: stop-server
-    runs-on: rs-1
+    runs-on: ubuntu-latest
     steps:
     - name: Start
       run: |

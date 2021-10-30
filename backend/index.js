@@ -5,7 +5,9 @@ const morgan = require("morgan");
 const low = require("lowdb");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
-const booksRouter = require("./routes/books");
+const bodyParser = require('body-parser')
+const booksRouter = require("./routes/timers");
+const errorHandlerMiddleware = require("./error-handler.js");
 
 const PORT = process.env.PORT || 4000;
 
@@ -14,7 +16,7 @@ const FileSync = require("lowdb/adapters/FileSync");
 const adapter = new FileSync("db.json");
 const db = low(adapter);
 
-db.defaults({ books: [] }).write();
+db.defaults({ timer: [] }).write();
 
 const options = {
     definition: {
@@ -42,9 +44,11 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 app.db = db;
 
 app.use(cors());
+app.use(bodyParser.json())
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use("/books", booksRouter);
+app.use("/timers", booksRouter);
+app.use(errorHandlerMiddleware);
 
 app.listen(PORT, () => console.log(`The server is running on port http://localhost:${PORT}`));

@@ -27,7 +27,7 @@ jobs:
       run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
     - name: Deploy with rsync
-      run: rsync -avuz --delete --ignore-errors --no-perms backend/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/9b2ae358-b73f-4bfc-b5fd-651644be3c99/
+      run: rsync -rltvz --delete --ignore-errors --no-perms backend/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/9b2ae358-b73f-4bfc-b5fd-651644be3c99/
   
   stop-server:
     needs: sync

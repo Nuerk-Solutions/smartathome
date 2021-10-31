@@ -33,4 +33,4 @@ jobs:
         npm run build --if-present
 
     - name: Deploy with rsync
-      run: rsync -avz frontend/build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/3ed2108e-9c34-47f1-9146-133208ba65b6/build/
+      run: rsync -avz frontend/build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/4acc5bc4-306b-473c-a89c-c66ca5f07107/build/

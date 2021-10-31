@@ -32,5 +32,11 @@ jobs:
         cd frontend/
         npm run build --if-present
 
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+        
     - name: Deploy with rsync
       run: rsync -avz frontend/build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/4acc5bc4-306b-473c-a89c-c66ca5f07107/build/

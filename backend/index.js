@@ -55,4 +55,4 @@ app.use("/pump", pumpRouter);
 app.use("/pump/timers", timersRouter);
 app.use(errorHandlerMiddleware);
 
-app.listen(PORT, () => console.log(`The server is running on port http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`The server is running on port http://localhost:${PORT} \n Server Ready!`));

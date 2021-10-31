@@ -9,11 +9,11 @@
 }
 
 @keyframes svg-animation {
-    0% {
-        transform: rotateZ(0deg);
+    from {
+        transform: rotate(0deg);
     }
-    100% {
-        transform: rotateZ(360deg)
+    to {
+        transform: rotate(360deg)
     }
 }
 
@@ -50,49 +50,96 @@
 }
 
 
-.loadingSpinner-text {
+.loadingSpinner-text-light {
+    margin: 15px auto 0 -5px;
+}
+
+.loadingSpinner-text-dark {
     margin: 15px auto 0 -5px;
 }
 
 /*Text color animation*/
-@keyframes changeColor {
+@keyframes changeColorDark {
     to {
-        color: #000000;
+        color: #131212;
     }
 }
 
-.loadingSpinner-text span {
-    animation: changeColor var(--animation-speed) ease-in-out infinite alternate;
+@keyframes changeColorLight {
+    to {
+        color: #e2e2f6;
+    }
 }
 
-.loadingSpinner-text span:nth-child(1) {
+.loadingSpinner-text-light span {
+    animation: changeColorDark var(--animation-speed) ease-in-out infinite alternate;
+}
+
+.loadingSpinner-text-light span:nth-child(1) {
     animation-delay: 0s;
 }
 
-.loadingSpinner-text span:nth-child(2) {
+.loadingSpinner-text-light span:nth-child(2) {
     animation-delay: 0.1s;
 }
 
-.loadingSpinner-text span:nth-child(3) {
+.loadingSpinner-text-light span:nth-child(3) {
     animation-delay: 0.2s;
 }
 
-.loadingSpinner-text span:nth-child(4) {
+.loadingSpinner-text-light span:nth-child(4) {
     animation-delay: 0.3s;
 }
 
-.loadingSpinner-text span:nth-child(5) {
+.loadingSpinner-text-light span:nth-child(5) {
     animation-delay: 0.4s;
 }
 
-.loadingSpinner-text span:nth-child(6) {
+.loadingSpinner-text-light span:nth-child(6) {
     animation-delay: 0.5s;
 }
 
-.loadingSpinner-text span:nth-child(7) {
+.loadingSpinner-text-light span:nth-child(7) {
     animation-delay: 0.6s;
 }
 
-.loadingSpinner-text span:nth-child(8) {
+.loadingSpinner-text-light span:nth-child(8) {
+    animation-delay: 0.7s;
+}
+
+
+.loadingSpinner-text-dark span {
+    animation: changeColorLight var(--animation-speed) ease-in-out infinite alternate;
+}
+
+.loadingSpinner-text-dark span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.loadingSpinner-text-dark span:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.loadingSpinner-text-dark span:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.loadingSpinner-text-dark span:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.loadingSpinner-text-dark span:nth-child(5) {
+    animation-delay: 0.4s;
+}
+
+.loadingSpinner-text-dark span:nth-child(6) {
+    animation-delay: 0.5s;
+}
+
+.loadingSpinner-text-dark span:nth-child(7) {
+    animation-delay: 0.6s;
+}
+
+.loadingSpinner-text-dark span:nth-child(8) {
     animation-delay: 0.7s;
 }

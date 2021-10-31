@@ -5,9 +5,7 @@ import HeaderComponent from './components/weather/header/HeaderComponent'
 import FooterComponent from './components/weather/footer/FooterComponent'
 import LoaderComponent from './components/weather/loader/LoaderComponent'
 import {DvbWidget} from "./components/Dvb/DvbComponent";
-import Timer from "./components/Timer";
 import Quote from "./components/Quote/QuoteComponent";
-import TimerRest from "./components/TimerRest";
 
 const HomeContainer = lazy(() => import('./containers/home/HomeContainer'))
 

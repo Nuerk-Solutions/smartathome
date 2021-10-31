@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import * as dvb from "dvbjs";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
@@ -9,6 +9,8 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinnerComponent";
 import {useParams} from "react-router-dom";
 import './Dvb.css';
 import {LinearProgress} from "@mui/material";
+import {ThemeContext} from "../../context/ThemeContext";
+
 
 export function DvbWidget(props) {
     const [error, setError] = useState(null);
@@ -20,6 +22,8 @@ export function DvbWidget(props) {
     const [stopID, setStopID] = useState(null);
 
     const {stop = name, amount = 15, offset = 0} = useParams();
+
+    const {theme, colorTheme} = useContext(ThemeContext)
 
     let refreshDelay = 31 * 10; //30 seconds
     const progress = seconds * 100 / 300;
@@ -49,32 +53,39 @@ export function DvbWidget(props) {
             <StateVisualComponent
                 title={"Fehler"}
                 content={<h2>{error.message}</h2>}
+                theme={theme}
+                colorTheme={colorTheme}
             />
         );
     } else if (!isLoaded) {
         return (
             <StateVisualComponent
                 title={name}
-                content={<LoadingSpinner style="spinner-pos"/>}
+                content={<LoadingSpinner/>}
+                theme={theme}
+                colorTheme={colorTheme}
             />
         );
     } else {
         return (
-            <div className="monitor-div">
+            <div className={`text-${colorTheme} pb-3`}
+                 style={{
+                     backgroundColor: theme === 'dark' ? '#292929' : '#e8ebee',
+                 }}>
                 <h1>{name}</h1>
-                <table className="table-dvb" cellSpacing="10">
+                <table className="w-full shadow-lg table-auto">
                     <tbody>
 
                     {json.map((linie, index) => (
                         <tr key={index}>
-                            <td className="linie-tr">
+                            <td className="text-center pr-5 ">
                                 <LinienIconComponent name={linie.mode.name} linie={linie.line}/>
                             </td>
-                            <td>
-                                <div>{linie.direction}</div>
-                                <small>Steig {linie.platform.name}</small>
+                            <td className="w-1/2">
+                                <div className={""}>{linie.direction}</div>
+                                <div className={"-mt-1 text-sm"}>Steig {linie.platform.name}</div>
                             </td>
-                            <td>
+                            <td className={"w-1/2"}>
                                 <DepartureComponent linie={linie}/>
                             </td>
                         </tr>
@@ -104,11 +115,15 @@ export function DvbWidget(props) {
 }
 
 function StateVisualComponent(props) {
+    console.log(props.theme);
     return (
         <div>
-            <div className="monitor-div">
+            <div className={`text-${props.colorTheme} pb-3`}
+                 style={{
+                     backgroundColor: props.theme === 'dark' ? '#292929' : '#e8ebee',
+                 }}>
                 <h1>{props.title}</h1>
-                <div className="main-div dropShadow">
+                <div className="grid justify-center">
                     {props.content}
                 </div>
             </div>
@@ -168,7 +183,7 @@ function DepartureStatusIconComponent(props) {
                     <small className="cancelText">Fällt aus</small>
                 </div>
             );
-            //Actually can be removed
+        //Actually can be removed
         case "Unknown":
             return (
                 <HelpIcon className="unknownIcon" style={{fontSize: 15}}/>

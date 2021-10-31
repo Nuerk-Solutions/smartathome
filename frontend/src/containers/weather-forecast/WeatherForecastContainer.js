@@ -105,7 +105,7 @@ export default ({weatherCurrent, weatherForecast, alerts, address, latlong,}) =>
                                 <button
                                     className={`bg-${colorTheme} text-${theme} font-semibold mt-6 py-3 px-6 rounded-full capitalize`}
                                     onClick={toggleWeatherAlerts}>
-                                    {showAlerts ? 'Verstecke' : 'Anzeigen'} Wetter Warnungen
+                                    Wetter Warnungen {showAlerts ? 'verstecken' : 'anzeigen'}
                                 </button>
                             </p>
                         </div>

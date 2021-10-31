@@ -14,17 +14,20 @@
   "license": "Unlicense",
   "private": true,
   "dependencies": {
-    "axios": "^0.21.4",
-    "cron": "^1.8.2",
+    "axios": "^0.24.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "js-yaml": "^3.14.1",
+    "helmet": "^4.6.0",
+    "http-errors": "^1.8.0",
     "lowdb": "^1.0.0",
     "morgan": "^1.10.0",
-    "nanoid": "^3.1.25",
-    "node-cron": "^3.0.0",
+    "nanoid": "^3.1.20",
     "nodemon": "^2.0.12",
-    "oas3-tools": "^2.2.3",
-    "request": "^2.88.2"
+    "swagger-jsdoc": "^6.0.1",
+    "swagger-ui-express": "^4.1.6"
   },
   "nodemonConfig": {
     "ext": "js",

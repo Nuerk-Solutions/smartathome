@@ -140,7 +140,7 @@ router.post("/", (req, res, next) => {
         req.app.db.get("timer").push(timer).write();
 
 
-        updatePumpState("On")
+        // updatePumpState("On")
         setTimeout(() => {
             updatePumpState("Off")
             req.app.db
@@ -148,9 +148,6 @@ router.post("/", (req, res, next) => {
                 .find({ id: timer.id })
                 .assign({completed: true})
                 .write();
-
-            console.log("Finished")
-
         }, req.body.duration * 1000);
 
         res.send(timer)

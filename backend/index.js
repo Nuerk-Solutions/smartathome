@@ -8,7 +8,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const bodyParser = require('body-parser')
 const timersRouter = require("./routes/timers");
 const pumpRouter = require("./routes/pump");
-const errorHandlerMiddleware = require("./error-handler.js");
+const errorHandlerMiddleware = require("./utils/error-handler.js");
 
 const PORT = process.env.PORT || 4000;
 

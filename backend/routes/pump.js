@@ -1,6 +1,5 @@
 const express = require("express");
-const createHttpError = require("http-errors");
-const {updatePumpState} = require("../pump");
+const {updatePumpState} = require("../utils/requestUtils");
 const router = express.Router();
 
 /**

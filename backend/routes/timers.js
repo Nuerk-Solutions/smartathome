@@ -4,7 +4,7 @@ const { nanoid } = require("nanoid");
 
 const createHttpError = require("http-errors");
 const {default: axios} = require("axios");
-const {updatePumpState} = require("../pump");
+const {updatePumpState} = require("../utils/requestUtils");
 
 const idLength = 8;
 

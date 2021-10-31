@@ -68,12 +68,14 @@ export function DvbWidget(props) {
         );
     } else {
         return (
-            <div className={`text-${colorTheme} pb-3`}
+            <div className={`text-${colorTheme} shadow-lg shadow-2xl`}
                  style={{
                      backgroundColor: theme === 'dark' ? '#292929' : '#e8ebee',
                  }}>
-                <h1>{name}</h1>
-                <table className="w-full shadow-lg table-auto">
+                <h1 className={"shadow-lg shadow-2xl p-5 mb-5"} style={{
+                    backgroundColor: theme === 'dark' ? '#424242' : '#929292',
+                }}>{name}</h1>
+                <table className="w-full table-auto mb-5">
                     <tbody>
 
                     {json.map((linie, index) => (
@@ -133,7 +135,7 @@ function StateVisualComponent(props) {
 
 function LinienIconComponent(props) {
     return (
-        <div className={props.name.toLowerCase()}>
+        <div className={`${props.name.toLowerCase()} ml-2`}>
             {props.linie}
         </div>
     );
@@ -147,16 +149,17 @@ function DepartureComponent(props) {
         <div>
             <div>{timeDifferenz > 0 ? "in " + (timeDifferenz > 90 ? Math.floor(timeDifferenz / 60) + " St." : timeDifferenz + " Min.") : timeDifferenz < 0 && props.linie.state === "InTime" ? Math.abs(timeDifferenz) + " min vor Zeitplan" : "Jetzt"}</div>
             <div>
-                <div className="statusIcon">
+                <div className="pt-1 mr-0.5 flex justify-left items-center">
                     <DepartureStatusIconComponent
                         state={props.linie.state}
                         delayTime={props.linie.delayTime}/>
+
+                    {props.linie.state !== "Canceled" &&
+                    <div className={props.linie.state === "Delayed" ? "text-sm ml-1.5 text-red-700" : "text-sm ml-1.5"}>
+                        {destinationTime.toLocaleTimeString([], {timeStyle: 'short'}) + " Uhr"}
+                    </div>
+                    }
                 </div>
-                {props.linie.state !== "Canceled" &&
-                <small className={props.linie.state === "Delayed" ? "delayedIcon" : ""}>
-                    {destinationTime.toLocaleTimeString([], {timeStyle: 'short'}) + " Uhr"}
-                </small>
-                }
             </div>
         </div>
     );
@@ -166,31 +169,26 @@ function DepartureStatusIconComponent(props) {
     switch (props.state) {
         case "InTime":
             return (
-                <CheckCircleIcon className="onTimeIcon" style={{fontSize: 15}}/>
+                <CheckCircleIcon style={{color: '#369617FF'}} className={"transform scale-75 -ml-0.5"}/>
             );
         case "Delayed":
             return (
-                <div className="delayedIcon">
-                    <WarningIcon style={{fontSize: 15}}/>
-                    <small className="delayTime">+{props.delayTime}</small>
-                    <EventNoteIcon className="delayCalenderIcon" style={{fontSize: 15}}/>
+                <div className="text-red-700 flex transform scale-75 -ml-2">
+                    <WarningIcon/>
+                    <div>+{props.delayTime}</div>
+                    <EventNoteIcon className={"ml-4 -mr-4"}/>
                 </div>
             );
         case "Canceled":
             return (
-                <div className="cancelIcon">
-                    <CancelIcon style={{fontSize: 15}}/>
-                    <small className="cancelText">Fällt aus</small>
+                <div className="text-orange-500 flex transform scale-75 -ml-3">
+                    <CancelIcon />
+                    <div className={"ml-2 -mr-2"}>Fällt aus</div>
                 </div>
             );
-        //Actually can be removed
-        case "Unknown":
-            return (
-                <HelpIcon className="unknownIcon" style={{fontSize: 15}}/>
-            )
         default:
             return (
-                <HelpIcon className="unknownIcon" style={{fontSize: 15}}/>
+                <HelpIcon className={"transform scale-75 -ml-0.5"}/>
             )
     }
 }

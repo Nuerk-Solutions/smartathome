@@ -1,150 +1,34 @@
-:root {
-    --bg-primary: #323232;
-    --bg-secondary: #fdc400;
-    --bg-accent: #424242;
-    --text-color: #dadce1;
-    --nav-size: 60px;
-}
-
-@font-face {
-    font-family: 'Material Icons';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Material Icons'),
-    local('MaterialIcons-Regular');
-}
-
-/*h1, p {*/
-/*    margin: 0 0 0.3em 10px;*/
-/*    vertical-align: center;*/
-/*    position: center;*/
-/*}*/
-
-.monitor-div {
-    background-color: var(--bg-primary);
-    /*height: calc(100vh - var(--nav-size));*/
-    margin: 0 auto;
-    padding: 0;
-
-}
-
-.dropShadow {
-    background-color: var(--bg-accent);
-    box-shadow: 0 2px 2px 0 #00000024, 0 3px 1px -2px #0000001f, 0 1px 5px 0 #00000033;
-}
-
-.main-div {
-    height: 90%;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
-}
-
 .tram {
     background: #DD0B2F;
     padding: 2px 8px;
-    margin: 0 auto;
 }
 
 .train {
     background: #009551;
     border-radius: 20px;
     padding: 2px 8px;
-    margin: 0 auto;
 }
 
 .citybus {
     background: #005E79;
     border-radius: 20px;
     padding: 2px 8px;
-    margin: 0 auto;
 }
 
 .intercitybus {
     background: #005E79;
     border-radius: 20px;
     padding: 2px 8px;
-    margin: 0 auto;
 }
 
 .plusbus {
     background: #a31977;
     border-radius: 20px;
     padding: 2px 8px;
-    margin: 0 auto;
 }
 
 .suburbanrailway {
     background: #00A15E;
     border-radius: 5px;
     padding: 2px 4px;
-    margin-top: 3px;
-    font-size: 60%;
-}
-
-.table-dvb {
-    background-color: var(--bg-accent);
-    width: 100%;
-    box-shadow: 0 2px 2px 0 #00000024, 0 3px 1px -2px #0000001f, 0 1px 5px 0 #00000033;
-}
-
-/*.table-dvb td {*/
-/*    border: 1px solid white;*/
-/*}*/
-.table-dvb td:first-child {
-    width: 35px;
-    word-break: break-all;
-    table-layout: fixed;
-}
-
-.linie-tr {
-    margin: 0 auto;
-    display: table-cell;
-    align-items: center;
-    align-content: center;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.onTimeIcon{
-    color: #369617FF;
-}
-
-.delayedIcon{
-    color: #E83E3EFF;
-}
-
-.delayCalenderIcon {
-    padding-left: 10px;
-}
-
-.delayTime {
-    position: relative;
-    bottom: 2px;
-}
-
-.cancelIcon{
-    color: #f67d2c;
-}
-
-.cancelText {
-    position: relative;
-    bottom: 3px;
-    margin-left: 3px;
-}
-
-.unknownIcon {
-    color: #ffffff;
-}
-
-.statusIcon {
-    padding-top: 3px;
-    margin-right: 2px;
-    float: left;
-}
-
-.spinner-pos {
-    display: block;
-    margin: 0;
 }

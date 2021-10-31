@@ -49,10 +49,10 @@ const idLength = 8;
 
 /**
  * @swagger
- * /timers:
+ * /pump/timers:
  *   get:
  *     summary: Returns the list of all timers
- *     tags: [Timers]
+ *     tags: [Pump, Timers]
  *     responses:
  *       200:
  *         description: The list of the timers
@@ -72,10 +72,10 @@ router.get("/", (req, res) => {
 
 /**
  * @swagger
- * /timers/{id}:
+ * /pump/timers/{id}:
  *   get:
  *     summary: Get the timer by id
- *     tags: [Timers]
+ *     tags: [Pump, Timers]
  *     parameters:
  *       - in: path
  *         name: id
@@ -106,10 +106,10 @@ router.get("/:id", (req, res, next) => {
 
 /**
  * @swagger
- * /timers:
+ * /pump/timers:
  *   post:
  *     summary: Create a new timer
- *     tags: [Timers]
+ *     tags: [Pump, Timers]
  *     requestBody:
  *       required: true
  *       content:
@@ -161,10 +161,10 @@ router.post("/", (req, res, next) => {
 
 /**
  * @swagger
- * /timers/{id}:
+ * /pump/timers/{id}:
  *  put:
  *    summary: Update the timer by the id
- *    tags: [Timers]
+ *    tags: [Pump, Timers]
  *    parameters:
  *      - in: path
  *        name: id
@@ -207,10 +207,10 @@ router.put("/:id", (req, res, next) => {
 
 /**
  * @swagger
- * /timers/{id}:
+ * /pump/timers/{id}:
  *   delete:
  *     summary: Remove the timer by id
- *     tags: [Timers]
+ *     tags: [Pump, Timers]
  *     parameters:
  *       - in: path
  *         name: id

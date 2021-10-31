@@ -6,7 +6,8 @@ const low = require("lowdb");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const bodyParser = require('body-parser')
-const booksRouter = require("./routes/timers");
+const timersRouter = require("./routes/timers");
+const pumpRouter = require("./routes/pump");
 const errorHandlerMiddleware = require("./error-handler.js");
 
 const PORT = process.env.PORT || 4000;
@@ -48,7 +49,8 @@ app.use(bodyParser.json())
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use("/timers", booksRouter);
+app.use("/pump", pumpRouter);
+// app.use("/pump/timers", timersRouter);
 app.use(errorHandlerMiddleware);
 
 app.listen(PORT, () => console.log(`The server is running on port http://localhost:${PORT}`));

@@ -10,7 +10,7 @@ import {isEmpty} from 'lodash-es'
 export default ({weatherCurrent, weatherForecast, alerts, address, latlong,}) => {
     const {theme, colorTheme} = useContext(ThemeContext)
 
-    const WET_TYPES = ['10d', '13d', '09d']
+    const WET_TYPES = ['09d', '09n', '10d', '10n', '11d', '11n', '13d', '13n']
 
     // return rain or snow svg image for the above wet types
     const weatherSVG = () => {

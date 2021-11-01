@@ -6,7 +6,7 @@ export default (props) => {
     const {theme} = useContext(ThemeContext)
     return (
         <div
-            className={`w-11/12 sm:w-3/4 md:w-5/6 ml-auto mr-auto h-auto bg-${theme} border border-red-400 text-red-700 mt-5 px-4 py-2 rounded relative`}
+            className={`w-11/12 sm:w-3/4 md:w-5/6 ml-auto mr-auto h-28 bg-${theme} border border-red-400 text-red-700 mt-5 px-4 py-2 rounded relative`}
             role='alert'>
       <span className='w-5/6 block break-words text-sm'>
         {props.errorMessage}

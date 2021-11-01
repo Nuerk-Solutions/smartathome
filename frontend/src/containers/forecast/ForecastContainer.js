@@ -8,6 +8,7 @@ import CarouselSettings from '../../utils/CarouselSettings'
 import ErrorComponent from '../../components/weather/error/ErrorComponent'
 import ErrorBoundaryContainer from '../error-boundary/ErrorBoundaryContainer'
 import FormatTime from './../../utils/FormatTime'
+import moment from "moment-timezone";
 
 export default ({cityName, weatherCurrent, weatherForecast}) => {
     const [selectedDay, setSelectedDay] = useState('')
@@ -65,7 +66,7 @@ export default ({cityName, weatherCurrent, weatherForecast}) => {
                                 </Carousel>
                             ) : (
                                 <ErrorComponent
-                                    errorMessage={`Keine stündliche Vorhersage verfügbar für ${selectedDay}`}
+                                    errorMessage={`Keine stündliche Vorhersage verfügbar für ${moment(selectedDay).format('DD.MM.YYYY')}`}
                                 />
                             )}
                         </div>
@@ -84,7 +85,7 @@ export default ({cityName, weatherCurrent, weatherForecast}) => {
                                 </Carousel>
                             ) : (
                                 <ErrorComponent
-                                    errorMessage={`Keine stündliche Vorhersage verfügbar für ${selectedDay}`}
+                                    errorMessage={`Keine stündliche Vorhersage verfügbar für ${moment(selectedDay).format('DD.MM.YYYY')}`}
                                 />
                             )}
                         </div>

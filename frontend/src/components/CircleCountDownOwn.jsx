@@ -13,6 +13,7 @@ export function CircleCountDownOwn({
                                        startTime = Date.now() / 1000,
                                        endTime = startTime + 65,
                                        optionFullTimeCircle = true,
+                                       fullTimeDuration = 65,
                                        optionSecondCircle = true,
                                        optionMinuteCircle = true,
                                        optionHourCircle = true,
@@ -115,7 +116,7 @@ export function CircleCountDownOwn({
     let timeSpacerAmount = 25
     let timeXStart = 105
     const draw = p5 => {
-        if(minCircle === undefined || secCircle === undefined || hCircle === undefined || fullTimeCircle === undefined || hourTime === undefined || minTime === undefined || secTime === undefined) {
+        if (minCircle === undefined || secCircle === undefined || hCircle === undefined || fullTimeCircle === undefined || hourTime === undefined || minTime === undefined || secTime === undefined) {
             setupTime(p5);
             setupCircles(p5);
         }
@@ -134,7 +135,7 @@ export function CircleCountDownOwn({
         p5.strokeWeight(8)
         if (optionFullTimeCircle) {
             p5.stroke(p5.color(colorFullTimeCircle))
-            let milAng = p5.map(remainingTime, 0, timeDiff, 0, 360)
+            let milAng = p5.map(remainingTime, 0, fullTimeDuration, 0, 360)
             fullTimeCircle.ang = p5.lerp(fullTimeCircle.ang, milAng, .1)
             fullTimeCircle.draw(300, 300, 0, milAng)
         }

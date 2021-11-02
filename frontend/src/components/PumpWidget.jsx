@@ -12,7 +12,7 @@ export function PumpWidget() {
     useEffect(() => {
         const params = new URLSearchParams(search.search)
         if (!params.get("id")) {
-            axios.post("http://localhost:2000/pump/timers", {duration: 55}).then(result => {
+            axios.post("https://api.nuerk-solutions.de/pump/timers", {duration: 55}).then(result => {
                 setJson(result.data);
                 if (result.data) {
                     params.append("id", result.data.id)
@@ -22,7 +22,7 @@ export function PumpWidget() {
                 history.push({search: params.toString()})
             });
         } else {
-            axios.get(`http://localhost:2000/pump/timers/${params.get("id")}`).then(result => {
+            axios.get(`https://api.nuerk-solutions.de/pump/timers/${params.get("id")}`).then(result => {
                 setJson(result.data);
             });
         }

@@ -132,8 +132,8 @@ router.post("/", (req, res, next) => {
         const timer = {
             id: nanoid(idLength),
             ...req.body,
-            startDate: Date.now(),
-            endDate: Date.now() + req.body.duration,
+            startDate: Date.now() / 1000,
+            endDate: Date.now() / 1000 + req.body.duration,
             completed: false
         };
 

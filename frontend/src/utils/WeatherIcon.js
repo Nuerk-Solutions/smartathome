@@ -4,7 +4,7 @@ import FormatTime from './FormatTime'
  * @param {Object} data (weatherCurrent, Timeframe, day)
  */
 export default function getWeatherIcon(data) {
-    const {time, timezone} = data
+    const {dt: time, timezone} = data
     const {icon, id} = data.weather[0];
     const hour = FormatTime(time, timezone, 'H')
     const type = hour >= 6 && hour <= 18 ? 'day' : 'night'

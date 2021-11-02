@@ -5,12 +5,12 @@ import HeaderComponent from './components/weather/header/HeaderComponent'
 import FooterComponent from './components/weather/footer/FooterComponent'
 import LoaderComponent from './components/weather/loader/LoaderComponent'
 import {DvbWidget} from "./components/Dvb/DvbComponent";
+import PumpWidget from "./components/PumpWidget";
 
 const HomeContainer = lazy(() => import('./containers/home/HomeContainer'))
 
 function App() {
     const {theme} = useContext(ThemeContext)
-
     return (
         <Router>
             <div className={`bg-${theme} tracking-wider border-box wrapper`}>
@@ -24,6 +24,7 @@ function App() {
                             <Route path='/' exact component={HomeContainer}/>
                             <Route exact path="/dvb/:stop?/:amount?/:offset?"
                                    children={() => <DvbWidget name={"Malterstraße"}/>}/>
+                            <Route exact path="/pump" children={() => PumpWidget()} />
                         </Switch>
                     </Suspense>
                 </div>

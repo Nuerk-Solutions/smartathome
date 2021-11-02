@@ -20,7 +20,7 @@ export default () => {
             <Navbar>
                 <NavItem icon={<DeleteIcon/>} destinationPath="/"/>
                 <NavItem icon={<PlusIcon/>} destinationPath="/dvb"/>
-                <NavItem icon={<BellIcon/>} destinationPath="/quote"/>
+                <NavItem icon={<BellIcon/>} destinationPath="/pump"/>
                 <NavItem icon={<MessengerIcon/>} destinationPath="/cron"/>
                 <NavItem icon={<ArrowIcon/>} destinationPath="/rest"/>
                 <CustomNavItem>

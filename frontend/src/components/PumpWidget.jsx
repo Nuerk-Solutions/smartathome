@@ -1,9 +1,21 @@
-import React from "react";
+import React, {useEffect, useState} from 'react';
+import axios from "axios";
 import {CircleCountDownOwn} from "./CircleCountDownOwn";
 
-export default function () {
-    return <div>
-        <CircleCountDownOwn startTime={Date.now() / 1000}
-                            endTime={Date.now() / 1000 + 60}/>
-    </div>
+export function PumpWidget() {
+
+    const [json, setJson] = useState([]);
+
+    useEffect (() => {
+        axios.post("http://localhost:2000/pump/timers", {duration: 55}).then(result => {
+            setJson(result.data);
+        });
+    }, []);
+
+    return (
+        <div>
+            <CircleCountDownOwn startTime={json.startDate}
+                                endTime={json.endDate}/>
+        </div>
+    );
 }

@@ -40,6 +40,7 @@ const getType = (currentTime, sunriseTime, sunsetTime) => {
 
 /**
  * checks if it is dawn (sunrise) or dusk (sunset)
+ * True if the realtime is one hour before sunsetTime/ sunriseTime
  * @param {*} currentTime
  * @param {*} time (sunriseTime for checking dawn & sunsetTime for checking dusk)
  */

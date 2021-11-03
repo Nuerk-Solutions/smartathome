@@ -21,12 +21,14 @@ export function DvbWidget(props) {
     const [name, setName] = useState(props.name);
     const [stopID, setStopID] = useState(null);
 
-    const {stop = name, amount = 15, offset = 0} = useParams();
+    const calcAmount = Math.floor((window.innerHeight - 60 - 70 - 72) / 66); // Header, Titlebar, footer
+
+    const {stop = name, amount = window.innerHeight <= 600 ? 6 : calcAmount, offset = 0} = useParams();
 
     const {theme, colorTheme} = useContext(ThemeContext)
 
     let refreshDelay = 31 * 10; //30 seconds
-    const progress = seconds * 100 / 300;
+    const progress = seconds * 100 / refreshDelay - 1;
 
     useEffect(() => {
         dvb.findStop(stop).then((data) => {

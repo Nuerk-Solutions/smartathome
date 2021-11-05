@@ -133,7 +133,8 @@ router.post("/", (req, res, next) => {
             id: nanoid(idLength),
             ...req.body,
             startDate: Date.now(),
-            endDate: Date.now() + req.body.duration,
+            duration: req.body.duration * 1000,
+            endDate: Date.now() + req.body.duration * 1000,
             completed: false
         };
 
@@ -148,7 +149,7 @@ router.post("/", (req, res, next) => {
                 .find({ id: timer.id })
                 .assign({completed: true})
                 .write();
-        }, req.body.duration * 1000);
+        }, req.body.duration);
 
         res.send(timer)
     } catch (error) {

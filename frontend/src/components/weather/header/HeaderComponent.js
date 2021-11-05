@@ -9,7 +9,6 @@ import {ReactComponent as BellIcon} from '../../../assets/icons/bell.svg';
 import {ReactComponent as MessengerIcon} from '../../../assets/icons/messenger.svg';
 import {ReactComponent as PlusIcon} from '../../../assets/icons/plus.svg';
 import {ReactComponent as ArrowIcon} from '../../../assets/icons/arrow.svg';
-import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default () => {

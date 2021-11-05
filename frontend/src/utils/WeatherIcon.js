@@ -7,7 +7,7 @@ export default function getWeatherIcon(data) {
     const {dt: time, timezone} = data
     const {icon, id} = data.weather[0];
     const hour = FormatTime(time, timezone, 'H')
-    const type = hour >= 6 && hour <= 18 ? 'day' : 'night'
+    const type = hour >= 6 && hour <= 17 ? 'day' : 'night'
     if (icon) {
         switch (icon) {
             case '01d':

@@ -116,7 +116,7 @@ export default () => {
                             </div>
                         </div>
                     ) : (
-                        // <ErrorBoundaryContainer>
+                        <ErrorBoundaryContainer>
                             <div>
                                 {showWeatherForecast() ? (
                                     <WeatherForecastContainer
@@ -128,7 +128,7 @@ export default () => {
                                     />
                                 ) : null}
                              </div>
-                        // </ErrorBoundaryContainer>
+                         </ErrorBoundaryContainer>
                     )}
                 </Fragment>
             )}

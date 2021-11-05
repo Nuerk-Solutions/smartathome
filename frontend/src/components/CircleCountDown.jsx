@@ -11,7 +11,7 @@ const getTimeHours = (time) => ((time % daySeconds) / hourSeconds) | 0;
 
 export const props1 = null;
 
-export function CircleCountDownOwn({
+export function CircleCountDown({
                                        startTime = Date.now(), //startTime is basically useless
                                        fullTimeDuration = 0 * 1000, // seconds multiplied 1000
                                        endTime = startTime + fullTimeDuration,

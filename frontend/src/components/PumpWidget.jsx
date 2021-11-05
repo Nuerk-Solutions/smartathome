@@ -1,7 +1,7 @@
 import React, {createRef, useContext, useEffect, useMemo, useState} from 'react';
 import {useTable, useSortBy} from "react-table";
 import axios from "axios";
-import {CircleCountDownOwn} from "./CircleCountDownOwn";
+import {CircleCountDown} from "./CircleCountDown";
 import {useHistory, useLocation} from "react-router-dom";
 import {ThemeContext} from "../context/ThemeContext";
 
@@ -148,7 +148,7 @@ export function PumpWidget() {
             </button>
     <div>
         {(json && json.endDate > Date.now()) && (
-            <CircleCountDownOwn
+            <CircleCountDown
                 startTime={json.startDate}
                 endTime={json.endDate}
                 fullTimeDuration={json.duration}

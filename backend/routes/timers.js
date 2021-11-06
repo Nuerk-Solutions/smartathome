@@ -134,7 +134,7 @@ router.post("/", (req, res, next) => {
             ...req.body,
             startDate: Date.now(),
             duration: req.body.duration * 1000,
-            endDate: Date.now() + req.body.duration * 1000,
+            endDate: Date.now() + req.body.duration,
             completed: false
         };
 
@@ -143,7 +143,7 @@ router.post("/", (req, res, next) => {
 
         // updatePumpState("On")
         setTimeout(() => {
-            updatePumpState("Off")
+            // updatePumpState("Off")
             req.app.db
                 .get("timer")
                 .find({ id: timer.id })

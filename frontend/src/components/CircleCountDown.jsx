@@ -13,7 +13,7 @@ export const props1 = null;
 
 export function CircleCountDown({
                                        startTime = Date.now(), //startTime is basically useless
-                                       fullTimeDuration = 0 * 1000, // seconds multiplied 1000
+                                       fullTimeDuration = 0,
                                        endTime = startTime + fullTimeDuration,
                                        optionFullTimeCircle = true,
                                        optionSecondCircle = true,
@@ -142,7 +142,7 @@ export function CircleCountDown({
         p5.strokeWeight(8)
         if (optionFullTimeCircle) {
             p5.stroke(p5.color(colorFullTimeCircle))
-            let milAng = p5.map(remainingTime, 0, fullTimeDuration / 1000, 0, 360)
+            let milAng = p5.map(remainingTime, 0, fullTimeDuration / 1000000, 0, 360)
             fullTimeCircle.ang = p5.lerp(fullTimeCircle.ang, milAng, .1)
             fullTimeCircle.draw(300, 300, 0, milAng)
         }

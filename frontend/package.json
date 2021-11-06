@@ -6,28 +6,27 @@
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
-    "@mui/icons-material": "^5.0.1",
-    "@sentry/browser": "^6.12.0",
-    "axios": "^0.21.4",
-    "axios-retry": "^3.1.9",
+    "@mui/icons-material": "^5.0.5",
+    "@sentry/browser": "^6.14.1",
+    "axios": "^0.24.0",
+    "axios-retry": "^3.2.4",
     "dvbjs": "^6.0.1",
     "lodash-es": "^4.17.21",
     "moment-timezone": "^0.5.33",
-    "node-sass": "^4.14.1",
     "npm-run-all": "^4.1.5",
-    "nuka-carousel": "^4.7.9",
+    "nuka-carousel": "^4.8.2",
     "postcss-import": "^14.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-icons": "^4.2.0",
+    "react-icons": "^4.3.1",
     "react-p5": "^1.3.21",
-    "react-router-dom": "^5.2.1",
-    "react-scripts": "4.0.3",
+    "react-router-dom": "^6.0.0",
+    "react-scripts": "^4.0.3",
     "react-table": "^7.7.0",
-    "react-toggle": "^4.1.1"
+    "react-toggle": "^4.1.2"
   },
   "scripts": {
-    "build:scss": "node-sass src/sass/styles.scss -o src/styles/",
+    "build:scss": "sass src/sass/styles.scss src/styles/styles.css --style=compressed ",
     "build:style": "postcss src/styles/styles.css -o src/styles/main.css",
     "build:carco": "craco build",
     "build": "npm-run-all -s build:scss build:style build:carco",
@@ -53,11 +52,12 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^6.2.0",
+    "@craco/craco": "^6.4.0",
     "@mui/material": "^5.0.6",
     "autoprefixer": "^9.8.7",
     "postcss": "^8.3.6",
     "postcss-cli": "^8.3.1",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.9"
+    "sass": "^1.43.4",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
   }
 }

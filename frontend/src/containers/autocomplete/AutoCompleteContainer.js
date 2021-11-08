@@ -7,7 +7,6 @@ import LoaderComponent from '../../components/weather/loader/LoaderComponent'
 import ErrorComponent from '../../components/weather/error/ErrorComponent'
 import {AddressContext} from '../../context/AddressContext'
 import SearchComponent from '../../components/weather/search/SearchComponent'
-import * as Sentry from '@sentry/browser'
 import validName from '../../utils/ValidCityName'
 import isValid from '../../utils/ValidityChecker'
 import {debounce, isNil} from 'lodash-es'
@@ -98,7 +97,7 @@ export default class AutoCompleteContainer extends Component {
           )
         }
       } catch (error) {
-        Sentry.captureException(error)
+        console.error(error);
         this.handleError(
           'Etwas ist schief gegangen. Bitte versuche es mit einer anderen Stadt!'
         )

@@ -1,7 +1,6 @@
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
-import FormatTime from './FormatTime'
-import * as Sentry from '@sentry/browser'
+import FormatTime from './TimeUtils'
 import isValid from './ValidityChecker'
 
 // Exponential back-off retry delay between requests
@@ -75,7 +74,7 @@ const FetchWeatherData = async ({latlong}) => {
       }
     } catch (err) {
       error = err
-      Sentry.captureException(err)
+      console.err(err);
     }
   }
 

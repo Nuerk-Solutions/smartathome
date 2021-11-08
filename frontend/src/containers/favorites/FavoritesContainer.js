@@ -9,7 +9,6 @@ import FavoriteComponent from '../../components/weather/favorite/FavoriteCompone
 import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
 import LoaderComponent from '../../components/weather/loader/LoaderComponent'
 import ErrorComponent from '../../components/weather/error/ErrorComponent'
-import * as Sentry from '@sentry/browser'
 import isValid from '../../utils/ValidityChecker'
 
 export default () => {
@@ -71,7 +70,7 @@ export default () => {
           scrollHandler()
         }
       } catch (err) {
-        Sentry.captureException(err)
+        console.err(err);
       } finally {
         setIsLoading(false)
       }

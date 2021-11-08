@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {WeatherUnitContext} from './WeatherUnitContext'
 import axios from 'axios'
-import * as Sentry from '@sentry/browser'
 import validName from './../utils/ValidCityName'
 import fetchIPAddress from './../utils/FetchIPAddress'
 import isValid from '../utils/ValidityChecker'
@@ -70,7 +69,7 @@ class AddressContextProvider extends Component {
         })
       }
     } catch (error) {
-      Sentry.captureException(error)
+      console.err(error);
     }
   }
 
@@ -107,7 +106,7 @@ class AddressContextProvider extends Component {
         this.updateState({showLoader: false})
       }
     } catch (error) {
-      Sentry.captureException(error)
+      console.err(error);
     }
   }
 

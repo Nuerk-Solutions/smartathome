@@ -1,4 +1,4 @@
-import FormatTime from './FormatTime'
+import FormatTime from './TimeUtils'
 
 /**
  * @param {Object} data (weatherCurrent, Timeframe, day)

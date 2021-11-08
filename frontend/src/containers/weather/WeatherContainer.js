@@ -4,7 +4,6 @@ import FetchWeatherData from '../../utils/FetchWeatherData'
 import WeatherForecastContainer from '../weather-forecast/WeatherForecastContainer'
 import LoaderComponent from '../../components/weather/loader/LoaderComponent'
 import ErrorComponent from '../../components/weather/error/ErrorComponent'
-import * as Sentry from '@sentry/browser'
 import isValid from '../../utils/ValidityChecker'
 import {isNil} from 'lodash-es'
 import ErrorBoundaryContainer from "../error-boundary/ErrorBoundaryContainer";
@@ -63,7 +62,7 @@ export default () => {
             }
         } catch (err) {
             setIsError(true)
-            Sentry.captureException(err)
+            console.err(err);
         } finally {
             setIsLoading(false)
         }

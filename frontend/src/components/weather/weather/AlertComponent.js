@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import {FaExclamationTriangle} from 'react-icons/fa'
 import {ThemeContext} from '../../../context/ThemeContext'
-import FormatTime from '.././../../utils/FormatTime'
+import FormatTime from '.././../../utils/TimeUtils'
 
 export default ({alert}) => {
     const {timezone, event, start, end, description, sender_name} = alert

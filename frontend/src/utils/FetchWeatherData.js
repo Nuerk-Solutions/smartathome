@@ -1,6 +1,6 @@
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
-import FormatTime from './TimeUtils'
+import {FormatTime} from './TimeUtils'
 import isValid from './ValidityChecker'
 
 // Exponential back-off retry delay between requests

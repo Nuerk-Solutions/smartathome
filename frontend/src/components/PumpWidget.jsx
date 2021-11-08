@@ -4,6 +4,8 @@ import axios from "axios";
 import {CircleCountDown} from "./CircleCountDown";
 import {useLocation, useHistory} from "react-router-dom";
 import {ThemeContext} from "../context/ThemeContext";
+import {isEven} from "../utils/NumberUtils";
+import {convertMillisecondsToReadableFormat} from "../utils/TimeUtils";
 
 export function PumpWidget() {
 
@@ -17,79 +19,72 @@ export function PumpWidget() {
     const {theme, colorTheme} = useContext(ThemeContext)
     const params = new URLSearchParams(search.search)
 
-    useEffect(() => {
+    useEffect(async () => {
         if (duration !== 0) {
-            createNewTask(duration);
-            setTimeout(() => {
+            await createNewTimer(duration);
+            setTimeout(async () => {
                 setDuration(0);
-                fetchTimers();
+                await fetchTimersReadable();
             }, duration);
         }
     }, [duration]);
 
+    useEffect(async () => {
+        await fetchTimersReadable();
+        await getTimerById();
+    }, []);
 
-    const createNewTask = async (duration) => {
+    const createNewTimer = async (duration) => {
         axios.post("http://localhost:2000/pump/timers", {duration: duration}).then(result => {
-            setJson(result.data);
-            console.log(result.data);
+            setJson(result.data)
             if (result.data) {
                 if (params.get("id") !== null)
-                    params.append("id", result.data.id);
-            } else {
-                params.delete("id");
+                    params.delete('id');
+                params.append("id", result.data.id);
             }
             history.push({search: params.toString()})
         });
     }
 
-    const getTaskByParameter = async () => {
+    const getTimerById = async () => {
         if (params.get("id")) {
             axios.get(`http://localhost:2000/pump/timers/${params.get("id")}`).then(result => {
                 setJson(result.data);
-                const duration = result.data.endDate - Date.now();
-                setTimeout(() => {
-                    setDuration(0);
-                    fetchTimers();
-                }, duration);
+                if (result.data.completed) {
+
+                    setTimeout(() => {
+                        setDuration(0);
+                        fetchTimersReadable();
+                    }, result.data.endDate - Date.now());
+                } else {
+                    params.delete('id');
+                    history.push({search: params.toString()})
+                }
             });
         }
     }
 
-    const fetchTimers = async () => {
-        const response = await axios.get(`http://localhost:2000/pump/timers`).catch(err => console.error(err));
+    const fetchTimersReadable = async () => {
+        const response = await axios.get(`http://localhost:2000/pump/timers`);
 
         if (response) {
-            const timers = convertJson(response.data);
-            setTimers(timers);
-        }
-    }
-
-
-    function convertJson(props) {
-        return props.map(item => {
-                const duration = item.duration / 1000000;
+            const timers = response.data.map(item => {
                 return ({
                     ...item,
-                    duration: Math.round(duration >= 60 ? duration / 60 : duration),
+                    duration: convertMillisecondsToReadableFormat(item.duration),
                     startDate: new Date(item.startDate).toLocaleString(),
                     endDate: new Date(item.endDate).toLocaleString(),
                     completed: item.completed ? "Ja" : "Nein",
                     remainingTime: item.completed ? "-" : new Date(item.endDate - Date.now() - 3600000).toLocaleTimeString()
                 })
-            }
-        )
+            });
+            setTimers(timers);
+        }
     }
 
-    useEffect(() => {
-        fetchTimers();
-        getTaskByParameter();
-    }, []);
 
-    const data = useMemo(
-        () => [...timers],
-        [timers]
-    )
-
+    // React Table
+    const data = useMemo(() => [...timers], [timers])
     const tableColumns = useMemo(() => [
         {
             Header: 'Id',
@@ -116,23 +111,8 @@ export function PumpWidget() {
             accessor: 'completed',
         }
     ], [])
-
-    const tableInstance = useTable(
-        {
-            columns: tableColumns,
-            data: data
-        },
-        useSortBy)
-
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow
-    } = tableInstance;
-
-    const isEven = (idx) => idx % 2 === 0;
+    const tableInstance = useTable({columns: tableColumns, data: data}, useSortBy)
+    const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow} = tableInstance;
 
     return (
         <div className={`text-${colorTheme} shadow-lg shadow-2xl`}
@@ -156,9 +136,9 @@ export function PumpWidget() {
             <div>
                 {(json && json.endDate > Date.now()) && (
                     <CircleCountDown
-                        startTime={json.startDate}
+                        // startTime={json.startDate}
                         endTime={json.endDate}
-                        fullTimeDuration={json.duration}
+                        // fullTimeDuration={json.duration}
                         colorRemainingTime={`${colorTheme === 'light' ? '#F7f8f9' : '#181818'}`}/>
                 )}
             </div>
@@ -171,9 +151,8 @@ export function PumpWidget() {
                                 {...column.getHeaderProps(column.getSortByToggleProps())}
                                 style={{
                                     borderBottom: 'solid 3px red',
-                                    background: 'aliceblue',
-                                    color: 'black',
-                                    fontWeight: 'bold',
+                                    background: theme === 'dark' ? '#424242' : '#929292',
+                                    fontWeight: 'medium',
                                 }}
                             >
                                 {column.render('Header')}
@@ -191,11 +170,7 @@ export function PumpWidget() {
                             {row.cells.map(cell => {
                                 return (
                                     <td {...cell.getCellProps()}
-                                        style={{
-                                            padding: '10px',
-                                            border: 'solid 1px gray',
-                                            background: isEven(index) ? 'papayawhip' : 'lightgray',
-                                        }}
+                                        className={`p-2.5 border-2 border-gray-400 ${isEven(index) ? theme === 'dark' ? 'bg-dark' : 'bg-light' : theme === 'dark' ? 'bg-gray-700' : 'bg-gray-500'}`}
                                     >
                                         {cell.render('Cell')}
                                     </td>

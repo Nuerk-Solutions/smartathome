@@ -2,7 +2,7 @@ import React, {createRef, useContext, useEffect, useMemo, useState} from 'react'
 import {useTable, useSortBy} from "react-table";
 import axios from "axios";
 import {CircleCountDown} from "./CircleCountDown";
-import {createSearchParams, useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useHistory} from "react-router-dom";
 import {ThemeContext} from "../context/ThemeContext";
 
 export function PumpWidget() {
@@ -10,7 +10,7 @@ export function PumpWidget() {
     const [json, setJson] = useState(null);
     const [duration, setDuration] = useState(0);
     let ref = createRef();
-    const history = useNavigate();
+    const history = useHistory();
     const search = useLocation();
 
     const [timers, setTimers] = useState([]);
@@ -34,17 +34,11 @@ export function PumpWidget() {
             console.log(result.data);
             if (result.data) {
                 if (params.get("id") !== null)
-                    history("/pump");
-                history({
-                    pathname: "/pump",
-                    search: `?${createSearchParams({
-                        id: result.data.id
-                    })}`
-                });
+                    params.append("id", result.data.id);
             } else {
-                history("/pump");
+                params.delete("id");
             }
-            // history.push({search: params.toString()})
+            history.push({search: params.toString()})
         });
     }
 

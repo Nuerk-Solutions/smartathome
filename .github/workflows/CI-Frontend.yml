@@ -21,11 +21,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-        
+
     - name: NPM Ci
       run: |
           cd frontend/
-          npm ci
+          npm install
 
     - name: Build
       run: |
@@ -37,9 +37,9 @@ jobs:
       with:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-        
+
     - name: Adding Known Hosts
       run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-        
+
     - name: Deploy with rsync
       run: rsync -avz frontend/build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/4acc5bc4-306b-473c-a89c-c66ca5f07107/build/

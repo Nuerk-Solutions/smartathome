@@ -39,15 +39,18 @@ const options = {
 
 // schedule every hour to delete old timers where the endDate is greater than 24 hours, minimum amount of timers 10
 setInterval(() => {
-    const timers = JSON.parse(JSON.stringify(db.get("timer")));
-    const now = new Date();
-    const timersToDelete = timers.filter(timer => timer.endDate + 60 * 1000 < now.getTime() && timer.completed);
-    if (timers.length > 10) {
+        const timers = JSON.parse(JSON.stringify(db.get("timer")));
+        const now = new Date();
+        const timersToDelete = timers.filter(timer => timer.endDate + 60 * 60 * 1000 < now.getTime() && timer.completed);
         for (let i = 0; i < timersToDelete.length; i++) {
-            db.get("timer").remove({id: timersToDelete[i].id}).write();
+            if (timers.length > 2) {
+                db.get("timer").remove({id: timersToDelete[i].id}).write();
+            }
         }
-    }
-}, 60 * 60 * 1000);
+    },
+    60 * 1000
+)
+;
 
 
 const specs = swaggerJsDoc(options);

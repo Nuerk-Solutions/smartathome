@@ -87,7 +87,9 @@ export function DvbWidget(props) {
                             </td>
                             <td className="w-1/2">
                                 <div className={""}>{linie.direction}</div>
+                                {linie.platform &&
                                 <div className={"-mt-1 text-sm"}>Steig {linie.platform.name}</div>
+                                }
                             </td>
                             <td className={"w-1/2"}>
                                 <DepartureComponent linie={linie}/>
@@ -184,7 +186,7 @@ function DepartureStatusIconComponent(props) {
         case "Canceled":
             return (
                 <div className="text-orange-500 flex transform scale-75 -ml-3">
-                    <CancelIcon />
+                    <CancelIcon/>
                     <div className={"ml-2 -mr-2"}>Fällt aus</div>
                 </div>
             );

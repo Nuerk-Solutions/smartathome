@@ -1,0 +1,83 @@
+.-z-1 {
+  z-index: -1;
+}
+
+.origin-0 {
+  transform-origin: 0;
+}
+
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label,
+textarea:focus ~ label,
+textarea:not(:placeholder-shown) ~ label,
+select:focus ~ label,
+select:not([value=""]):valid ~ label {
+  @apply transform;
+  @apply scale-75;
+  @apply -translate-y-6;
+}
+
+[data-theme="dark"] {
+
+  input:focus ~ label,
+  select:focus ~ label {
+    @apply text-white;
+    @apply left-0;
+  }
+}
+
+[data-theme="light"] {
+  input:focus ~ label,
+  select:focus ~ label {
+    @apply text-dark;
+    @apply left-0;
+  }
+}
+
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+
+// Animation stuff
+//button:after {
+//  opacity: 1;
+//  transition: all 0.5s;
+//  color: #ffffff;
+//}
+
+.fade-out {
+  animation: fadeOutOpacity 1s, ease-out;
+  opacity: 0;
+  animation-iteration-count: 1;
+}
+
+@keyframes fadeOutOpacity {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: .5s;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

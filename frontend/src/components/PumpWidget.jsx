@@ -6,18 +6,21 @@ import {useLocation, useHistory} from "react-router-dom";
 import {ThemeContext} from "../context/ThemeContext";
 import {isEven} from "../utils/NumberUtils";
 import {convertMillisecondsToReadableFormat} from "../utils/TimeUtils";
+import isValid from "../utils/ValidityChecker";
+import './weather/pump.scss'
 
 export function PumpWidget() {
 
     const [json, setJson] = useState(null);
     const [duration, setDuration] = useState(0);
+    const [animation, setAnimation] = useState(false);
     let ref = createRef();
     const history = useHistory();
     const search = useLocation();
 
     const [timers, setTimers] = useState([]);
-    const {theme, colorTheme} = useContext(ThemeContext)
-    const params = new URLSearchParams(search.search)
+    const {theme, colorTheme} = useContext(ThemeContext);
+    const params = new URLSearchParams(search.search);
 
     useEffect(async () => {
         if (duration !== 0) {
@@ -30,9 +33,13 @@ export function PumpWidget() {
     }, [duration]);
 
     useEffect(async () => {
-        await fetchTimersReadable();
         await getTimerById();
+        await fetchTimersReadable(); //Todo : order and conclusion of both methods
     }, []);
+
+    useEffect(() => {
+        fetchTimersReadable();
+    }, [duration]);
 
     const createNewTimer = async (duration) => {
         axios.post("http://localhost:2000/pump/timers", {duration: duration}).then(result => {
@@ -51,7 +58,6 @@ export function PumpWidget() {
             axios.get(`http://localhost:2000/pump/timers/${params.get("id")}`).then(result => {
                 setJson(result.data);
                 if (result.data.completed) {
-
                     setTimeout(() => {
                         setDuration(0);
                         fetchTimersReadable();
@@ -115,46 +121,76 @@ export function PumpWidget() {
     const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow} = tableInstance;
 
     return (
-        <div className={`text-${colorTheme} shadow-lg shadow-2xl`}
-             style={{
-                 backgroundColor: theme === 'dark' ? '#292929' : '#e8ebee',
-             }}>
-            <div className={"flex-auto"}>
-                <input
-                    className={"border-sun border-2 border-solid"}
-                    style={{
-                        backgroundColor: theme === 'dark' ? '#292929' : '#e8ebee',
-                    }}
-                    placeholder={"Länge in Sekunden"}
-                    ref={ref}
-                />
-                <button onClick={() => setDuration(ref.current.value * 1000)}>
-                    Start
-                </button>
+        <div className={`text-${colorTheme}`}
+             data-theme={`${theme}`}
+            // style={{
+            //     backgroundColor: theme === 'dark' ? '#292929' : '#e8ebee',
+            // }}
+        >
+            <div id="timerForm" className={`${animation && "fade-out" || ""} p-0 p-12`}
+                 onAnimationEnd={() => {
+                     // setAnimation(false);
+                     document.getElementById("timerForm").hidden = true;
+                     document.getElementById("timerClock").hidden = false;
+                 }}>
+                <div className={`mx-auto max-w-md px-6 py-12 border-0 shadow-lg rounded-2xl`}
+                     style={{
+                         backgroundColor: theme === 'dark' ? '#424242' : '#ffffff',
+                     }}>
+                    <h1 className="text-2xl font-bold mb-8">Pumpentimer</h1>
+                    <form id="form" noValidate>
+                        <div className="relative z-0 w-full mb-5">
+                            <input
+                                type="number"
+                                name="duration"
+                                placeholder=" "
+                                className={`pt-3 pb-2 pr-12 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-${colorTheme} border-gray-500`}
+                                ref={ref}
+                            />
+                            <div className="absolute top-0 right-0 mt-3 mr-4 text-gray-500">min</div>
+                            <label
+                                className={`absolute duration-300 top-3 -z-1 origin-0 text-gray-500 focus:border-${colorTheme}`}>Länge</label>
+                            <span className="text-sm text-red-600 hidden" id="error">Länge wird benötigt</span>
+                        </div>
+
+                        <button
+                            id="button"
+                            type="button"
+                            className={`w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-indigo-500 transition duration-500 ease-in-out hover:bg-green-600 hover:shadow-lg transform hover:scale-105 focus:outline-none`}
+                            onClick={() => {
+                                setAnimation(true);
+                                setDuration((ref.current.value * 60) * 1000)
+                            }}
+                        >
+                            Timer Starten
+                        </button>
+                    </form>
+                </div>
             </div>
 
-            <div>
+            <div id="timerClock" hidden
+                 className={`${animation === true && "fade-in" || ""} mx-auto max-w-md px-6 py-12 border-0 shadow-lg rounded-2xl mt-5 mb-5`}
+                 style={{
+                     backgroundColor: theme === 'dark' ? '#424242' : '#ffffff',
+                 }}>
                 {(json && json.endDate > Date.now()) && (
                     <CircleCountDown
                         // startTime={json.startDate}
                         endTime={json.endDate}
-                        // fullTimeDuration={json.duration}
+                        // endTime={0}
+                        fullTimeDuration={json.duration}
                         colorRemainingTime={`${colorTheme === 'light' ? '#F7f8f9' : '#181818'}`}/>
                 )}
             </div>
-            <table {...getTableProps()} style={{border: 'solid 1px blue'}}>
-                <thead>
+            <table {...getTableProps()} className={"w-screen"}>
+                <thead style={{
+                    backgroundColor: theme === 'dark' ? '#424242' : '#929292',
+                }}>
                 {headerGroups.map(headerGroup => (
-                    <tr {...headerGroup.getHeaderGroupProps()}>
+                    <tr
+                        {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map(column => (
-                            <th
-                                {...column.getHeaderProps(column.getSortByToggleProps())}
-                                style={{
-                                    borderBottom: 'solid 3px red',
-                                    background: theme === 'dark' ? '#424242' : '#929292',
-                                    fontWeight: 'medium',
-                                }}
-                            >
+                            <th className={"p-2"}  {...column.getHeaderProps(column.getSortByToggleProps())} >
                                 {column.render('Header')}
                                 {column.isSorted ? (column.isSortedDesc ? " ▼" : " ▲") : ""}
                             </th>
@@ -170,8 +206,9 @@ export function PumpWidget() {
                             {row.cells.map(cell => {
                                 return (
                                     <td {...cell.getCellProps()}
-                                        className={`p-2.5 border-2 border-gray-400 ${isEven(index) ? theme === 'dark' ? 'bg-dark' : 'bg-light' : theme === 'dark' ? 'bg-gray-700' : 'bg-gray-500'}`}
-                                    >
+                                        className={`p-2 text-center ${isEven(index) ?
+                                            theme === 'dark' ? 'bg-indigo-800' : 'bg-indigo-300' :
+                                            theme === 'dark' ? 'bg-indigo-900' : 'bg-indigo-200'}`}>
                                         {cell.render('Cell')}
                                     </td>
                                 )

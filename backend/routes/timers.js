@@ -86,7 +86,7 @@ router.get("/", (req, res) => {
  *     responses:
  *       200:
  *         description: The timer description by id
- *         contens:
+ *         contents:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Timer'

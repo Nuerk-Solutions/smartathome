@@ -85,7 +85,40 @@ const idLength = 8;
  *                 $ref: '#/components/schemas/Logbook'
  */
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+
+    if(req.query.dl) {
+        const logbook = await Logbook.find();
+
+        const data = logbook.map(logbook => {
+            return {
+                "ID": logbook._id.toString(),
+                "Fahrer": logbook.driver,
+                "Fahrzeug": logbook.vehicle,
+                "Datum": logbook.date,
+                "Grund": logbook.reasonForUse,
+                "Kilometerstand": logbook.mileageBefore,
+                "Kilometerstand_Danach": logbook.mileageAfter
+            };
+        });
+
+
+        // console.log(JSON.parse(JSON.stringify(logbook)));
+        const workSheet = XLSX.utils.json_to_sheet(data);
+        const workBook = XLSX.utils.book_new();
+
+
+        XLSX.utils.book_append_sheet(workBook, workSheet, "LogBook")
+        // Generate buffer
+        const buffer = XLSX.write(workBook, {bookType: 'xlsx', type: "buffer"})
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-disposition', 'attachment;filename=' + 'LogBook_' + new Date().toISOString() + '_Language_DE.xlsx');
+        res.send(buffer);
+        res.end();
+        return;
+    }
+
     Logbook.find((err, logbook) => {
         if (err) {
             res.status(500).send(err);
@@ -110,40 +143,9 @@ router.get("/", (req, res) => {
  *               format: binary
  */
 
-router.get("/download", async (req, res, next) => {
-    const logbook = await Logbook.find();
-
-    const data = logbook.map(logbook => {
-        return {
-            "ID": logbook._id.toString(),
-            "Fahrer": logbook.driver,
-            "Fahrzeug": logbook.vehicle,
-            "Datum": logbook.date,
-            "Grund": logbook.reasonForUse,
-            "Kilometerstand": logbook.mileageBefore,
-            "Kilometerstand_Danach": logbook.mileageAfter
-        };
-    });
-
-
-    // console.log(JSON.parse(JSON.stringify(logbook)));
-    const workSheet = XLSX.utils.json_to_sheet(data);
-    const workBook = XLSX.utils.book_new();
-
-
-    XLSX.utils.book_append_sheet(workBook, workSheet, "LogBook")
-    // Generate buffer
-    const buffer = XLSX.write(workBook, {bookType: 'xlsx', type: "buffer"})
-
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader('Content-disposition', 'attachment;filename=' + 'LogBook_' + new Date().toISOString() + '_Language_DE.xlsx');
-    res.send(buffer);
-    res.end();
-});
-
 /**
  * @swagger
- * /logbook/entry/{id}:
+ * /logbook/{id}:
  *   get:
  *     summary: Get a logbook entry by id
  *     tags: [Logbook]
@@ -165,7 +167,7 @@ router.get("/download", async (req, res, next) => {
  *         description: The Logbook was not found
  */
 
-router.get("/entry/:id", (req, res, next) => {
+router.get("/:id", (req, res, next) => {
     Logbook.findById(req.params.id, (err, logbook) => {
         if (err || !logbook) {
             next(createHttpError(404, "Logbook not found"));

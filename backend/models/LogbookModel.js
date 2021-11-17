@@ -2,9 +2,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const LogSchema = new Schema({
-    _id: {
-        type: Schema.Types.ObjectId
-    },
     driver: {
         type: String,
         enum: ['Andrea', 'Claudia', 'Oliver', 'Thomas'],

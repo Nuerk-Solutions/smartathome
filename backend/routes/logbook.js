@@ -119,7 +119,7 @@ router.get("/", async (req, res) => {
         return;
     }
 
-    Logbook.find((err, logbook) => {
+    Logbook.find().sort({createdAt: req.query.sort}).exec((err, logbook) => {
         if (err) {
             res.status(500).send(err);
         }

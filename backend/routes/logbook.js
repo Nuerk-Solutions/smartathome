@@ -204,7 +204,7 @@ router.post("/", (req, res, next) => {
     const logbook = new Logbook(req.body);
     logbook.save((err, logbook) => {
         if (err) {
-            next(createHttpError(500, "Server error"));
+            next(createHttpError(500, err));
         }
         res.json(logbook);
     });

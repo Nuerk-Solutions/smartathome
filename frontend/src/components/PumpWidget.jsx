@@ -42,7 +42,7 @@ export function PumpWidget() {
     }, [duration]);
 
     const createNewTimer = async (duration) => {
-        axios.post("http://localhost:2000/pump/timers", {duration: duration}).then(result => {
+        axios.post("https://api.nuerk-solutions.de/pump/timers", {duration: duration}).then(result => {
             setJson(result.data)
             if (result.data) {
                 if (params.get("id") !== null)
@@ -55,7 +55,7 @@ export function PumpWidget() {
 
     const getTimerById = async () => {
         if (params.get("id")) {
-            axios.get(`http://localhost:2000/pump/timers/${params.get("id")}`).then(result => {
+            axios.get(`https://api.nuerk-solutions.de/pump/timers/${params.get("id")}`).then(result => {
                 setJson(result.data);
                 if (result.data.completed) {
                     setTimeout(() => {
@@ -71,7 +71,7 @@ export function PumpWidget() {
     }
 
     const fetchTimersReadable = async () => {
-        const response = await axios.get(`http://localhost:2000/pump/timers`);
+        const response = await axios.get(`https://api.nuerk-solutions.de/pump/timers`);
 
         if (response) {
             const timers = response.data.map(item => {

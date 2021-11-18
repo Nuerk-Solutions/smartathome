@@ -16,7 +16,7 @@ function App() {
         <Router>
             <div className={`bg-${theme} tracking-wider border-box wrapper`}>
                 <div>
-                    <HeaderComponent/>
+                    {/*<HeaderComponent/>*/}
                 </div>
                 <div>
                     <Suspense

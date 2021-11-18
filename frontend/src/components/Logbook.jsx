@@ -5,6 +5,7 @@ import './weather/pump.scss'
 import moment from "moment-timezone";
 import {useHistory} from "react-router-dom";
 import useQueryParam from "../utils/useQueryParam";
+import axios from "axios";
 
 export default function () {
 
@@ -75,7 +76,22 @@ export default function () {
     };
 
     const handleDownload = async () => {
+        await axios.get('http://localhost:2000/logbook?dl=1', {responseType: 'blob'}).then(res => {
+            downloadFile(res);
+        }).catch(err => console.log(err));
+    }
 
+
+    const downloadFile = (res) => {
+        const contentDisposition = res.headers['content-disposition'];
+        const fileName = contentDisposition.split(';')[1].split('=')[1];
+
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${fileName}`);
+        document.body.appendChild(link);
+        link.click();
     }
 
     return (

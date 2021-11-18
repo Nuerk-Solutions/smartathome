@@ -17,6 +17,16 @@ export default function () {
     const [mileageAfter, setMileageAfter] = useQueryParam('mileageAfter', '');
     const history = useHistory();
 
+    useMemo(() => {
+        axios.get("https://api.nuerk-solutions.de/logbook?sort=DESC").then(res => {
+            console.log(res.data);
+            if (res.data[0])
+                setMileageBefore(res.data[0].mileageAfter);
+        });
+
+
+    }, [mileageBefore]);
+
     // convertDriver Index starting by 1 to Driver Name Andrea, Claudia, Oliver, Thomas, default -1
     const convertDriver = (index) => {
         switch (+index) {
@@ -76,7 +86,7 @@ export default function () {
     };
 
     const handleDownload = async () => {
-        await axios.get('http://localhost:2000/logbook?dl=1', {responseType: 'blob'}).then(res => {
+        await axios.get('https://api.nuerk-solutions.de/logbook?dl=1', {responseType: 'blob'}).then(res => {
             downloadFile(res);
         }).catch(err => console.log(err));
     }
@@ -95,7 +105,7 @@ export default function () {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-0 sm:p-12">
+        <div className="bg-gray-100 p-0 sm:p-12">
             <div className="mx-auto max-w-md px-6 py-12 bg-white border-0 shadow-lg sm:rounded-3xl">
                 <h1 className="text-2xl font-bold mb-8">Fahrtenbuch</h1>
                 <form id="form" onSubmit={handleSubmit}>
@@ -247,15 +257,16 @@ export default function () {
                         Speichern
                     </button>
                 </form>
+                <button
+                    id="button"
+                    type="submit"
+                    className="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-deep-orange-500 hover:bg-deep-orange-600 hover:shadow-lg focus:outline-none"
+                    onClick={handleDownload}
+                >
+                    Download XLSX
+                </button>
             </div>
-            <button
-                id="button"
-                type="submit"
-                className="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-deep-orange-500 hover:bg-deep-orange-600 hover:shadow-lg focus:outline-none"
-                onClick={handleDownload}
-            >
-                Download
-            </button>
+
         </div>
     );
 }

@@ -6,6 +6,7 @@ import FooterComponent from './components/weather/footer/FooterComponent'
 import LoaderComponent from './components/weather/loader/LoaderComponent'
 import {DvbWidget} from "./components/Dvb/DvbComponent";
 import {PumpWidget} from "./components/PumpWidget";
+import Test from "./components/Logbook";
 
 const HomeContainer = lazy(() => import('./containers/home/HomeContainer'))
 
@@ -25,6 +26,7 @@ function App() {
                             <Route exact path="/dvb/:stop?/:amount?/:offset?"
                                    children={() => <DvbWidget name={"Malterstraße"}/>}/>
                             <Route exact path="/pump" children={() => <PumpWidget />} />
+                            <Route exact path="/logbook" children={() => <Test />} />
                         </Switch>
                     </Suspense>
                 </div>

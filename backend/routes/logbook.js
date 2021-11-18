@@ -114,6 +114,7 @@ router.get("/", async (req, res) => {
 
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader('Content-disposition', 'attachment;filename=' + 'LogBook_' + new Date().toISOString() + '_Language_DE.xlsx');
+        res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
         res.send(buffer);
         res.end();
         return;

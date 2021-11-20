@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const {nanoid} = require("nanoid");
 
 const createHttpError = require("http-errors");
 const {default: axios} = require("axios");
 const Logbook = require("../models/LogbookModel");
+const Vehicle = require("../models/VehicleModel");
 const XLSX = require("xlsx");
-
-const idLength = 8;
+const mongoose = require("mongoose");
 
 /**
  * @swagger
@@ -46,10 +45,10 @@ const idLength = 8;
  *         reasonForUse:
  *           type: string
  *           description: Quick description of the reason for the use
- *         mileageBefore:
+ *         currentMileage:
  *           type: integer
  *           description: The mileage before the use
- *         mileageAfter:
+ *         newMileage:
  *           type: integer
  *           description: The mileage after the use
  *       example:
@@ -202,12 +201,29 @@ router.get("/:id", (req, res, next) => {
  */
 
 router.post("/", (req, res, next) => {
-    const logbook = new Logbook(req.body);
-    logbook.save((err, logbook) => {
+    const logbook = new Logbook({
+        _id: new mongoose.Types.ObjectId(),
+        driver: req.body.driver,
+        date: req.body.date,
+        reasonForUse: req.body.reasonForUse
+    });
+
+    logbook.save((err, result) => {
         if (err) {
             next(createHttpError(500, err));
+            return;
         }
-        res.json(logbook);
+
+        const vehicle = new Vehicle({
+            logbookEntry: logbook._id,
+            ...req.body.vehicle
+        });
+        vehicle.save((err) => {
+            if (err) {
+                next(createHttpError(500, err));
+            }
+        });
+        res.json(result);
     });
 });
 

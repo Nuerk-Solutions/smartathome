@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const VehicleSchema = new Schema({
-    logbookEntry: {
+    _logbookEntry: {
         type: Schema.Types.ObjectId,
         ref: 'LogbookModel'
     },

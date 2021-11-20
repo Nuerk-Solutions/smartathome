@@ -168,9 +168,9 @@ router.get("/", async (req, res) => {
  */
 
 router.get("/:id", (req, res, next) => {
-    Logbook.findById(req.params.id, (err, logbook) => {
+    Logbook.findById(req.params.id).populate("vehicle").exec((err, logbook) => {
         if (err || !logbook) {
-            next(createHttpError(404, "Logbook not found"));
+            next(createHttpError(404, "Logbook entry not found"));
             return;
         }
         res.json(logbook);
@@ -201,29 +201,36 @@ router.get("/:id", (req, res, next) => {
  */
 
 router.post("/", (req, res, next) => {
-    const logbook = new Logbook({
-        _id: new mongoose.Types.ObjectId(),
-        driver: req.body.driver,
-        date: req.body.date,
-        reasonForUse: req.body.reasonForUse
+
+    const _id = new mongoose.Types.ObjectId();
+
+    const vehicle = new Vehicle({
+        _logbookEntry: _id,
+        ...req.body.vehicle
     });
 
-    logbook.save((err, result) => {
+    let logbook = new Logbook({
+        _id: _id,
+        driver: req.body.driver,
+        date: req.body.date,
+        reasonForUse: req.body.reasonForUse,
+        vehicle: vehicle
+    });
+
+
+    logbook.save((err, logbook) => {
         if (err) {
             next(createHttpError(500, err));
             return;
         }
 
-        const vehicle = new Vehicle({
-            logbookEntry: logbook._id,
-            ...req.body.vehicle
-        });
         vehicle.save((err) => {
             if (err) {
                 next(createHttpError(500, err));
+                return;
             }
+            res.json(logbook);
         });
-        res.json(result);
     });
 });
 

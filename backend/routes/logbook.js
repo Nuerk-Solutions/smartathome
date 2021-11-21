@@ -84,47 +84,80 @@ const mongoose = require("mongoose");
  *                 $ref: '#/components/schemas/Logbook'
  */
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
 
-    if(req.query.dl) {
-        const logbook = await Logbook.find();
+    if (req.query.dl) {
+        await Logbook.find().populate("vehicle").exec(function (err, result) {
+            if (err) return next(createHttpError(500, err));
 
-        const data = logbook.map(logbook => {
-            return {
-                "ID": logbook._id.toString(),
-                "Fahrer": logbook.driver,
-                "Fahrzeug": logbook.vehicle,
-                "Datum": logbook.date,
-                "Grund": logbook.reasonForUse,
-                "Kilometerstand": logbook.mileageBefore,
-                "Kilometerstand_Danach": logbook.mileageAfter
-            };
+            const data = result.map(logbook => {
+                return {
+                    "ID": logbook._id.toString(),
+                    "Fahrer": logbook.driver,
+                    "Fahrzeug_Typ": logbook.vehicle.typ,
+                    "Fahrzeug_Aktueller_KM_Stand": logbook.vehicle.currentMileAge,
+                    "Fahrzeug_Neuer_KM_Stand": logbook.vehicle.newMileAge,
+                    "Datum": logbook.date,
+                    "Grund": logbook.reasonForUse,
+                };
+            });
+
+            // console.log(JSON.parse(JSON.stringify(logbook)));
+            const workSheet = XLSX.utils.json_to_sheet(data);
+            const workBook = XLSX.utils.book_new();
+
+
+            XLSX.utils.book_append_sheet(workBook, workSheet, "LogBook")
+            // Generate buffer
+            const buffer = XLSX.write(workBook, {bookType: 'xlsx', type: "buffer"})
+
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            res.setHeader('Content-disposition', 'attachment;filename=' + 'LogBook_' + new Date().toISOString() + '_Language_DE.xlsx');
+            res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
+            res.send(buffer);
+            res.end();
         });
 
 
-        // console.log(JSON.parse(JSON.stringify(logbook)));
-        const workSheet = XLSX.utils.json_to_sheet(data);
-        const workBook = XLSX.utils.book_new();
-
-
-        XLSX.utils.book_append_sheet(workBook, workSheet, "LogBook")
-        // Generate buffer
-        const buffer = XLSX.write(workBook, {bookType: 'xlsx', type: "buffer"})
-
-        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        res.setHeader('Content-disposition', 'attachment;filename=' + 'LogBook_' + new Date().toISOString() + '_Language_DE.xlsx');
-        res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
-        res.send(buffer);
-        res.end();
         return;
     }
 
-    Logbook.find().sort({createdAt: req.query.sort}).exec((err, logbook) => {
-        if (err) {
-            res.status(500).send(err);
-        }
-        res.json(logbook);
-    });
+    if(req.query.typ) {
+        // VW
+        Logbook.find().populate({
+            path: "vehicle", match: {
+                typ: 'VW'
+            }
+        }).sort({date: -1}).exec(function (err, result) {
+            if (err) return next(createHttpError(500, err));
+            result = result.filter(logbook => {
+                return logbook.vehicle;
+            })[0];
+            // Ferrari
+            Logbook.find().populate({
+                path: "vehicle", match: {
+                    typ: 'Ferrari'
+                }
+            }).sort({date: -1}).exec(function (err, result1) {
+                if (err) return next(createHttpError(500, err));
+                result1 = result1.filter(logbook => {
+                    return logbook.vehicle;
+                })[0];
+                res.json({result, result1});
+            });
+            // res.json(result);
+        });
+
+
+
+    } else {
+        Logbook.find().sort({createdAt: req.query.sort}).exec((err, logbook) => {
+            if (err) {
+                res.status(500).send(err);
+            }
+            res.json(logbook);
+        });
+    }
 });
 
 /**

@@ -21,7 +21,7 @@ export default () => {
                 <NavItem icon={<PlusIcon/>} destinationPath="/dvb"/>
                 <NavItem icon={<BellIcon/>} destinationPath="/pump"/>
                 <NavItem icon={<MessengerIcon/>} destinationPath="/cron"/>
-                <NavItem icon={<ArrowIcon/>} destinationPath="/rest"/>
+                <NavItem icon={<ArrowIcon/>} destinationPath="/logbook"/>
                 <CustomNavItem>
                     {/*<div>*/}
                         {/* below condition to avoid toggle glitch effect on page refresh */}

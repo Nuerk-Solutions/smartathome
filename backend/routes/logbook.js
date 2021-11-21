@@ -154,7 +154,7 @@ router.get("/", async (req, res, next) => {
 
 
     } else {
-        Logbook.find().sort({createdAt: req.query.sort}).exec((err, logbook) => {
+        Logbook.find().populate('vehicle').exec((err, logbook) => {
             if (err) {
                 res.status(500).send(err);
             }

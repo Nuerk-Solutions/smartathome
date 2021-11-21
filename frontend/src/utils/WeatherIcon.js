@@ -14,9 +14,13 @@ export default function getWeatherIcon(data) {
                 return 'day'
             case '01n':
                 return 'night'
-            case '09d': case '09n': case '10d': case '10n':
+            case '09d':
+            case '09n':
+            case '10d':
+            case '10n':
                 return `${type}-rain`
             case '13d':
+            case '13n':
                 if (id === 611) {
                     return 'sleet';
                 }
@@ -34,7 +38,7 @@ export default function getWeatherIcon(data) {
                 return 'hail'
             case '11d':
                 return 'thunder'
-            case '50d':
+            case '50d': case '50n':
                 if (id === 781) {
                     return 'wi-tornado'
                 }

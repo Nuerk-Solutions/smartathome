@@ -20,7 +20,7 @@ export default function () {
     };
 
     useEffect(async () => {
-        await axois.get("http://192.168.200.184:2000/logbook").then(res => {
+        await axois.get("https://api.nuerk-solutions.de/logbook").then(res => {
             setLogbook(res.data.map(item => {
                 return {
                     ...item,
@@ -40,7 +40,7 @@ export default function () {
 
 
     const handleDownload = async () => {
-        await axios.get('http://localhost:2000/logbook?dl=1', {responseType: 'blob'}).then(res => {
+        await axios.get('https://api.nuerk-solutions.de/logbook?dl=1', {responseType: 'blob'}).then(res => {
             downloadFile(res);
         }).catch(err => console.log(err));
     }

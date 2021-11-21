@@ -24,7 +24,7 @@ export default function () {
     const history = useHistory();
 
     const fetchData = async () => {
-        axios.get("http://192.168.200.184:2000/logbook?typ=VW").then(res => {
+        axios.get("https://api.nuerk-solutions.de/logbook?typ=VW").then(res => {
             if (res.data) {
                 setVehicleData(res.data);
                 if (res.data[0])
@@ -87,7 +87,7 @@ export default function () {
     // use axois
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await axois.post('http://192.168.200.184:2000/logbook', {
+        await axois.post('https://api.nuerk-solutions.de/logbook', {
             driver: convertDriver(driver),
             vehicle: {
                 typ: convertVehicle(vehicle),

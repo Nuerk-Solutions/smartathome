@@ -10,8 +10,8 @@ export default function () {
                 fallback={
                     <LoaderComponent loaderText={'Wettervorhersage-UI wird geladen'}/>
                 }>
-                <div className="bg-gray-100 p-0 sm:p-12 flex flex-row">
-                    <div className="mx-auto max-w-md px-6 py-12 bg-white border-0 shadow-lg sm:rounded-3xl">
+                <div className="bg-gray-100 p-0 p-12 flex lg:flex-row flex-col gap-5">
+                    <div className="mx-auto max-w-md px-6 py-12 bg-white border-0 shadow-lg rounded-3xl">
                         <h1 className="text-2xl font-bold mb-8">VW</h1>
                         <form id="form">
                             <div className="relative z-0 w-full mb-2 pb-5">

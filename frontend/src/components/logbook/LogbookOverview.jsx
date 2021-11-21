@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useMemo, useState} from "react";
+import React, {Fragment, Suspense, useContext, useEffect, useMemo, useState} from "react";
 import {useSortBy, useTable} from "react-table";
 import {isEven} from "../../utils/NumberUtils";
 import {ThemeContext} from "../../context/ThemeContext";

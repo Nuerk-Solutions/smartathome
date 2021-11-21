@@ -106,7 +106,7 @@ class AddressContextProvider extends Component {
         this.updateState({showLoader: false})
       }
     } catch (error) {
-      console.err(error);
+      console.error(error);
     }
   }
 

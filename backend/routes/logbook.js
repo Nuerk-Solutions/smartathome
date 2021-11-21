@@ -95,8 +95,10 @@ router.get("/", async (req, res, next) => {
                     "ID": logbook._id.toString(),
                     "Fahrer": logbook.driver,
                     "Fahrzeug_Typ": logbook.vehicle.typ,
-                    "Fahrzeug_Aktueller_KM_Stand": logbook.vehicle.currentMileAge,
-                    "Fahrzeug_Neuer_KM_Stand": logbook.vehicle.newMileAge,
+                    "Aktueller Kilometerstand": logbook.vehicle.currentMileAge,
+                    "Neuer Kilometerstand": logbook.vehicle.newMileAge,
+                    "Entfernung": logbook.vehicle.distance,
+                    "Kosten": logbook.vehicle.cost,
                     "Datum": logbook.date,
                     "Grund": logbook.reasonForUse,
                 };
@@ -128,9 +130,9 @@ router.get("/", async (req, res, next) => {
             path: "vehicle", match: {
                 typ: 'VW'
             }
-        }).sort({date: -1}).exec(function (err, result) {
+        }).sort({createdAt: -1}).exec(function (err, vw) {
             if (err) return next(createHttpError(500, err));
-            result = result.filter(logbook => {
+            vw = vw.filter(logbook => {
                 return logbook.vehicle;
             })[0];
             // Ferrari
@@ -138,12 +140,13 @@ router.get("/", async (req, res, next) => {
                 path: "vehicle", match: {
                     typ: 'Ferrari'
                 }
-            }).sort({date: -1}).exec(function (err, result1) {
+            }).sort({createdAt: -1}).exec(function (err, ferrari) {
                 if (err) return next(createHttpError(500, err));
-                result1 = result1.filter(logbook => {
+                ferrari = ferrari.filter(logbook => {
                     return logbook.vehicle;
                 })[0];
-                res.json({result, result1});
+
+                res.json([vw, ferrari]);
             });
             // res.json(result);
         });
@@ -239,6 +242,8 @@ router.post("/", (req, res, next) => {
 
     const vehicle = new Vehicle({
         _logbookEntry: _id,
+        distance: Number(req.body.vehicle.newMileAge - req.body.vehicle.currentMileAge).toFixed(2),
+        cost: Number((req.body.vehicle.newMileAge - req.body.vehicle.currentMileAge) * 0.20).toFixed(2),
         ...req.body.vehicle
     });
 

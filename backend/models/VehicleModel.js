@@ -19,6 +19,14 @@ const VehicleSchema = new Schema({
         type: Number,
         required: true
     },
+    distance: {
+        type: Number,
+        required: false
+    },
+    cost: {
+      type: Number,
+      required: false
+    }
 }, {timestamps: true});
 
 const VehicleModel = mongoose.model('VehicleModel', VehicleSchema, "vehicle");

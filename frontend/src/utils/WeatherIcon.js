@@ -14,7 +14,7 @@ export default function getWeatherIcon(data) {
                 return 'day'
             case '01n':
                 return 'night'
-            case '10d': case '10n':
+            case '09d': case '09n': case '10d': case '10n':
                 return `${type}-rain`
             case '13d':
                 if (id === 611) {
@@ -40,6 +40,7 @@ export default function getWeatherIcon(data) {
                 }
                 return `${type}-cloudy`
             default:
+                console.log('Unknown icon', icon)
                 return 'wi-na'
         }
     }

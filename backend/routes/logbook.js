@@ -237,9 +237,11 @@ router.get("/:id", (req, res, next) => {
  *         description: Some server error
  */
 
-router.post("/", (req, res, next) => {
+router.post("/", async (req, res, next) => {
 
     const _id = new mongoose.Types.ObjectId();
+    const lastAdditionalInformationLog =  await AdditionalInformation.findOne().sort({createdAt: -1}).populate("_logbookEntry", "", "LogbookModel");
+    const lastAdditionalInformationVehicle = await Vehicle.findOne({_id: lastAdditionalInformationLog._logbookEntry.vehicle}).populate("_logbookEntry", "", "LogbookModel");
 
     const vehicle = new Vehicle({
         _logbookEntry: _id,
@@ -250,6 +252,7 @@ router.post("/", (req, res, next) => {
 
     const additionalInformation = new AdditionalInformation({
         _logbookEntry: _id,
+        distanceSinceLastInformation: Number(req.body.vehicle.newMileAge - lastAdditionalInformationVehicle.newMileAge),
         ...req.body.additionalInformation
     });
 

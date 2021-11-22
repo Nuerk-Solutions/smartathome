@@ -14,7 +14,10 @@ const AdditionalInformationSchema = new Schema({
     information: {
         type: String,
         required: true
-    }
+    },
+    distanceSinceLastInformation: {
+        type: Number
+    },
 }, {timestamps: true});
 
 const AdditionalInformationModel = mongoose.model('AdditionalInformationModel', AdditionalInformationSchema, "additionalInformation");

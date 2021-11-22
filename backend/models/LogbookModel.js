@@ -22,7 +22,7 @@ const LogSchema = new Schema({
     },
     additionalInformation: {
         type: Schema.Types.ObjectId,
-        ref: 'LogbookFuelModel'
+        ref: 'AdditionalInformationModel'
     }
 }, {timestamps: true});
 

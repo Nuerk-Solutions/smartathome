@@ -19,6 +19,10 @@ const LogSchema = new Schema({
     reasonForUse: {
         type: String,
         required: true
+    },
+    additionalInformation: {
+        type: Schema.Types.ObjectId,
+        ref: 'LogbookFuelModel'
     }
 }, {timestamps: true});
 

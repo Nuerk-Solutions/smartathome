@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const createHttpError = require("http-errors");
-const {default: axios} = require("axios");
 const Logbook = require("../models/LogbookModel");
 const Vehicle = require("../models/VehicleModel");
+const AdditionalInformation = require("../models/LogbookAdditionModel");
 const XLSX = require("xlsx");
 const mongoose = require("mongoose");
 
@@ -87,7 +87,7 @@ const mongoose = require("mongoose");
 router.get("/", async (req, res, next) => {
 
     if (req.query.dl) {
-        await Logbook.find().populate("vehicle").exec(function (err, result) {
+        await Logbook.find().populate("vehicle").populate("additionalInformation").exec(function (err, result) {
             if (err) return next(createHttpError(500, err));
 
             const data = result.map(logbook => {
@@ -101,6 +101,8 @@ router.get("/", async (req, res, next) => {
                     "Kosten": logbook.vehicle.cost,
                     "Datum": logbook.date,
                     "Grund": logbook.reasonForUse,
+                    "Zusatzinformationen - Art": logbook.additionalInformation.informationTyp,
+                    "Zusatzinformationen - Inhalt": logbook.additionalInformation.information
                 };
             });
 
@@ -124,7 +126,7 @@ router.get("/", async (req, res, next) => {
         return;
     }
 
-    if(req.query.typ) {
+    if (req.query.typ) {
         // VW
         Logbook.find().populate({
             path: "vehicle", match: {
@@ -152,9 +154,8 @@ router.get("/", async (req, res, next) => {
         });
 
 
-
     } else {
-        Logbook.find().populate('vehicle').exec((err, logbook) => {
+        Logbook.find().populate('vehicle').populate("additionalInformation").exec((err, logbook) => {
             if (err) {
                 res.status(500).send(err);
             }
@@ -204,7 +205,7 @@ router.get("/", async (req, res, next) => {
  */
 
 router.get("/:id", (req, res, next) => {
-    Logbook.findById(req.params.id).populate("vehicle").exec((err, logbook) => {
+    Logbook.findById(req.params.id).populate("vehicle").populate("additionalInformation").exec((err, logbook) => {
         if (err || !logbook) {
             next(createHttpError(404, "Logbook entry not found"));
             return;
@@ -247,12 +248,18 @@ router.post("/", (req, res, next) => {
         ...req.body.vehicle
     });
 
+    const additionalInformation = new AdditionalInformation({
+        _logbookEntry: _id,
+        ...req.body.additionalInformation
+    });
+
     let logbook = new Logbook({
         _id: _id,
         driver: req.body.driver,
         date: req.body.date,
         reasonForUse: req.body.reasonForUse,
-        vehicle: vehicle
+        vehicle: vehicle,
+        additionalInformation: additionalInformation
     });
 
 
@@ -267,7 +274,13 @@ router.post("/", (req, res, next) => {
                 next(createHttpError(500, err));
                 return;
             }
-            res.json(logbook);
+            additionalInformation.save((err) => {
+                if (err) {
+                    next(createHttpError(500, err));
+                    return;
+                }
+                res.json(logbook);
+            });
         });
     });
 });
@@ -335,7 +348,7 @@ router.put("/:id", (req, res, next) => {
  */
 
 router.delete("/:id", (req, res, next) => {
-    Logbook.findByIdAndRemove(req.params.id, (err, logbook) => {
+    Logbook.findByIdAndRemove(req.params.id).populate("vehicle").populate("additionalInformation").exec((err, logbook) => {
         if (err) {
             next(createHttpError(404, "Logbook not found"));
         }

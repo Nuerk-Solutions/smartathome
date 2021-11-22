@@ -5,7 +5,7 @@ import {ThemeContext} from "../../context/ThemeContext";
 import axois from "axios";
 import LoaderComponent from "../weather/loader/LoaderComponent";
 import axios from "axios";
-import './overViewTable.css';
+import './overViewTable.scss';
 
 
 export default function () {

@@ -9,6 +9,7 @@ import axios from "axios";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import LoaderComponent from "../weather/loader/LoaderComponent";
+import './overViewTable.scss'
 
 export default function () {
 
@@ -296,6 +297,13 @@ export default function () {
                                 {/*           className="absolute duration-300 top-3 left-10 -z-1 origin-0 text-gray-500">Anzahl Passagiere</label>*/}
                                 {/*    <span className="text-sm text-red-600 hidden" id="error">Amount is required</span>*/}
                                 {/*</div>*/}
+
+                                <div className="relative z-0 w-full mb-5">
+                                    <label className="pure-material-checkbox">
+                                        <input type="checkbox"/>
+                                            <span>Beinhaltet Tankung</span>
+                                    </label>
+                                    </div>
 
                                 <button
                                     id="button"

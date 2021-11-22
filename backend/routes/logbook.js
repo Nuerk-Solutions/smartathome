@@ -101,8 +101,9 @@ router.get("/", async (req, res, next) => {
                     "Kosten": logbook.vehicle.cost,
                     "Datum": logbook.date,
                     "Grund": logbook.reasonForUse,
-                    "Zusatzinformationen - Art": logbook.additionalInformation.informationTyp,
-                    "Zusatzinformationen - Inhalt": logbook.additionalInformation.information
+                    "Zusatzinformationen - Art": logbook.additionalInformation ? logbook.additionalInformation.informationTyp : "",
+                    "Zusatzinformationen - Inhalt": logbook.additionalInformation ? logbook.additionalInformation.information : "",
+                    "Zusatzinformationen - Entfernung seit letzter Information": logbook.additionalInformation ? logbook.additionalInformation.distanceSinceLastInformation : "",
                 };
             });
 

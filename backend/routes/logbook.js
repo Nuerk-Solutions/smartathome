@@ -243,59 +243,68 @@ router.get("/:id", (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
 
-    const _id = new mongoose.Types.ObjectId();
+    try {
+        const _id = new mongoose.Types.ObjectId();
 
-    const vehicle = new Vehicle({
-        _logbookEntry: _id,
-        distance: Number(req.body.vehicle.newMileAge - req.body.vehicle.currentMileAge).toFixed(2),
-        cost: Number((req.body.vehicle.newMileAge - req.body.vehicle.currentMileAge) * 0.20).toFixed(2),
-        ...req.body.vehicle
-    });
-
-
-    const lastAdditionalInformationLog = await AdditionalInformation.findOne().sort({createdAt: -1}).populate("_logbookEntry", "", "LogbookModel");
-    const lastAdditionalInformationVehicle = await Vehicle.findOne({_id: lastAdditionalInformationLog ? lastAdditionalInformationLog._logbookEntry.vehicle : vehicle}).populate("_logbookEntry", "", "LogbookModel");
-
-    const additionalInformation = new AdditionalInformation({
-        _logbookEntry: _id,
-        distanceSinceLastInformation: Number(req.body.vehicle.newMileAge -
-            (lastAdditionalInformationVehicle !== null ?
-                lastAdditionalInformationVehicle.newMileAge :
-                0)),
-        ...req.body.additionalInformation
-    });
+        const vehicle = new Vehicle({
+            _logbookEntry: _id,
+            distance: Number(req.body.vehicle.newMileAge - req.body.vehicle.currentMileAge).toFixed(2),
+            cost: Number((req.body.vehicle.newMileAge - req.body.vehicle.currentMileAge) * 0.20).toFixed(2),
+            ...req.body.vehicle
+        });
 
 
-    let logbook = new Logbook({
-        _id: _id,
-        driver: req.body.driver,
-        date: req.body.date,
-        driveReason: req.body.driveReason,
-        vehicle: vehicle,
-        additionalInformation: req.body.additionalInformation && additionalInformation,
-    });
+        const lastAdditionalInformationLog = await AdditionalInformation.findOne().sort({createdAt: -1}).populate("_logbookEntry", "", "LogbookModel");
+        let lastAdditionalInformationVehicle = null;
+        let additionalInformation = null;
 
-
-    logbook.save((err, logbook) => {
-        if (err) {
-            next(createHttpError(500, err));
-            return;
+        if (lastAdditionalInformationLog._logbookEntry !== null) {
+            lastAdditionalInformationVehicle = await Vehicle.findOne({_id: lastAdditionalInformationLog._logbookEntry.vehicle}).populate("_logbookEntry", "", "LogbookModel");
+            additionalInformation = new AdditionalInformation({
+                _logbookEntry: _id,
+                distanceSinceLastInformation: Number(req.body.vehicle.newMileAge - lastAdditionalInformationVehicle.newMileAge),
+                ...req.body.additionalInformation
+            });
         }
 
-        vehicle.save((err) => {
+
+        let logbook = new Logbook({
+            _id: _id,
+            driver: req.body.driver,
+            date: req.body.date,
+            driveReason: req.body.driveReason,
+            vehicle: vehicle,
+            additionalInformation: req.body.additionalInformation && additionalInformation,
+        });
+
+
+        logbook.save((err, logbook) => {
             if (err) {
                 next(createHttpError(500, err));
                 return;
             }
-            additionalInformation.save((err) => {
+
+            vehicle.save((err) => {
                 if (err) {
                     next(createHttpError(500, err));
                     return;
                 }
-                res.json(logbook);
+                if (additionalInformation === null) {
+                    res.json(logbook);
+                    return;
+                }
+                additionalInformation.save((err) => {
+                    if (err) {
+                        next(createHttpError(500, err));
+                        return;
+                    }
+                    res.json(logbook);
+                });
             });
         });
-    });
+    } catch (e) {
+        next(createHttpError(500, e));
+    }
 });
 
 /**

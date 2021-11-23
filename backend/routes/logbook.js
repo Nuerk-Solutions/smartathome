@@ -371,22 +371,28 @@ router.delete("/:id", async (req, res, next) => {
     // if req.params.last then delete the last added logbook entry
     if (req.params.id === "last") {
         Logbook.findOneAndDelete({}).sort({createdAt: -1}).exec((err, logbook) => {
+            if (logbook === null) {
+                next(createHttpError(404, "Logbook not found"));
+                return;
+            }
             if (err) {
                 next(createHttpError(500, err));
+                return;
             }
             Vehicle.findByIdAndDelete(logbook.vehicle).exec((err, vehicle) => {
                 if (err) {
                     next(createHttpError(500, err));
                 }
             });
+
             AdditionalInformation.findOneAndRemove(logbook.additionalInformation).exec((err, additionalInformation) => {
                 if (err) {
                     next(createHttpError(500, err));
                 }
-            });
-        });
 
-        res.send("Deleted Last");
+            });
+            res.send("Deleted Last");
+        });
         return;
     }
 

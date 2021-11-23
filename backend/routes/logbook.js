@@ -92,7 +92,6 @@ router.get("/", async (req, res, next) => {
 
             const data = result.map(logbook => {
                 return {
-                    "ID": logbook._id.toString(),
                     "Fahrer": logbook.driver,
                     "Fahrzeug_Typ": logbook.vehicle.typ,
                     "Aktueller Kilometerstand": logbook.vehicle.currentMileAge,
@@ -103,9 +102,13 @@ router.get("/", async (req, res, next) => {
                     "Grund": logbook.reasonForUse,
                     "Zusatzinformationen - Art": logbook.additionalInformation ? logbook.additionalInformation.informationTyp : "",
                     "Zusatzinformationen - Inhalt": logbook.additionalInformation ? logbook.additionalInformation.information : "",
-                    "Zusatzinformationen - Entfernung seit letzter Information": logbook.additionalInformation ? logbook.additionalInformation.distanceSinceLastInformation : "",
+                    "Entfernung seit letzter Information": logbook.additionalInformation ? logbook.additionalInformation.distanceSinceLastInformation : "",
+                    "": "",
+                    "_id": logbook._id.toString(),
+                    "createdAt": logbook.createdAt.toString(),
                 };
             });
+
 
             // console.log(JSON.parse(JSON.stringify(logbook)));
             const workSheet = XLSX.utils.json_to_sheet(data);
@@ -241,8 +244,6 @@ router.get("/:id", (req, res, next) => {
 router.post("/", async (req, res, next) => {
 
     const _id = new mongoose.Types.ObjectId();
-    const lastAdditionalInformationLog =  await AdditionalInformation.findOne().sort({createdAt: -1}).populate("_logbookEntry", "", "LogbookModel");
-    const lastAdditionalInformationVehicle = await Vehicle.findOne({_id: lastAdditionalInformationLog._logbookEntry.vehicle}).populate("_logbookEntry", "", "LogbookModel");
 
     const vehicle = new Vehicle({
         _logbookEntry: _id,
@@ -251,19 +252,27 @@ router.post("/", async (req, res, next) => {
         ...req.body.vehicle
     });
 
+
+    const lastAdditionalInformationLog = await AdditionalInformation.findOne().sort({createdAt: -1}).populate("_logbookEntry", "", "LogbookModel");
+    const lastAdditionalInformationVehicle = await Vehicle.findOne({_id: lastAdditionalInformationLog ? lastAdditionalInformationLog._logbookEntry.vehicle : vehicle}).populate("_logbookEntry", "", "LogbookModel");
+
     const additionalInformation = new AdditionalInformation({
         _logbookEntry: _id,
-        distanceSinceLastInformation: Number(req.body.vehicle.newMileAge - lastAdditionalInformationVehicle.newMileAge),
+        distanceSinceLastInformation: Number(req.body.vehicle.newMileAge -
+            (lastAdditionalInformationVehicle !== null ?
+                lastAdditionalInformationVehicle.newMileAge :
+                0)),
         ...req.body.additionalInformation
     });
+
 
     let logbook = new Logbook({
         _id: _id,
         driver: req.body.driver,
         date: req.body.date,
-        reasonForUse: req.body.reasonForUse,
+        driveReason: req.body.driveReason,
         vehicle: vehicle,
-        additionalInformation: additionalInformation
+        additionalInformation: req.body.additionalInformation && additionalInformation,
     });
 
 
@@ -352,11 +361,49 @@ router.put("/:id", (req, res, next) => {
  */
 
 router.delete("/:id", (req, res, next) => {
-    Logbook.findByIdAndRemove(req.params.id).populate("vehicle").populate("additionalInformation").exec((err, logbook) => {
+
+    // if req.params.last then delete the last added logbook entry
+    if (req.params.id === "last") {
+        Logbook.findOne({}).sort({createdAt: -1}).exec((err, logbook) => {
+            if (err) {
+                next(createHttpError(404, "Logbook not found"));
+            }
+            logbook.remove((err) => {
+                if (err) {
+                    next(createHttpError(500, err));
+                }
+            });
+            Vehicle.findByIdAndDelete(logbook.vehicle).exec((err, vehicle) => {
+                if (err) {
+                    next(createHttpError(404, "Logbook not found"));
+                }
+            });
+            AdditionalInformation.findOneAndRemove(logbook.additionalInformation).exec((err, additionalInformation) => {
+                if (err) {
+                    next(createHttpError(404, "Logbook not found"));
+                }
+            });
+        });
+
+        res.send("Deleted Last");
+        return;
+    }
+
+    Logbook.findByIdAndDelete(req.params.id).exec((err, logbook) => {
         if (err) {
             next(createHttpError(404, "Logbook not found"));
         }
-        res.json(logbook);
+        Vehicle.findByIdAndDelete(logbook.vehicle).exec((err, vehicle) => {
+            if (err) {
+                next(createHttpError(404, "Logbook not found"));
+            }
+        });
+        AdditionalInformation.findOneAndRemove(logbook.additionalInformation).exec((err, additionalInformation) => {
+            if (err) {
+                next(createHttpError(404, "Logbook not found"));
+            }
+        });
+        res.send("Deleted");
     });
 });
 

@@ -30,7 +30,7 @@ function App() {
                             <Route exact path="/dvb/:stop?/:amount?/:offset?"
                                    children={() => <DvbWidget name={"Malterstraße"}/>}/>
                             <Route exact path="/pump" children={() => <PumpWidget />} />
-                            <Route exact path="/logbook" children={() => <LogbookMain />} />
+                            <Route exact path="/logbook" children={() => <Logbook />} />
                             <Route exact path="/logbook/new" component={Logbook} />
                             <Route exact path="/logbook/overview" component={LogbookOverview} />
                             <Route exact path="/logbook/information" children={() => <LogbookInformation />} />

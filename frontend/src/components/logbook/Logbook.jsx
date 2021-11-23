@@ -32,7 +32,7 @@ export default function () {
         axios.get("https://api.nuerk-solutions.de/logbook").then(res => {
             if (res.data) {
                 setVehicleData(res.data);
-                if (res.data[0])
+                if (res.data[1])
                     setCurrentMileAge(res.data[1].vehicle.newMileAge || '');
                 setIsLoaded(true);
             }
@@ -51,6 +51,7 @@ export default function () {
 
     useMemo(async () => {
         await fetchData();
+        console.log("asdasd");
     }, []);
 
     const updateVehicleData = () => {

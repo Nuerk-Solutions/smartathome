@@ -43,12 +43,12 @@ export default function () {
 
     const updateVehicleData = () => {
         switch (vehicle) {
-            case '2':
+            case '1':
                 if (vehicleData[0])
                     setCurrentMileAge(vehicleData[0].vehicle.newMileAge);
                 else setCurrentMileAge('');
                 break;
-            case '1':
+            case '2':
                 if (vehicleData[1])
                     setCurrentMileAge(vehicleData[1].vehicle.newMileAge);
                 else setCurrentMileAge('');

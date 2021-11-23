@@ -1,9 +1,9 @@
-import React, {Fragment, Suspense, useMemo, useState} from 'react';
+import React, {Fragment, Suspense, useEffect, useMemo, useState} from 'react';
 import axois from 'axios';
 
 import '../weather/pump.scss'
 import moment from "moment-timezone";
-import {useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import axios from "axios";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
@@ -25,15 +25,15 @@ export default function () {
     const [additionalInformation, setAdditionInformation] = useState('');
     const [fuelAmount, setFuelAmount] = useState('');
     const [serviceDescription, setServiceDescription] = useState('');
-    const MySwal = withReactContent(Swal);
-    const history = useHistory();
+    const sweetAlert = withReactContent(Swal);
+    const params = new URLSearchParams(useLocation().search);
 
     const fetchData = async () => {
-        axios.get("https://api.nuerk-solutions.de/logbook?typ=VW").then(res => {
+        axios.get("https://api.nuerk-solutions.de/logbook").then(res => {
             if (res.data) {
                 setVehicleData(res.data);
                 if (res.data[0])
-                    setCurrentMileAge(res.data[0].vehicle.newMileAge || '');
+                    setCurrentMileAge(res.data[1].vehicle.newMileAge || '');
                 setIsLoaded(true);
             }
         }).catch(error => {
@@ -42,18 +42,25 @@ export default function () {
         });
     };
 
+    useEffect(() => {
+        if (params.get("key") !== 'ADDC5742944D56A26E8C7CD2EB1F5') {
+            setError({message: 'Kein Zugriff auf diese Seite'});
+            setIsLoaded(false);
+        }
+    }, [error, isLoaded]);
+
     useMemo(async () => {
         await fetchData();
     }, []);
 
     const updateVehicleData = () => {
         switch (vehicle) {
-            case '1':
+            case '2':
                 if (vehicleData[0])
                     setCurrentMileAge(vehicleData[0].vehicle.newMileAge);
                 else setCurrentMileAge('');
                 break;
-            case '2':
+            case '1':
                 if (vehicleData[1])
                     setCurrentMileAge(vehicleData[1].vehicle.newMileAge);
                 else setCurrentMileAge('');
@@ -113,6 +120,25 @@ export default function () {
         }
     }
 
+    const handleDownload = async () => {
+        await axios.get('https://api.nuerk-solutions.de/logbook?dl=1', {responseType: 'blob'}).then(res => {
+            downloadFile(res);
+        }).catch(err => console.log(err));
+    }
+
+
+    const downloadFile = (res) => {
+        const contentDisposition = res.headers['content-disposition'];
+        const fileName = contentDisposition.split(';')[1].split('=')[1];
+
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${fileName}`);
+        document.body.appendChild(link);
+        link.click();
+    }
+
 
     // post request to http:localhost:2000/api/logbook new logbook entry as json
     // if error, display error message
@@ -120,11 +146,11 @@ export default function () {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // validate form input newMileAge < currentMileAge if not valid, display error message; use MySwal
+        // validate form input newMileAge < currentMileAge if not valid, display error message; use sweetAlert
         if (!reason) {
-            const continueWithEmptyReason = await MySwal.fire({
-                title: 'Fehler',
-                text: 'Es wurde kein Grund für die Fahrt angegeben. Möchten Sie trotzdem fortfahren?',
+            const emptyReason = await sweetAlert.fire({
+                title: 'Achtung!',
+                text: 'Es wurde kein Grund für die Fahrt angegeben. Möchtest du trotzdem fortfahren?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Ja',
@@ -132,7 +158,7 @@ export default function () {
             }).then((result) => {
                 return !result.isConfirmed;
             });
-            if (continueWithEmptyReason)
+            if (emptyReason)
                 return;
         }
 
@@ -144,7 +170,7 @@ export default function () {
                 newMileAge
             },
             date,
-            reasonForUse: reason || ' ',
+            driveReason: reason,
             additionalInformation: {
                 informationTyp: convertAdditionalInformation(additionalInformation),
                 information: getFuelAmountOrServiceDescription(additionalInformation)
@@ -152,7 +178,7 @@ export default function () {
         })
             .then(response => {
                 if (response.status === 200) {
-                    MySwal.fire({
+                    sweetAlert.fire({
                         title: <p>Neue Fahrt hinzugefügt</p>,
                         icon: 'success',
                         footer: 'Fenster schließt in 5 Sekunden',
@@ -172,18 +198,49 @@ export default function () {
                 }
             })
             .catch(error => {
-                setError(error);
                 console.log(error);
+                setError(error);
             });
+    };
+
+    // const handleDelete, handles delete request to https://api.nuerk-solutions.de/api/logbook/last, asks for confirmation, uses sweetAlert and axois
+    const handleDelete = async () => {
+        const deleteConfirmation = await sweetAlert.fire({
+            title: 'Eintrag löschen',
+            text: 'Möchtest du den letzten Eintrag wirklich löschen?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ja',
+            cancelButtonText: 'Nein',
+        }).then((result) => {
+            return result.isConfirmed;
+        });
+        if (deleteConfirmation) {
+            await axois.delete('https://api.nuerk-solutions.de/logbook/last')
+                .then(response => {
+                    if (response.status === 200) {
+                        sweetAlert.fire({
+                            title: <p>Letzte Fahrt gelöscht</p>,
+                            icon: 'success',
+                            footer: 'Fenster schließt in 5 Sekunden',
+                            timerProgressBar: true,
+                            timer: 5000,
+                        }).then(async () => {
+                            setIsLoaded(false);
+                            await fetchData();
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                    setError(error);
+                });
+        }
     };
 
     autosize(document.querySelectorAll('textarea'));
 
-    if (!isLoaded) {
-        return (
-            <LoaderComponent loaderText={`Abrufen der neusten Daten 😎`}/>
-        );
-    } else if(error) {
+    if (error) {
         return (
             <div className='flex justify-center'>
                 <div className='w-5/6'>
@@ -196,6 +253,10 @@ export default function () {
                     />
                 </div>
             </div>
+        );
+    } else if (!isLoaded) {
+        return (
+            <LoaderComponent loaderText={`Abrufen der neusten Daten 😎`}/>
         );
     } else
         return (
@@ -408,11 +469,25 @@ export default function () {
                                 <button
                                     id="button"
                                     type="submit"
-                                    className="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-pink-500 hover:bg-pink-600 hover:shadow-lg focus:outline-none"
+                                    className="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-green-500 hover:bg-green-600 hover:shadow-lg focus:outline-none"
                                 >
                                     Speichern
                                 </button>
                             </form>
+                            <button
+                                id="button"
+                                className="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-red-400-accent hover:bg-red-700-accent hover:shadow-lg focus:outline-none"
+                                onClick={handleDelete}
+                            >
+                                Letzten Eintrag Löschen
+                            </button>
+                            <button
+                                id="button"
+                                className="w-full px-6 py-3 mt-10 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-pink-500 hover:bg-pink-600 hover:shadow-lg focus:outline-none"
+                                onClick={handleDownload}
+                            >
+                                Download XLSX
+                            </button>
                         </div>
                     </div>
                 </Suspense>

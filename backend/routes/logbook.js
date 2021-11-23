@@ -99,7 +99,7 @@ router.get("/", async (req, res, next) => {
                     "Entfernung": logbook.vehicle.distance,
                     "Kosten": logbook.vehicle.cost,
                     "Datum": logbook.date,
-                    "Grund": logbook.reasonForUse,
+                    "Grund": logbook.driveReason,
                     "Zusatzinformationen - Art": logbook.additionalInformation ? logbook.additionalInformation.informationTyp : "",
                     "Zusatzinformationen - Inhalt": logbook.additionalInformation ? logbook.additionalInformation.information : "",
                     "Entfernung seit letzter Information": logbook.additionalInformation ? logbook.additionalInformation.distanceSinceLastInformation : "",

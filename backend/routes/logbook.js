@@ -130,42 +130,39 @@ router.get("/", async (req, res, next) => {
         return;
     }
 
-    if (req.query.typ) {
-        // VW
+    // VW
+    Logbook.find().populate({
+        path: "vehicle", match: {
+            typ: 'VW'
+        }
+    }).sort({createdAt: -1}).exec(function (err, vw) {
+        if (err) return next(createHttpError(500, err));
+        vw = vw.filter(logbook => {
+            return logbook.vehicle;
+        })[0];
+        // Ferrari
         Logbook.find().populate({
             path: "vehicle", match: {
-                typ: 'VW'
+                typ: 'Ferrari'
             }
-        }).sort({createdAt: -1}).exec(function (err, vw) {
+        }).sort({createdAt: -1}).exec(function (err, ferrari) {
             if (err) return next(createHttpError(500, err));
-            vw = vw.filter(logbook => {
+            ferrari = ferrari.filter(logbook => {
                 return logbook.vehicle;
             })[0];
-            // Ferrari
-            Logbook.find().populate({
-                path: "vehicle", match: {
-                    typ: 'Ferrari'
-                }
-            }).sort({createdAt: -1}).exec(function (err, ferrari) {
-                if (err) return next(createHttpError(500, err));
-                ferrari = ferrari.filter(logbook => {
-                    return logbook.vehicle;
-                })[0];
 
-                res.json([vw, ferrari]);
-            });
-            // res.json(result);
+            res.json([vw, ferrari]);
         });
+        // res.json(result);
+    });
 
 
-    } else {
-        Logbook.find().populate('vehicle').populate("additionalInformation").exec((err, logbook) => {
-            if (err) {
-                res.status(500).send(err);
-            }
-            res.json(logbook);
-        });
-    }
+    //     Logbook.find().populate('vehicle').populate("additionalInformation").exec((err, logbook) => {
+    //         if (err) {
+    //             res.status(500).send(err);
+    //         }
+    //         res.json(logbook);
+    //     });
 });
 
 /**

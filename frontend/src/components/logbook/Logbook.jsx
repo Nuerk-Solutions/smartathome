@@ -9,10 +9,12 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import LoaderComponent from "../weather/loader/LoaderComponent";
 import autosize from "autosize/dist/autosize";
+import ErrorComponent from "../weather/error/ErrorComponent";
 
 export default function () {
 
     const [isLoaded, setIsLoaded] = useState(false);
+    const [error, setError] = useState(null);
     const [driver, setDriver] = useState('');
     const [vehicle, setVehicle] = useState('2');
     const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
@@ -34,6 +36,9 @@ export default function () {
                     setCurrentMileAge(res.data[0].vehicle.newMileAge || '');
                 setIsLoaded(true);
             }
+        }).catch(error => {
+            setError(error);
+            setIsLoaded(true);
         });
     };
 
@@ -167,6 +172,7 @@ export default function () {
                 }
             })
             .catch(error => {
+                setError(error);
                 console.log(error);
             });
     };
@@ -176,6 +182,20 @@ export default function () {
     if (!isLoaded) {
         return (
             <LoaderComponent loaderText={`Abrufen der neusten Daten 😎`}/>
+        );
+    } else if(error) {
+        return (
+            <div className='flex justify-center'>
+                <div className='w-5/6'>
+                    <ErrorComponent
+                        errorMessage={error.message}
+                        showCloseBtn={true}
+                        closeError={() => {
+                            setError(null);
+                        }}
+                    />
+                </div>
+            </div>
         );
     } else
         return (

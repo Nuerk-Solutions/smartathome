@@ -366,27 +366,22 @@ router.put("/:id", (req, res, next) => {
  *         description: The logbook was not found
  */
 
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
 
     // if req.params.last then delete the last added logbook entry
     if (req.params.id === "last") {
-        Logbook.findOne({}).sort({createdAt: -1}).exec((err, logbook) => {
+        Logbook.findOneAndDelete({}).sort({createdAt: -1}).exec((err, logbook) => {
             if (err) {
-                next(createHttpError(404, "Logbook not found"));
+                next(createHttpError(500, err));
             }
-            logbook.remove((err) => {
+            Vehicle.findByIdAndDelete(logbook.vehicle).exec((err, vehicle) => {
                 if (err) {
                     next(createHttpError(500, err));
                 }
             });
-            Vehicle.findByIdAndDelete(logbook.vehicle).exec((err, vehicle) => {
-                if (err) {
-                    next(createHttpError(404, "Logbook not found"));
-                }
-            });
             AdditionalInformation.findOneAndRemove(logbook.additionalInformation).exec((err, additionalInformation) => {
                 if (err) {
-                    next(createHttpError(404, "Logbook not found"));
+                    next(createHttpError(500, err));
                 }
             });
         });

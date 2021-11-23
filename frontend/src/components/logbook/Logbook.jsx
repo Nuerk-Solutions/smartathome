@@ -139,7 +139,7 @@ export default function () {
                 newMileAge
             },
             date,
-            reasonForUse: reason,
+            reasonForUse: reason || ' ',
             additionalInformation: {
                 informationTyp: convertAdditionalInformation(additionalInformation),
                 information: getFuelAmountOrServiceDescription(additionalInformation)

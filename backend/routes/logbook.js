@@ -255,7 +255,8 @@ router.post("/", async (req, res, next) => {
         let lastAdditionalInformationVehicle = null;
         let additionalInformation = null;
 
-        if (lastAdditionalInformationLog._logbookEntry !== null) {
+
+        if (lastAdditionalInformationLog !== null) {
             lastAdditionalInformationVehicle = await Vehicle.findOne({_id: lastAdditionalInformationLog._logbookEntry.vehicle}).populate("_logbookEntry", "", "LogbookModel");
             additionalInformation = new AdditionalInformation({
                 _logbookEntry: _id,

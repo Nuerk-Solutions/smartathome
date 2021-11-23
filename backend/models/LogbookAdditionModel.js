@@ -8,12 +8,10 @@ const AdditionalInformationSchema = new Schema({
     },
     informationTyp: {
         type: String,
-        enum: ['Getankt', 'Gewartet'],
-        required: true
+        enum: ['Getankt', 'Gewartet']
     },
     information: {
-        type: String,
-        required: true
+        type: String
     },
     distanceSinceLastInformation: {
         type: Number

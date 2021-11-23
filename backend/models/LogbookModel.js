@@ -17,8 +17,7 @@ const LogSchema = new Schema({
         default: Date.now()
     },
     reasonForUse: {
-        type: String,
-        required: true
+        type: String
     },
     additionalInformation: {
         type: Schema.Types.ObjectId,

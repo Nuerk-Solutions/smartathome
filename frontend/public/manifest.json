@@ -1,6 +1,6 @@
 {
-  "short_name": "Smartathome",
-  "name": "Logbook",
+  "short_name": "Fahrtenbuch",
+  "name": "Fahrtenbuch",
   "icons": [],
   "start_url": "/",
   "display": "standalone",

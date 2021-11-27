@@ -16,28 +16,28 @@ export default () => {
 
     return (
         // <div className='flex justify-end items-center px-10 py-5'>
-            <Navbar>
-                <NavItem icon={<DeleteIcon/>} destinationPath="/"/>
-                <NavItem icon={<PlusIcon/>} destinationPath="/dvb"/>
-                <NavItem icon={<BellIcon/>} destinationPath="/pump"/>
-                <NavItem icon={<MessengerIcon/>} destinationPath="/cron"/>
-                <NavItem icon={<ArrowIcon/>} destinationPath="/logbook"/>
-                <CustomNavItem>
-                    {/*<div>*/}
-                        {/* below condition to avoid toggle glitch effect on page refresh */}
-                        {!isEmpty(theme) ? (
-                            <Toggle
-                                checked={theme === 'light'}
-                                icons={{
-                                    checked: <IconComponent iconType={'light'}/>,
-                                    unchecked: <IconComponent iconType={'dark'}/>,
-                                }}
-                                onChange={toggleTheme}
-                            />
-                        ) : null}
-                    {/*</div>*/}
-                </CustomNavItem>
-            </Navbar>
+        <Navbar>
+            <NavItem icon={<DeleteIcon/>} destinationPath="/"/>
+            <NavItem icon={<PlusIcon/>} destinationPath="/dvb"/>
+            <NavItem icon={<BellIcon/>} destinationPath="/pump"/>
+            <NavItem icon={<MessengerIcon/>} destinationPath="/cron"/>
+            <NavItem icon={<ArrowIcon/>} destinationPath="/logbook"/>
+            <CustomNavItem>
+                {/*<div>*/}
+                {/* below condition to avoid toggle glitch effect on page refresh */}
+                {!isEmpty(theme) ? (
+                    <Toggle
+                        checked={theme === 'light'}
+                        icons={{
+                            checked: <IconComponent iconType={'light'}/>,
+                            unchecked: <IconComponent iconType={'dark'}/>,
+                        }}
+                        onChange={toggleTheme}
+                    />
+                ) : null}
+                {/*</div>*/}
+            </CustomNavItem>
+        </Navbar>
 
         // </div>
     )

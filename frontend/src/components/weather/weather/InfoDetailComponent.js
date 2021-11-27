@@ -2,7 +2,7 @@ import React, {Fragment, useContext} from 'react'
 import {WeatherUnitContext} from '../../../context/WeatherUnitContext'
 import getWindDirection from '../../../utils/WindDirection'
 import getWeatherIcon from '../../../utils/WeatherIcon'
-import {kToM, cToF} from '../../../utils/NumberUtils'
+import {cToF, kToM} from '../../../utils/NumberUtils'
 import {FiPercent} from 'react-icons/fi'
 import WeatherIconComponent from './WeatherIconComponent'
 

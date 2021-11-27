@@ -46,7 +46,7 @@ export default ({weatherCurrent, weatherForecast, alerts, address, latlong,}) =>
                             className='w-full object-cover object-center weather-background'
                             style={imageBorder}
                         />
-                         {/*show rain or snow svg only when weather icon exist in WET_TYPES*/}
+                        {/*show rain or snow svg only when weather icon exist in WET_TYPES*/}
                         <div>
                             {WET_TYPES.includes(weatherCurrent.weather[0].icon) && (
                                 <img
@@ -125,6 +125,6 @@ export default ({weatherCurrent, weatherForecast, alerts, address, latlong,}) =>
                     </Fragment>
                 ) : null}
             </div>
-         </Fragment>
+        </Fragment>
     )
 }

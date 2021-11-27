@@ -17,10 +17,10 @@ export default ({alert}) => {
                     role='alert'>
                     <div className='flex'>
                         <div className='pt-1 px-2'>
-                                <FaExclamationTriangle
-                                    className={`text-red-700 text-lg`}
-                                    title="Warnung"
-                                />
+                            <FaExclamationTriangle
+                                className={`text-red-700 text-lg`}
+                                title="Warnung"
+                            />
                         </div>
                         <div className='w-full'>
                             <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center'>
@@ -33,10 +33,10 @@ export default ({alert}) => {
                                     <span>{endTime}</span>
                                 </p>
                             </div>
-                                <p className='text-sm font-medium py-8'>
-                                    <b>Description:&nbsp;</b>
-                                    {description}
-                                </p>
+                            <p className='text-sm font-medium py-8'>
+                                <b>Description:&nbsp;</b>
+                                {description}
+                            </p>
                             <b>Sender: {sender_name}</b>
                         </div>
                     </div>

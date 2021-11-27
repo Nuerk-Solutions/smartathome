@@ -144,9 +144,11 @@
   margin-bottom: 1rem;
   animation: octocat-wave 1s ease-in-out;
 }
+
 .github-corner:hover .octo-arm {
   animation: octocat-wave 560ms ease-in-out;
 }
+
 @keyframes octocat-wave {
   0%,
   100% {
@@ -161,6 +163,7 @@
     transform: rotate(10deg);
   }
 }
+
 @media (max-width: 500px) {
   .github-corner {
     margin-bottom: 2rem;

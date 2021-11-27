@@ -6,10 +6,10 @@ import './styles/main.css'
 import App from './App';
 
 ReactDOM.render(
-  <React.StrictMode>
-      <ThemeContextProvider>
-          <App />
-      </ThemeContextProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <ThemeContextProvider>
+            <App/>
+        </ThemeContextProvider>
+    </React.StrictMode>,
+    document.getElementById('root')
 );

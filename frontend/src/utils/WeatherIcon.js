@@ -38,7 +38,8 @@ export default function getWeatherIcon(data) {
                 return 'hail'
             case '11d':
                 return 'thunder'
-            case '50d': case '50n':
+            case '50d':
+            case '50n':
                 if (id === 781) {
                     return 'wi-tornado'
                 }

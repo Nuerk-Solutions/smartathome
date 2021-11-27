@@ -1,12 +1,11 @@
 import React, {createRef, useContext, useEffect, useMemo, useState} from 'react';
-import {useTable, useSortBy} from "react-table";
+import {useSortBy, useTable} from "react-table";
 import axios from "axios";
 import {CircleCountDown} from "./CircleCountDown";
-import {useLocation, useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import {ThemeContext} from "../context/ThemeContext";
 import {isEven} from "../utils/NumberUtils";
 import {convertMillisecondsToReadableFormat} from "../utils/TimeUtils";
-import isValid from "../utils/ValidityChecker";
 import './weather/pump.scss'
 
 export function PumpWidget() {

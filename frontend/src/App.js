@@ -1,5 +1,5 @@
-import React, {lazy, Suspense, useContext, useMemo, useState} from 'react';
-import {BrowserRouter as Router, Route, Switch, useLocation} from 'react-router-dom';
+import React, {lazy, Suspense, useContext} from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {ThemeContext} from './context/ThemeContext'
 import HeaderComponent from './components/weather/header/HeaderComponent'
 import FooterComponent from './components/weather/footer/FooterComponent'

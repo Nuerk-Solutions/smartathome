@@ -6,7 +6,7 @@ import isValid from './ValidityChecker'
  * @param {*} showDelimeter (false for country)
  */
 const validName = (name, showDelimeter = true) => {
-  return isValid(name) ? `${name}${showDelimeter ? ', ' : ''}` : ''
+    return isValid(name) ? `${name}${showDelimeter ? ', ' : ''}` : ''
 }
 
 export default validName

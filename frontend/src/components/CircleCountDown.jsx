@@ -12,20 +12,20 @@ const getTimeHours = (time) => ((time % daySeconds) / hourSeconds) | 0;
 export const props1 = null;
 
 export function CircleCountDown({
-                                       startTime = Date.now(), //startTime is basically useless
-                                       fullTimeDuration = 0,
-                                       endTime = startTime + fullTimeDuration,
-                                       optionFullTimeCircle = true,
-                                       optionSecondCircle = true,
-                                       optionMinuteCircle = true,
-                                       optionHourCircle = true,
-                                       optionRemainingTime = true,
-                                       colorFullTimeCircle = '#C89632',
-                                       colorSecondCircle = '#55e155',
-                                       colorMinuteCircle = '#E14141',
-                                       colorHourCircle = '#5700c8',
-                                       colorRemainingTime = '#ffffff'
-                                   }) {
+                                    startTime = Date.now(), //startTime is basically useless
+                                    fullTimeDuration = 0,
+                                    endTime = startTime + fullTimeDuration,
+                                    optionFullTimeCircle = true,
+                                    optionSecondCircle = true,
+                                    optionMinuteCircle = true,
+                                    optionHourCircle = true,
+                                    optionRemainingTime = true,
+                                    colorFullTimeCircle = '#C89632',
+                                    colorSecondCircle = '#55e155',
+                                    colorMinuteCircle = '#E14141',
+                                    colorHourCircle = '#5700c8',
+                                    colorRemainingTime = '#ffffff'
+                                }) {
 
     const timeDiff = (endTime - Date.now()) / 1000;
     // console.log(timeDiff);

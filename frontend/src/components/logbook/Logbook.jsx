@@ -1,10 +1,10 @@
 import React, {Fragment, Suspense, useEffect, useMemo, useState} from 'react';
 import axois from 'axios';
+import axios from 'axios';
 
 import '../weather/pump.scss'
 import moment from "moment-timezone";
-import {useHistory, useLocation} from "react-router-dom";
-import axios from "axios";
+import {useLocation} from "react-router-dom";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import LoaderComponent from "../weather/loader/LoaderComponent";

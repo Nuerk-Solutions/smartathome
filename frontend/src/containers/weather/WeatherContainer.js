@@ -126,8 +126,8 @@ export default () => {
                                         latlong={addressContext.latlong}
                                     />
                                 ) : null}
-                             </div>
-                         </ErrorBoundaryContainer>
+                            </div>
+                        </ErrorBoundaryContainer>
                     )}
                 </Fragment>
             )}

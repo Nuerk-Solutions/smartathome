@@ -52,7 +52,7 @@ export default ({cityName, weatherCurrent, weatherForecast}) => {
             <Fragment>
                 {!isEmpty(weatherForecast.days) && !isEmpty(selectedDay) ? (
                     <Fragment>
-                         {/*mobile*/}
+                        {/*mobile*/}
                         <div className='sm:hidden pb-3'>
                             {weatherForecast.timeFrames[selectedDay] ? (
                                 <Carousel {...CarouselSettings('time')}>

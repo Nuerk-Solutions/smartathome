@@ -6,7 +6,7 @@ import {isEmpty, isNil} from 'lodash-es'
  * @returns {Boolean}
  */
 const isValid = (value) => {
-  return !isEmpty(value) && !isNil(value)
+    return !isEmpty(value) && !isNil(value)
 }
 
 export default isValid

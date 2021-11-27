@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { nanoid } = require("nanoid");
+const {nanoid} = require("nanoid");
 
 const createHttpError = require("http-errors");
 const {default: axios} = require("axios");
@@ -95,9 +95,9 @@ router.get("/", (req, res) => {
  */
 
 router.get("/:id", (req, res, next) => {
-    const timer = req.app.db.get("timer").find({ id: req.params.id }).value();
+    const timer = req.app.db.get("timer").find({id: req.params.id}).value();
 
-    if(!timer){
+    if (!timer) {
         next(createHttpError(500, "The Timer was not found"));
     }
 
@@ -137,16 +137,30 @@ router.post("/", (req, res, next) => {
             endDate: Date.now() + req.body.duration,
             completed: false
         };
+        const timers = req.app.db.get("timer");
+
+        if (timers.map(timer => {
+            if (!timer.completed) {
+                next(createHttpError(500, "One timer is already running"));
+                return;
+            } else {
+                req.app.db.get("timer").find({id: timer.id}).remove().write();
+            }
+        }))
+
+        if (!timers.isEmpty()) {
+            next(createHttpError(500, "One timer is already running"));
+            return;
+        }
 
         req.app.db.get("timer").push(timer).write();
-
 
         // updatePumpState("On")
         setTimeout(() => {
             // updatePumpState("Off")
             req.app.db
                 .get("timer")
-                .find({ id: timer.id })
+                .find({id: timer.id})
                 .assign({completed: true})
                 .write();
         }, req.body.duration);
@@ -193,11 +207,11 @@ router.put("/:id", (req, res, next) => {
     try {
         req.app.db
             .get("timer")
-            .find({ id: req.params.id })
+            .find({id: req.params.id})
             .assign(req.body)
             .write();
 
-        res.send(req.app.db.get("timer").find({ id: req.params.id }));
+        res.send(req.app.db.get("timer").find({id: req.params.id}));
     } catch (error) {
         next(error);
     }
@@ -225,7 +239,7 @@ router.put("/:id", (req, res, next) => {
  */
 
 router.delete("/:id", (req, res) => {
-    req.app.db.get("timer").remove({ id: req.params.id }).write();
+    req.app.db.get("timer").remove({id: req.params.id}).write();
 
     res.sendStatus(200);
 });

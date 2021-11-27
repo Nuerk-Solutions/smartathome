@@ -1,11 +1,8 @@
-import React, {createRef, useContext, useEffect, useMemo, useState} from 'react';
-import {useSortBy, useTable} from "react-table";
+import React, {createRef, useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import {CircleCountDown} from "./CircleCountDown";
 import {useHistory, useLocation} from "react-router-dom";
 import {ThemeContext} from "../context/ThemeContext";
-import {isEven} from "../utils/NumberUtils";
-import {convertMillisecondsToReadableFormat} from "../utils/TimeUtils";
 import './weather/pump.scss'
 
 export function PumpWidget() {
@@ -17,107 +14,73 @@ export function PumpWidget() {
     const history = useHistory();
     const search = useLocation();
 
-    const [timers, setTimers] = useState([]);
     const {theme, colorTheme} = useContext(ThemeContext);
     const params = new URLSearchParams(search.search);
 
     useEffect(async () => {
-        if (duration !== 0) {
-            await createNewTimer(duration);
-            setTimeout(async () => {
-                setDuration(0);
-                await fetchTimersReadable();
-            }, duration);
-        }
-    }, [duration]);
-
-    useEffect(async () => {
         await getTimerById();
-        await fetchTimersReadable(); //Todo : order and conclusion of both methods
-    }, []);
-
-    useEffect(() => {
-        fetchTimersReadable();
     }, [duration]);
 
     const createNewTimer = async (duration) => {
         axios.post("https://api.nuerk-solutions.de/pump/timers", {duration: duration}).then(result => {
-            setJson(result.data)
-            if (result.data) {
-                if (params.get("id") !== null)
-                    params.delete('id');
-                params.append("id", result.data.id);
+            setJson(result.data);
+            if (result.status === 200) {
+                if (result.data) {
+                    if (params.get("id") !== null)
+                        params.delete('id');
+                    params.append("id", result.data.id);
+
+                    // set Timout for animation
+                    setTimeout(async () => {
+                        setDuration(0);
+                        setAnimation(false);
+                        document.getElementById("timerForm").hidden = false;
+                        document.getElementById("timerClock").hidden = true;
+                    }, duration);
+                }
             }
             history.push({search: params.toString()})
         });
     }
 
     const getTimerById = async () => {
-        if (params.get("id")) {
-            axios.get(`https://api.nuerk-solutions.de/pump/timers/${params.get("id")}`).then(result => {
-                setJson(result.data);
-                if (result.data.completed) {
+        // if (params.get("id")) {
+        //     axios.get(`https://api.nuerk-solutions.de/pump/timers/${params.get("id")}`).then(result => {
+        //         setJson(result.data);
+        //         if (result.data.completed) {
+        //             // set Timout for animation
+        //             setTimeout(() => {
+        //                 setDuration(0);
+        //                 setAnimation(false);
+        //             }, result.data.endDate - Date.now());
+        //         } else {
+        //             params.delete('id');
+        //             history.push({search: params.toString()})
+        //         }
+        //     });
+        // } else {
+            axios.get(`https://api.nuerk-solutions.de/pump/timers`).then(result => {
+                const json = result.data.sort((a, b) => {
+                    return a.completed - b.completed;
+                });
+                setJson(json[0]);
+                setAnimation(true);
+                if (result.data) {
+                    // set Timout for animation
+
+                    params.delete('id');
+                    params.append("id", json[0].id);
+                    history.push({search: params.toString()})
                     setTimeout(() => {
                         setDuration(0);
-                        fetchTimersReadable();
-                    }, result.data.endDate - Date.now());
-                } else {
-                    params.delete('id');
-                    history.push({search: params.toString()})
+                        setAnimation(false);
+                        document.getElementById("timerForm").hidden = false;
+                        document.getElementById("timerClock").hidden = true;
+                    }, json[0].endDate - Date.now());
                 }
             });
-        }
+        // }
     }
-
-    const fetchTimersReadable = async () => {
-        const response = await axios.get(`https://api.nuerk-solutions.de/pump/timers`);
-
-        if (response) {
-            const timers = response.data.map(item => {
-                return ({
-                    ...item,
-                    duration: convertMillisecondsToReadableFormat(item.duration),
-                    startDate: new Date(item.startDate).toLocaleString(),
-                    endDate: new Date(item.endDate).toLocaleString(),
-                    completed: item.completed ? "Ja" : "Nein",
-                    remainingTime: item.completed ? "-" : new Date(item.endDate - Date.now() - 3600000).toLocaleTimeString()
-                })
-            });
-            setTimers(timers);
-        }
-    }
-
-
-    // React Table
-    const data = useMemo(() => [...timers], [timers])
-    const tableColumns = useMemo(() => [
-        {
-            Header: 'Id',
-            accessor: 'id', // accessor is the "key" in the data
-        },
-        {
-            Header: 'Länge',
-            accessor: 'duration',
-        },
-        {
-            Header: 'Startzeit',
-            accessor: 'startDate',
-        },
-        {
-            Header: 'Endzeit',
-            accessor: 'endDate',
-        },
-        {
-            Header: 'Verbliebene Zeit',
-            accessor: 'remainingTime',
-        },
-        {
-            Header: 'Beendet',
-            accessor: 'completed',
-        }
-    ], [])
-    const tableInstance = useTable({columns: tableColumns, data: data}, useSortBy)
-    const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow} = tableInstance;
 
     return (
         <div className={`text-${colorTheme}`}
@@ -156,9 +119,11 @@ export function PumpWidget() {
                             id="button"
                             type="button"
                             className={`w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-indigo-500 transition duration-500 ease-in-out hover:bg-green-600 hover:shadow-lg transform hover:scale-105 focus:outline-none`}
-                            onClick={() => {
-                                setAnimation(true);
-                                setDuration((ref.current.value * 60) * 1000)
+                            onClick={async () => {
+                                if(ref.current.value > 0) {
+                                    setAnimation(true);
+                                    await createNewTimer((ref.current.value * 60) * 1000)
+                                }
                             }}
                         >
                             Timer Starten
@@ -181,42 +146,6 @@ export function PumpWidget() {
                         colorRemainingTime={`${colorTheme === 'light' ? '#F7f8f9' : '#181818'}`}/>
                 )}
             </div>
-            <table {...getTableProps()} className={"w-screen"}>
-                <thead style={{
-                    backgroundColor: theme === 'dark' ? '#424242' : '#929292',
-                }}>
-                {headerGroups.map(headerGroup => (
-                    <tr
-                        {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map(column => (
-                            <th className={"p-2"}  {...column.getHeaderProps(column.getSortByToggleProps())} >
-                                {column.render('Header')}
-                                {column.isSorted ? (column.isSortedDesc ? " ▼" : " ▲") : ""}
-                            </th>
-                        ))}
-                    </tr>
-                ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                {rows.map((row, index) => {
-                    prepareRow(row)
-                    return (
-                        <tr {...row.getRowProps()}>
-                            {row.cells.map(cell => {
-                                return (
-                                    <td {...cell.getCellProps()}
-                                        className={`p-2 text-center ${isEven(index) ?
-                                            theme === 'dark' ? 'bg-indigo-800' : 'bg-indigo-300' :
-                                            theme === 'dark' ? 'bg-indigo-900' : 'bg-indigo-200'}`}>
-                                        {cell.render('Cell')}
-                                    </td>
-                                )
-                            })}
-                        </tr>
-                    )
-                })}
-                </tbody>
-            </table>
         </div>
     )
 }

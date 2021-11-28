@@ -191,7 +191,7 @@ export default function () {
                         setDriver('');
                         setVehicle('2');
                         setDate(moment().format('YYYY-MM-DD'));
-                        setReason('');
+                        setReason('Stadtfahrt');
                         setCurrentMileAge('');
                         setNewMileAge('');
                         setAdditionInformation('');

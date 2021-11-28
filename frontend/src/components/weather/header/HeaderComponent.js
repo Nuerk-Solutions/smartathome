@@ -5,11 +5,7 @@ import {ThemeContext} from '../../../context/ThemeContext'
 import IconComponent from '../icon/IconComponent'
 import {isEmpty} from 'lodash-es'
 import {Link} from "react-router-dom";
-import {ReactComponent as BellIcon} from '../../../assets/icons/bell.svg';
-import {ReactComponent as MessengerIcon} from '../../../assets/icons/messenger.svg';
-import {ReactComponent as PlusIcon} from '../../../assets/icons/plus.svg';
-import {ReactComponent as ArrowIcon} from '../../../assets/icons/arrow.svg';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {GiBusStop, GiOilPump, MdOutlineRadio, RiBookLine, TiWeatherCloudy} from "react-icons/all";
 
 export default () => {
     const {theme, toggleTheme} = useContext(ThemeContext)
@@ -17,11 +13,11 @@ export default () => {
     return (
         // <div className='flex justify-end items-center px-10 py-5'>
         <Navbar>
-            <NavItem icon={<DeleteIcon/>} destinationPath="/"/>
-            <NavItem icon={<PlusIcon/>} destinationPath="/dvb"/>
-            <NavItem icon={<BellIcon/>} destinationPath="/pump"/>
-            <NavItem icon={<MessengerIcon/>} destinationPath="/cron"/>
-            <NavItem icon={<ArrowIcon/>} destinationPath="/logbook"/>
+            <NavItem icon={<TiWeatherCloudy/>} destinationPath="/"/>
+            <NavItem icon={<GiBusStop/>} destinationPath="/dvb"/>
+            <NavItem icon={<GiOilPump/>} destinationPath="/pump"/>
+            <NavItem icon={<MdOutlineRadio/>} destinationPath="/radio"/>
+            <NavItem icon={<RiBookLine/>} destinationPath="/logbook"/>
             <CustomNavItem>
                 {/*<div>*/}
                 {/* below condition to avoid toggle glitch effect on page refresh */}

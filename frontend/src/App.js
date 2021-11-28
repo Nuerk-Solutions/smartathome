@@ -7,6 +7,7 @@ import LoaderComponent from './components/weather/loader/LoaderComponent'
 import {DvbWidget} from "./components/Dvb/DvbComponent";
 import {PumpWidget} from "./components/PumpWidget";
 import Logbook from "./components/logbook/Logbook";
+import Radio from "./components/radio/Radio";
 
 const HomeContainer = lazy(() => import('./containers/home/HomeContainer'))
 
@@ -32,6 +33,7 @@ function App() {
                                    children={() => <DvbWidget name={"Malterstraße"}/>}/>
                             <Route exact path="/pump" children={() => <PumpWidget/>}/>
                             <Route exact path="/logbook" children={() => <Logbook/>}/>
+                            <Route exact path="/radio" children={() => <Radio/>}/>
                         </Switch>
                     </Suspense>
                 </div>

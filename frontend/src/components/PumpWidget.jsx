@@ -44,21 +44,6 @@ export function PumpWidget() {
     }
 
     const getTimerById = async () => {
-        // if (params.get("id")) {
-        //     axios.get(`https://api.nuerk-solutions.de/pump/timers/${params.get("id")}`).then(result => {
-        //         setJson(result.data);
-        //         if (result.data.completed) {
-        //             // set Timout for animation
-        //             setTimeout(() => {
-        //                 setDuration(0);
-        //                 setAnimation(false);
-        //             }, result.data.endDate - Date.now());
-        //         } else {
-        //             params.delete('id');
-        //             history.push({search: params.toString()})
-        //         }
-        //     });
-        // } else {
             axios.get(`https://api.nuerk-solutions.de/pump/timers`).then(result => {
                 const json = result.data.sort((a, b) => {
                     return a.completed - b.completed;
@@ -69,17 +54,16 @@ export function PumpWidget() {
                     // set Timout for animation
 
                     params.delete('id');
-                    params.append("id", json[0].id);
+                    json[0] && params.append("id", json[0].id);
                     history.push({search: params.toString()})
                     setTimeout(() => {
                         setDuration(0);
                         setAnimation(false);
                         document.getElementById("timerForm").hidden = false;
                         document.getElementById("timerClock").hidden = true;
-                    }, json[0].endDate - Date.now());
+                    }, json[0] && json[0].endDate - Date.now() || 0);
                 }
             });
-        // }
     }
 
     return (

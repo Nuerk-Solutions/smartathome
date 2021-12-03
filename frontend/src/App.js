@@ -33,7 +33,7 @@ function App() {
                                    children={() => <DvbWidget name={"Malterstraße"}/>}/>
                             <Route exact path="/pump" children={() => <PumpWidget/>}/>
                             <Route exact path="/logbook" children={() => <Logbook/>}/>
-                            <Route exact path="/radio" children={() => <Radio/>}/>
+                            <Route path="/radio" children={() => <Radio/>}/>
                         </Switch>
                     </Suspense>
                 </div>

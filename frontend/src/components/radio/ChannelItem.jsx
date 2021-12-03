@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {ThemeContext} from "../../context/ThemeContext";
 import AudioControls from "./AudioControls";
 import './colorBackdrop.css';
@@ -8,11 +8,14 @@ export default function ({
                              radioName,
                              radioImage,
                              title,
-                             color
+                             color,
+                             onClick,
+                             mp3
                          }) {
 
     const {theme, colorTheme} = useContext(ThemeContext);
     const [isPlaying, setIsPlaying] = useState(false);
+    const audio = useRef(new Audio(mp3));
 
     const [volume, setVolume] = useState(50);
 
@@ -20,13 +23,9 @@ export default function ({
     -webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${isPlaying}, #fff), color-stop(${isPlaying}, #777))
   `;
 
-    // const onScrubEnd = () => {
-    //     // If not already playing, start
-    //     if (!isPlaying) {
-    //         setIsPlaying(true);
-    //     }
-    //     startTimer();
-    // };
+    useEffect(() => {
+        audio.current = new Audio(mp3);
+    }, [setIsPlaying]);
 
 
     const getContrastYIQ = (hexcolor) => {
@@ -40,13 +39,14 @@ export default function ({
     return (
         <div
             className={`text-${getContrastYIQ(color)} relative z-0 max-h-96 w-full md:max-w-sm px-6 pt-5 pb-5 border-0 shadow-lg rounded-2xl mt-5 mb-5 cursor-pointer`}
-        style={{
-            background: color,
-        }}
-        onClick={(e) => {
-            if(e.target.type === 'range') return;
-            setIsPlaying(!isPlaying)
-        }}>
+            style={{
+                background: color,
+            }}
+            onClick={(e) => {
+                if (e.target.type === 'range') return;
+                setIsPlaying(!isPlaying)
+                onClick();
+            }}>
 
             {/*Image*/}
             <div className={"grid place-items-center"}>
@@ -63,7 +63,15 @@ export default function ({
 
             {/*Audio Controls*/}
             <div className={"grid place-items-center"}>
-                <AudioControls isPlaying={isPlaying} onPlayPauseClick={setIsPlaying}/>
+                <AudioControls isPlaying={isPlaying} onPlayPauseClick={(e) => {
+                    if (e) {
+                        audio.current.play();
+                        setIsPlaying(!isPlaying);
+                    } else {
+                        audio.current.pause();
+                    }
+
+                }}/>
                 <input
                     type="range"
                     value={volume}
@@ -71,9 +79,10 @@ export default function ({
                     min="0"
                     max={100}
                     className="progress"
-                    onChange={(e) => setVolume(Number(e.target.value))}
-                    // onMouseUp={onScrubEnd}
-                    // onKeyUp={onScrubEnd}
+                    onChange={(e) => {
+                        setVolume(Number(e.target.value))
+                        audio.current.volume = Number(e.target.value) / 100;
+                    }}
                     style={{background: trackStyling}}
                 />
             </div>

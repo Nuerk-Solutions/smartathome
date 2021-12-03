@@ -54,6 +54,7 @@ export default function () {
                                 radioImage={item.image}
                                 title={"TestTitleIndex-" + index}
                                 color={item.color}
+                                mp3={item.mp3}
                             />
                         );
                     })

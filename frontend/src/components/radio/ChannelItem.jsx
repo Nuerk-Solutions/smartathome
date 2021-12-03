@@ -9,7 +9,6 @@ export default function ({
                              radioImage,
                              title,
                              color,
-                             onClick,
                              mp3
                          }) {
 
@@ -45,7 +44,6 @@ export default function ({
             onClick={(e) => {
                 if (e.target.type === 'range') return;
                 setIsPlaying(!isPlaying)
-                onClick();
             }}>
 
             {/*Image*/}

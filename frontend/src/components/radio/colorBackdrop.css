@@ -13,7 +13,7 @@
 }
 
 .playing {
-    animation: colorChange 20s alternate infinite;
+    animation: colorChange 15s alternate infinite;
 }
 
 @keyframes colorChange {

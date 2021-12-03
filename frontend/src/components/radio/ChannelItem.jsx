@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import {ThemeContext} from "../../context/ThemeContext";
 import AudioControls from "./AudioControls";
 import './colorBackdrop.css';
-import Backgrop from "./Backdrop";
+import Backdrop from "./Backdrop";
 
 export default function ({
                              radioName,
@@ -39,9 +39,13 @@ export default function ({
 
     return (
         <div
-            className={`text-${getContrastYIQ(color)} relative z-0 max-h-96 max-w-md px-6 pt-5 pb-5 border-0 shadow-lg rounded-2xl mt-5 mb-5 cursor-pointer`}
+            className={`text-${getContrastYIQ(color)} relative z-0 max-h-96 w-full md:max-w-sm px-6 pt-5 pb-5 border-0 shadow-lg rounded-2xl mt-5 mb-5 cursor-pointer`}
         style={{
             background: color,
+        }}
+        onClick={(e) => {
+            if(e.target.type === 'range') return;
+            setIsPlaying(!isPlaying)
         }}>
 
             {/*Image*/}
@@ -75,7 +79,7 @@ export default function ({
             </div>
 
             {/*Backdrop*/}
-            <Backgrop activeColor={color} isPlaying={isPlaying}/>
+            <Backdrop activeColor={color} isPlaying={isPlaying}/>
         </div>
     );
 }

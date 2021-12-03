@@ -11,7 +11,7 @@ export default function () {
     const [json, setJson] = useState([]);
 
     useEffect(async () => {
-        await axois.get("http://localhost:2000/radio/list").then(
+        await axois.get("https://api.nuerk-solutions.de/radio/list").then(
             (result) => {
                 setJson(result.data);
                 setIsLoaded(true);

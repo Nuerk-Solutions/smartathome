@@ -1,5 +1,4 @@
-import React, {useEffect} from "react";
-import styles from './colorBackdrop.css';
+import React from "react";
 import './colorBackdrop.css';
 
 const Backdrop = ({activeColor, isPlaying}) => {

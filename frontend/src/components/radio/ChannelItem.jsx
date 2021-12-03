@@ -9,7 +9,9 @@ export default function ({
                              radioImage,
                              title,
                              color,
-                             mp3
+                             mp3,
+                             currentlyPlay,
+                             onClick,
                          }) {
 
     const {theme, colorTheme} = useContext(ThemeContext);
@@ -21,10 +23,6 @@ export default function ({
     const trackStyling = `
     -webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${isPlaying}, #fff), color-stop(${isPlaying}, #777))
   `;
-
-    useEffect(() => {
-        audio.current = new Audio(mp3);
-    }, [setIsPlaying]);
 
 
     const getContrastYIQ = (hexcolor) => {
@@ -43,7 +41,8 @@ export default function ({
             }}
             onClick={(e) => {
                 if (e.target.type === 'range') return;
-                setIsPlaying(!isPlaying)
+                setIsPlaying(currentlyPlay);
+                onClick(e);
             }}>
 
             {/*Image*/}
@@ -61,15 +60,7 @@ export default function ({
 
             {/*Audio Controls*/}
             <div className={"grid place-items-center"}>
-                <AudioControls isPlaying={isPlaying} onPlayPauseClick={(e) => {
-                    if (e) {
-                        audio.current.play();
-                        setIsPlaying(!isPlaying);
-                    } else {
-                        audio.current.pause();
-                    }
-
-                }}/>
+                <AudioControls isPlaying={currentlyPlay} onPlayPauseClick={setIsPlaying} audioRef={audio} />
                 <input
                     type="range"
                     value={volume}
@@ -86,7 +77,7 @@ export default function ({
             </div>
 
             {/*Backdrop*/}
-            <Backdrop activeColor={color} isPlaying={isPlaying}/>
+            <Backdrop activeColor={color} isPlaying={currentlyPlay}/>
         </div>
     );
 }

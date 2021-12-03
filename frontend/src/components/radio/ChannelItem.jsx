@@ -2,12 +2,13 @@ import React, {useContext, useState} from 'react';
 import {ThemeContext} from "../../context/ThemeContext";
 import AudioControls from "./AudioControls";
 import './colorBackdrop.css';
-import Backgrop from "./Backgrop";
+import Backgrop from "./Backdrop";
 
 export default function ({
                              radioName,
                              radioImage,
-                             title
+                             title,
+                             color
                          }) {
 
     const {theme, colorTheme} = useContext(ThemeContext);
@@ -34,7 +35,7 @@ export default function ({
             {/*Image*/}
             <div className={"grid place-items-center"}>
                 <div className="w-40 h-40 bg-gray-200 rounded-2xl shadow-lg">
-                    <img src={radioImage} alt={"No Img"}/>
+                    <img id={`img-${radioImage}`} src={radioImage} alt={"No Img"}/>
                 </div>
             </div>
 
@@ -62,7 +63,7 @@ export default function ({
             </div>
 
             {/*Backdrop*/}
-            <Backgrop activeColor={'#00aeb0'} isPlaying={isPlaying}/>
+            <Backgrop activeColor={color} isPlaying={isPlaying}/>
         </div>
     );
 }

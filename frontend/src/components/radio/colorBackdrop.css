@@ -12,7 +12,7 @@
     z-index: -1;
 }
 
-.color-backdrop.playing {
+.playing {
     animation: colorChange 20s alternate infinite;
 }
 

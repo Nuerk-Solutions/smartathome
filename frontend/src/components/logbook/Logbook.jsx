@@ -51,7 +51,6 @@ export default function () {
 
     useMemo(async () => {
         await fetchData();
-        console.log("asdasd");
     }, []);
 
     const updateVehicleData = () => {
@@ -440,6 +439,7 @@ export default function () {
                                             required
                                             type="number"
                                             name="fuelAmount"
+                                            pattern="[0-9]+([\.,][0-9]+)?"
                                             placeholder=" "
                                             className="pt-3 pl-10 pb-2 pl-5 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
                                             onChange={(event) => setFuelAmount(event.target.value)}

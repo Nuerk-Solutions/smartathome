@@ -28,14 +28,26 @@ export default function ({
     //     startTimer();
     // };
 
+
+    const getContrastYIQ = (hexcolor) => {
+        const r = parseInt(hexcolor.substr(1, 2), 16);
+        const g = parseInt(hexcolor.substr(3, 2), 16);
+        const b = parseInt(hexcolor.substr(5, 2), 16);
+        const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+        return (yiq >= 128) ? 'dark' : 'light';
+    };
+
     return (
         <div
-            className={`text-${colorTheme} relative z-0 max-h-96 max-w-md px-6 pt-5 pb-5 border-0 shadow-lg rounded-2xl mt-5 mb-5 cursor-pointer`}>
+            className={`text-${getContrastYIQ(color)} relative z-0 max-h-96 max-w-md px-6 pt-5 pb-5 border-0 shadow-lg rounded-2xl mt-5 mb-5 cursor-pointer`}
+        style={{
+            background: color,
+        }}>
 
             {/*Image*/}
             <div className={"grid place-items-center"}>
                 <div className="w-40 h-40 bg-gray-200 rounded-2xl shadow-lg">
-                    <img id={`img-${radioImage}`} src={radioImage} alt={"No Img"}/>
+                    <img className={"rounded-2xl shadow-lg"} id={`img-${radioImage}`} src={radioImage} alt={"No Img"}/>
                 </div>
             </div>
 

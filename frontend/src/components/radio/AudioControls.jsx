@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {BiLoader, IoPauseOutline, IoPlayOutline} from "react-icons/all";
+import './spin.css';
 
 export default function AudioControls({
                                           isPlaying,
@@ -23,8 +24,7 @@ export default function AudioControls({
             {isPlaying ?
                 isLoading ?
                     (
-                        <BiLoader size={50}/>
-
+                        <BiLoader className={"loading-svg"} size={50}/>
                     ) : (
                         <button
                             type="button"

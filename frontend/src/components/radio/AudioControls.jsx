@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {BiLoader, IoPauseOutline, IoPlayOutline} from "react-icons/all";
 import './spin.css';
+import './inputRangeSlieder.css';
 
 export default function AudioControls({
                                           isPlaying,
@@ -58,7 +59,7 @@ export default function AudioControls({
                 step="1"
                 min="0"
                 max={100}
-                className="progress"
+                className="mt-5"
                 onChange={(e) => {
                     setVolume(Number(e.target.value))
                     audio.current.volume = Number(e.target.value) / 100;

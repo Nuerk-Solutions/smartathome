@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {ThemeContext} from "../../context/ThemeContext";
 import AudioControls from "./AudioControls";
 import './colorBackdrop.css';
@@ -16,9 +16,6 @@ export default function ({
 
     const {theme, colorTheme} = useContext(ThemeContext);
     const [isPlaying, setIsPlaying] = useState(false);
-    const audio = useRef(new Audio(mp3));
-
-    const [volume, setVolume] = useState(50);
 
     const trackStyling = `
     -webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${isPlaying}, #fff), color-stop(${isPlaying}, #777))
@@ -59,22 +56,7 @@ export default function ({
             </div>
 
             {/*Audio Controls*/}
-            <div className={"grid place-items-center"}>
-                <AudioControls isPlaying={currentlyPlay} onPlayPauseClick={setIsPlaying} audioRef={audio} />
-                <input
-                    type="range"
-                    value={volume}
-                    step="1"
-                    min="0"
-                    max={100}
-                    className="progress"
-                    onChange={(e) => {
-                        setVolume(Number(e.target.value))
-                        audio.current.volume = Number(e.target.value) / 100;
-                    }}
-                    style={{background: trackStyling}}
-                />
-            </div>
+            <AudioControls isPlaying={currentlyPlay} onPlayPauseClick={setIsPlaying} mp3={mp3}/>
 
             {/*Backdrop*/}
             <Backdrop activeColor={color} isPlaying={currentlyPlay}/>

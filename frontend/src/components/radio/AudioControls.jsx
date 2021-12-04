@@ -1,61 +1,69 @@
-import React, {useEffect} from "react";
-import {IoPauseOutline, IoPlayOutline} from "react-icons/all";
-
+import React, {useEffect, useRef, useState} from "react";
+import {BiLoader, IoPauseOutline, IoPlayOutline} from "react-icons/all";
 
 export default function AudioControls({
                                           isPlaying,
                                           onPlayPauseClick,
-                                          audioRef,
-                                          // onPrevClick,
-                                          // onNextClick
+                                          mp3
                                       }) {
+
+    const [volume, setVolume] = useState(50);
+    const [isLoading, setIsLoading] = useState(true);
+    const audio = useRef(new Audio());
 
     useEffect(() => {
         if (!isPlaying) {
-            audioRef.current.pause();
-        } else {
-            audioRef.current.play();
+            audio.current.pause();
+            setIsLoading(true);
         }
     }, [isPlaying]);
 
     return (
-        <div className="audio-controls">
-            {/*<button*/}
-            {/*    type="button"*/}
-            {/*    className="prev"*/}
-            {/*    aria-label="Previous"*/}
-            {/*    onClick={onPrevClick}*/}
-            {/*>*/}
-            {/*    <GrChapterPrevious size={50}/>*/}
-            {/*</button>*/}
+        <div className="audio-controls grid place-items-center">
             {isPlaying ?
-                (
-                    <button
-                        type="button"
-                        className="pause"
-                        onClick={() => onPlayPauseClick(false)}
-                        aria-label="Pause"
-                    >
-                        <IoPauseOutline size={50}/>
-                    </button>
-                ) : (
+                isLoading ?
+                    (
+                        <BiLoader size={50}/>
+
+                    ) : (
+                        <button
+                            type="button"
+                            className="pause"
+                            onClick={() => {
+                                onPlayPauseClick(false)
+                            }}
+                            aria-label="Pause"
+                        >
+                            <IoPauseOutline size={50}/>
+                        </button>
+                    ) : (
                     <button
                         type="button"
                         className="play"
-                        onClick={() => onPlayPauseClick(true)}
+                        onClick={() => {
+                            onPlayPauseClick(true)
+                            audio.current = new Audio(mp3);
+                            audio.current.play().then(() => {
+                                setIsLoading(false);
+                            });
+                        }}
                         aria-label="Play"
                     >
                         <IoPlayOutline size={50}/>
                     </button>
                 )}
-            {/*<button*/}
-            {/*    type="button"*/}
-            {/*    className="next"*/}
-            {/*    aria-label="Next"*/}
-            {/*    onClick={onNextClick}*/}
-            {/*>*/}
-            {/*    <GrChapterNext size={50}/>*/}
-            {/*</button>*/}
+            <input
+                type="range"
+                value={volume}
+                step="1"
+                min="0"
+                max={100}
+                className="progress"
+                onChange={(e) => {
+                    setVolume(Number(e.target.value))
+                    audio.current.volume = Number(e.target.value) / 100;
+                }}
+            />
         </div>
     );
 }

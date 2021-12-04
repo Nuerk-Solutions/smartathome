@@ -11,16 +11,11 @@ export default function ({
                              color,
                              mp3,
                              currentlyPlay,
-                             onClick,
+                             onClick
                          }) {
 
     const {theme, colorTheme} = useContext(ThemeContext);
     const [isPlaying, setIsPlaying] = useState(false);
-
-    const trackStyling = `
-    -webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${isPlaying}, #fff), color-stop(${isPlaying}, #777))
-  `;
-
 
     const getContrastYIQ = (hexcolor) => {
         const r = parseInt(hexcolor.substr(1, 2), 16);
@@ -32,13 +27,13 @@ export default function ({
 
     return (
         <div
-            className={`text-${getContrastYIQ(color)} relative z-0 max-h-96 w-full md:max-w-sm px-6 pt-5 pb-5 border-0 shadow-lg rounded-2xl mt-5 mb-5 cursor-pointer`}
+            className={`text-${getContrastYIQ(color)}  relative z-0 max-h-96 w-full md:max-w-sm px-6 pt-5 pb-5 border-0 shadow-lg rounded-2xl mt-5 mb-5 cursor-pointer`}
             style={{
-                background: color,
+                background: (isPlaying ? color : `linear-gradient(180deg, ${color}, #000000)`),
             }}
             onClick={(e) => {
                 if (e.target.type === 'range') return;
-                setIsPlaying(currentlyPlay);
+                setIsPlaying(!isPlaying);
                 onClick(e);
             }}>
 

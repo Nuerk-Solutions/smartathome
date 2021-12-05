@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-    - 'backend/**'
+      - 'backend/**'
 
 jobs:
   sync:
@@ -32,39 +32,39 @@ jobs:
           cd backend/
           npm test
 
-    - name: Install SSH Key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
 
-    - name: Adding Known Hosts
-      run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Deploy with rsync
-      run: rsync -avuz --delete --exclude=".*" backend/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/9b2ae358-b73f-4bfc-b5fd-651644be3c99/
+      - name: Deploy with rsync
+        run: rsync -avuz --delete --exclude=".*" backend/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/lib/pterodactyl/volumes/9b2ae358-b73f-4bfc-b5fd-651644be3c99/
 
   stop-server:
     needs: sync
     if: ${{ success() }}
     runs-on: ubuntu-latest
     steps:
-    - name: Stop
-      run: |
-        curl --location --request POST 'https://nuerk-solutions.de/api/client/servers/9b2ae358/power' \
-        --header 'Accept: application/json' \
-        --header 'Content-Type: application/json' \
-        --header 'Authorization: Bearer FuDSmBG52iJajBI8YJCjQMU8UP8zigJ6UmZLqOvN0iNE4pJj' \
-        --data-raw '{
-          "signal": "kill"
-        }'
+      - name: Stop
+        run: |
+          curl --location --request POST 'https://nuerk-solutions.de/api/client/servers/9b2ae358/power' \
+          --header 'Accept: application/json' \
+          --header 'Content-Type: application/json' \
+          --header 'Authorization: Bearer FuDSmBG52iJajBI8YJCjQMU8UP8zigJ6UmZLqOvN0iNE4pJj' \
+          --data-raw '{
+            "signal": "kill"
+          }'
 
   start-server:
     needs: stop-server
     runs-on: ubuntu-latest
     steps:
-    - name: Start
-      run: |
+      - name: Start
+        run: |
           curl --location --request POST 'https://nuerk-solutions.de/api/client/servers/9b2ae358/power' \
           --header 'Accept: application/json' \
           --header 'Content-Type: application/json' \

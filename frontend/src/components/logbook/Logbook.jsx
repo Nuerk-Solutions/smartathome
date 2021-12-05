@@ -13,6 +13,8 @@ import ErrorComponent from "../weather/error/ErrorComponent";
 
 export default function () {
 
+    const production = true && "https://api.nuerk-solutions.de" || 'http://localhost:2000';
+
     const [isLoaded, setIsLoaded] = useState(false);
     const [error, setError] = useState(null);
     const [driver, setDriver] = useState('');
@@ -29,7 +31,7 @@ export default function () {
     const params = new URLSearchParams(useLocation().search);
 
     const fetchData = async () => {
-        axios.get("https://api.nuerk-solutions.de/logbook").then(res => {
+        axios.get(production + "/logbook").then(res => {
             if (res.data) {
                 setVehicleData(res.data);
                 if (res.data[1])
@@ -121,7 +123,7 @@ export default function () {
     }
 
     const handleDownload = async () => {
-        await axios.get('https://api.nuerk-solutions.de/logbook?dl=1', {responseType: 'blob'}).then(res => {
+        await axios.get(production + '/logbook?dl=1', {responseType: 'blob'}).then(res => {
             downloadFile(res);
         }).catch(err => console.log(err));
     }
@@ -162,7 +164,7 @@ export default function () {
                 return;
         }
 
-        await axois.post('https://api.nuerk-solutions.de/logbook', {
+        const data = {
             driver: convertDriver(driver),
             vehicle: {
                 typ: convertVehicle(vehicle),
@@ -170,14 +172,18 @@ export default function () {
                 newMileAge
             },
             date,
-            driveReason: reason,
+            driveReason: reason
+        }
+
+        await axois.post(production + '/logbook', additionalInformation && {
+            ...data,
             additionalInformation: {
                 informationTyp: convertAdditionalInformation(additionalInformation),
                 information: getFuelAmountOrServiceDescription(additionalInformation)
             }
-        })
+        } || data)
             .then(response => {
-                if (response.status === 200) {
+                if (response.status === 201) {
                     sweetAlert.fire({
                         title: <p>Neue Fahrt hinzugefügt</p>,
                         icon: 'success',
@@ -216,7 +222,7 @@ export default function () {
             return result.isConfirmed;
         });
         if (deleteConfirmation) {
-            await axois.delete('https://api.nuerk-solutions.de/logbook/last')
+            await axois.delete(production + '/logbook/last')
                 .then(response => {
                     if (response.status === 200) {
                         sweetAlert.fire({

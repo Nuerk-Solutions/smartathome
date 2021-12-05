@@ -7,6 +7,7 @@
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.0.5",
+    "animate.css": "^4.1.1",
     "autosize": "^5.0.1",
     "axios": "^0.24.0",
     "axios-retry": "^3.2.4",
@@ -17,6 +18,7 @@
     "npm-run-all": "^4.1.5",
     "nuka-carousel": "^4.8.2",
     "postcss-import": "^14.0.2",
+    "radio-browser-api": "^5.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
@@ -30,7 +32,7 @@
     "sweetalert2-react-content": "^4.2.0"
   },
   "scripts": {
-    "build:scss": "sass src/sass/styles.scss src/styles/styles.css --style=compressed ",
+    "build:scss": "sass src/sass/styles.scss src/styles/styles.css --style=compressed",
     "build:style": "postcss src/styles/styles.css -o src/styles/main.css",
     "build:carco": "craco build",
     "build": "npm-run-all -s build:scss build:style build:carco",

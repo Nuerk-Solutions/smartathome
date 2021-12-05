@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './assets/css/index.css';
+import 'animate.css';
 import {ThemeContextProvider} from './context/ThemeContext'
 import './styles/main.css'
 import App from './App';

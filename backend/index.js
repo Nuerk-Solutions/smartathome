@@ -13,7 +13,7 @@ const radioRouter = require("./routes/radio");
 const errorHandlerMiddleware = require("./utils/error-handler.js");
 
 const PORT = process.env.PORT || 4000;
-let database = process.env.NODE_ENV === 'production' ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_TEST;
+let database = process.env.NODE_ENV === 'production' ? 'mongodb://admin:minda@134.255.234.93:3002/storage?authSource=admin&retryWrites=true&w=majority' : 'mongodb+srv://admin:admin@cluster0.lomum.mongodb.net/unitTest?retryWrites=true&w=majority';
 
 const FileSync = require("lowdb/adapters/FileSync");
 const helmet = require("helmet");

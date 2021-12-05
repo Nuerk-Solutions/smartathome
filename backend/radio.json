@@ -1,5 +1,6 @@
 [
   {
+    "id": "nrj_sachsen",
     "name": "NRJ Sachsen",
     "mp3": "https://scdn.nrjaudio.fm/adwz1/de/33013/mp3_128.mp3",
     "image": "https://api.nrjnet.de/assets/images/cache/img_filter__200x200/assets/images/streams/energy/ENERGY_Station_Sachsen.png",
@@ -7,20 +8,23 @@
     "color": "#db0a17"
   },
   {
+    "id": "radio_dresden",
     "name": "Radio Dresden",
     "mp3": "https://streams.bcs-systems.de/slp/live/dresden/mp3/radioplayer/web",
     "image": "https://webradio.radiodresden.de/local/FB_Livestream_300x300.png",
-    "current_song": "https://api.nrjnet.de/webradio/energy/current/dresden.json",
+    "current_song": "https://webradio.radiodresden.de/Station_ALL_Current.json",
     "color": "#0057a5"
   },
   {
+    "id": "radio_dresden_2",
     "name": "Radio Dresden 2",
     "mp3": "https://streams.bcs-systems.de/slp/zwei/dresden/mp3/radioplayer/web",
     "image": "https://webradio.radiodresden.de/local/FB_Zwei_300x300.png",
-    "current_song": "https://api.nrjnet.de/webradio/energy/current/dresden.json",
+    "current_song": "https://webradio.radiodresden.de/Station_ALL_Current.json",
     "color": "#23b1eb"
   },
   {
+    "id": "freitag_nacht",
     "name": "Freitag Nacht",
     "mp3": "https://streams.bcs-systems.de/slp/freitagnacht/dresden/mp3/radioplayer/web",
     "image": "https://webradio.radiodresden.de/local/FB_FreitagNacht_300x300.png",
@@ -28,6 +32,7 @@
     "color": "#004f9f"
   },
   {
+    "id": "weihnachtsradio",
     "name": "Weihnachtsradio",
     "mp3": "https://streams.bcs-systems.de/slp/xmas/dresden/mp3/radioplayer/web",
     "image": "https://webradio.radiodresden.de/local/FB_Weihnachtsradio_300x300.png",

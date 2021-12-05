@@ -29,20 +29,20 @@ function entry_Without_Additional_Information_1({typ}) {
     };
 }
 
-function entry_Without_Additional_Information_Before_1_2({typ}) {
-    return {
-        driver: "Thomas",
-        date: "2018-01-01T00:00:00.000Z",
-        driveReason: "Test_Without_1",
-        vehicle: {
-            typ,
-            currentMileAge: 5,
-            newMileAge: 10,
-            distance: 5,
-            cost: (5 * 0.2),
-        }
-    };
-}
+// function entry_Without_Additional_Information_Before_1_2({typ}) {
+//     return {
+//         driver: "Thomas",
+//         date: "2018-01-01T00:00:00.000Z",
+//         driveReason: "Test_Without_1",
+//         vehicle: {
+//             typ,
+//             currentMileAge: 5,
+//             newMileAge: 10,
+//             distance: 5,
+//             cost: (5 * 0.2),
+//         }
+//     };
+// }
 
 function entry_With_Additional_Information_Fuel_1({typ}) {
     return {
@@ -92,17 +92,18 @@ describe("Logbook Route", () => {
             .send(entry)
             .expect(201)
             .then((res) => {
-                expect(res.body).to.be.an('object').does.includes.any.keys({
-                    ...entry,
-                    additionalInformation: null,
-                    vehicle: {
-                        ...entry.vehicle,
-                        _logbookEntry: null,
-                    }
-                });
+                expect(res.body).to.be.an('object');
+                expect(res.body.driver).to.be.equal("Thomas");
+                expect(res.body.date).to.be.equal("2019-01-01T00:00:00.000Z");
+                expect(res.body.driveReason).to.be.equal("Test_Without_1");
+                expect(res.body.vehicle.typ).to.be.equal("VW");
+                expect(res.body.vehicle.currentMileAge).to.be.equal(10);
+                expect(res.body.vehicle.newMileAge).to.be.equal(20);
+                expect(res.body.vehicle.distance).to.be.equal(10);
+                expect(res.body.vehicle.cost).to.be.equal(10 * 0.2);
+                expect(res.body.additionalInformation).to.be.null;
                 uuid = res.body._id;
                 lastAddedUuidVW = res.body._id;
-                expect(res.body.additionalInformation).to.be.null;
                 done();
             })
             .catch((err) => done(err));
@@ -129,16 +130,21 @@ describe("Logbook Route", () => {
             .send(entry)
             .expect(201)
             .then((res) => {
-                expect(res.body).to.be.an('object').does.includes.any.keys({
-                    ...entry,
-                    vehicle: {
-                        ...entry.vehicle,
-                        _logbookEntry: null,
-                    }
-                });
-                lastAddedUuidVW = res.body._id;
+                console.log(res.body);
+                expect(res.body).to.be.an('object');
+                expect(res.body.driver).to.be.equal("Thomas");
+                expect(res.body.date).to.be.equal("2019-01-01T00:00:00.000Z");
+                expect(res.body.driveReason).to.be.equal("Test_Fuel_1");
+                expect(res.body.vehicle.typ).to.be.equal("VW");
+                expect(res.body.vehicle.currentMileAge).to.be.equal(20);
+                expect(res.body.vehicle.newMileAge).to.be.equal(40);
+                expect(res.body.vehicle.distance).to.be.equal(20);
+                expect(res.body.vehicle.cost).to.be.equal(20 * 0.2);
                 expect(res.body.additionalInformation).to.be.not.null;
                 expect(res.body.additionalInformation.distanceSinceLastInformation).to.be.equal(0);
+                expect(res.body.additionalInformation.informationTyp).to.be.equal('Getankt');
+                expect(res.body.additionalInformation.information).to.be.equal('60.5');
+                lastAddedUuidVW = res.body._id;
                 done();
             })
             .catch((err) => done(err));
@@ -165,16 +171,20 @@ describe("Logbook Route", () => {
             .send(entry)
             .expect(201)
             .then((res) => {
-                expect(res.body).to.be.an('object').does.includes.any.keys({
-                    ...entry,
-                    vehicle: {
-                        ...entry.vehicle,
-                        _logbookEntry: null,
-                    }
-                });
-                lastAddedUuidVW = res.body._id;
+                expect(res.body).to.be.an('object');
+                expect(res.body.driver).to.be.equal("Thomas");
+                expect(res.body.date).to.be.equal("2019-01-01T00:00:00.000Z");
+                expect(res.body.driveReason).to.be.equal("Test_Service_1");
+                expect(res.body.vehicle.typ).to.be.equal("VW");
+                expect(res.body.vehicle.currentMileAge).to.be.equal(40);
+                expect(res.body.vehicle.newMileAge).to.be.equal(70);
+                expect(res.body.vehicle.distance).to.be.equal(30);
+                expect(res.body.vehicle.cost).to.be.equal(30 * 0.2);
                 expect(res.body.additionalInformation).to.be.not.null;
                 expect(res.body.additionalInformation.distanceSinceLastInformation).to.be.equal(30);
+                expect(res.body.additionalInformation.informationTyp).to.be.equal("Gewartet");
+                expect(res.body.additionalInformation.information).to.be.not.null;
+                lastAddedUuidVW = res.body._id;
                 done();
             })
             .catch((err) => done(err));
@@ -372,8 +382,6 @@ describe("Logbook Route", () => {
             .catch((err) => done(err));
     });
 
-
-
     // // Check previous added entry
     // // VW
     // it("should add a new lookbook entry with no additional Information VW Before 1 2", (done) => {
@@ -415,12 +423,12 @@ describe("Logbook Route", () => {
 
 });
 
-// after(async function () {
-//     try {
-//         await Logbook.deleteMany({});
-//         await AdditionalInformation.deleteMany({});
-//         await Vehicle.deleteMany({});
-//     } catch (e) {
-//         console.error(e);
-//     }
-// });
+after(async function () {
+    try {
+        await Logbook.deleteMany({});
+        await AdditionalInformation.deleteMany({});
+        await Vehicle.deleteMany({});
+    } catch (e) {
+        console.error(e);
+    }
+});

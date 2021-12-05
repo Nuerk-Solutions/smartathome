@@ -260,8 +260,9 @@ router.post("/", async (req, res, next) => {
         });
 
         let additionalInformation = new AdditionalInformation({
+            ...req.body.additionalInformation,
             _logbookEntry: _id,
-            distanceSinceLastInformation: 0
+            distanceSinceLastInformation: 0,
         });
 
 
@@ -276,9 +277,9 @@ router.post("/", async (req, res, next) => {
                 if (req.body.vehicle.typ === lastAdditionalInformationVehicle.typ) {
 
                     additionalInformation = new AdditionalInformation({
+                        ...req.body.additionalInformation,
                         _logbookEntry: _id,
                         distanceSinceLastInformation: lastAdditionalInformationVehicle && Number(req.body.vehicle.newMileAge - lastAdditionalInformationVehicle.newMileAge) || 0,
-                        ...req.body.additionalInformation
                     });
                 }
             }

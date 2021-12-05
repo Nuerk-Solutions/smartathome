@@ -1,13 +1,15 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {ThemeContext} from "../../context/ThemeContext";
 import AudioControls from "./AudioControls";
 import './colorBackdrop.css';
 import Backdrop from "./Backdrop";
+import axois from "axios";
+import Ticker from "react-ticker";
 
 export default function ({
+                             id,
                              radioName,
                              radioImage,
-                             title,
                              color,
                              mp3,
                              currentlyPlay,
@@ -16,6 +18,35 @@ export default function ({
 
     const {theme, colorTheme} = useContext(ThemeContext);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [seconds, setSeconds] = useState(-1);
+    let refreshDelay = 31 * 10; //30 seconds
+
+
+    const GetTitleFromAPI = () => {
+        const [title, setTitle] = useState('Loading...');
+
+        async function fetchData() {
+            await axois.get("https://api.nuerk-solutions.de/radio/currentSong/" + id).then(res => {
+                setTitle(res.data);
+            });
+        }
+
+        useEffect(async () => {
+            await fetchData();
+        }, []);
+
+        useEffect(async () => {
+            const timer = seconds <= refreshDelay && setInterval(() => setSeconds(seconds + 1), 100); // 1000ms = 1sec
+            if (seconds > refreshDelay) {
+                setSeconds(0);
+                await fetchData();
+            }
+            return () => clearInterval(timer);
+        }, [seconds, isPlaying, currentlyPlay]);
+
+        return <div>{title}</div>
+    }
+
 
     const getContrastYIQ = (hexcolor) => {
         const r = parseInt(hexcolor.substr(1, 2), 16);
@@ -47,7 +78,11 @@ export default function ({
             {/*Name and Title*/}
             <div className={"grid place-items-center mt-5"}>
                 <div className={"mb-2"}>{radioName}</div>
-                <div>{title}</div>
+            </div>
+            <div className={"whitespace-nowrap"}>
+                <Ticker speed={2} mode={"await"}>
+                    {() => <GetTitleFromAPI/>}
+                </Ticker>
             </div>
 
             {/*Audio Controls*/}
@@ -57,19 +92,4 @@ export default function ({
             <Backdrop activeColor={color} isPlaying={currentlyPlay}/>
         </div>
     );
-}
-
-{/*<Ticker speed={"2"} mode={"await"}>*/
-}
-{/*    {({index}) => (*/
-}
-{/*        <>*/
-}
-{/*            <div>TWOCOLORS - PASSION</div>*/
-}
-{/*        </>*/
-}
-{/*    )}*/
-}
-{/*</Ticker>*/
 }

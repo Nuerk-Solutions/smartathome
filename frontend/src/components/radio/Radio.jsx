@@ -3,6 +3,7 @@ import ChannelItem from "./ChannelItem";
 import axois from "axios";
 import ErrorComponent from "../weather/error/ErrorComponent";
 import LoaderComponent from "../weather/loader/LoaderComponent";
+import {RadioBrowserApi} from "radio-browser-api";
 
 export default function () {
 
@@ -24,6 +25,22 @@ export default function () {
             }
         );
     }, []);
+
+    // const api = new RadioBrowserApi('My Radio App')
+    // useEffect(async () => {
+    //     const stations = await api.searchStations({
+    //         countryCode: 'DE',
+    //         languageExact: 'german',
+    //         limit: 100,
+    //         hideBroken: true,
+    //         hideDisabled: true,
+    //         hideEmpty: true,
+    //         removeDuplicates: true,
+    //         name: 'Dresden',
+    //         tagList: ['info', 'news', 'public']
+    //     });
+    //     console.log(stations);
+    // }, []);
 
     if (error) {
         return (
@@ -56,9 +73,9 @@ export default function () {
                                 return (
                                     <ChannelItem
                                         key={index}
+                                        id={item.id}
                                         radioName={item.name}
                                         radioImage={item.image}
-                                        title={"TestTitleIndex-" + index}
                                         color={item.color}
                                         mp3={item.mp3}
                                         currentlyPlay={channelIndexPlaying === index && channelIndexPlaying !== -1}

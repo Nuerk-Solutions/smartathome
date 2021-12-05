@@ -42,7 +42,7 @@ export default function ({
                 await fetchData();
             }
             return () => clearInterval(timer);
-        }, [seconds, isPlaying, currentlyPlay]);
+        }, [seconds]);
 
         return <div>{title}</div>
     }

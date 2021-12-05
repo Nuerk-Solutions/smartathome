@@ -7,7 +7,7 @@
     "prestart": "npm install",
     "dev": "nodemon ./src/index.js",
     "start": "node index.js",
-    "test": "mocha --recursive --exit --timeout 10000"
+    "test": "NODE_ENV=testing mocha --recursive --exit --timeout 10000"
   },
   "keywords": [
     "swagger"

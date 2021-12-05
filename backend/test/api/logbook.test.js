@@ -7,7 +7,7 @@ const AdditionalInformation = require("../../models/logbookAddition.model");
 const app = require("../../index.js");
 
 before(function (done) {
-    setTimeout(done, 1500);
+    setTimeout(done, 5000);
 });
 
 let uuid = "";
@@ -130,7 +130,6 @@ describe("Logbook Route", () => {
             .send(entry)
             .expect(201)
             .then((res) => {
-                console.log(res.body);
                 expect(res.body).to.be.an('object');
                 expect(res.body.driver).to.be.equal("Thomas");
                 expect(res.body.date).to.be.equal("2019-01-01T00:00:00.000Z");

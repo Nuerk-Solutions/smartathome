@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const createHttpError = require("http-errors");
-const Logbook = require("../models/LogbookModel");
-const Vehicle = require("../models/VehicleModel");
-const AdditionalInformation = require("../models/LogbookAdditionModel");
+const Logbook = require("../models/logbook.model");
+const Vehicle = require("../models/vehicle.model");
+const AdditionalInformation = require("../models/logbookAddition.model");
 const XLSX = require("xlsx");
 const mongoose = require("mongoose");
 
@@ -130,6 +130,14 @@ router.get("/", async (req, res, next) => {
         return;
     }
 
+    if (req.query.all) {
+        await Logbook.find().populate("vehicle").populate("additionalInformation").exec(function (err, result) {
+            if (err) return next(createHttpError(500, err));
+            res.json(result);
+        });
+        return;
+    }
+
     // VW
     Logbook.find().populate({
         path: "vehicle", match: {
@@ -243,6 +251,7 @@ router.post("/", async (req, res, next) => {
     try {
         const _id = new mongoose.Types.ObjectId();
 
+        // Create normal vehicle with values
         const vehicle = new Vehicle({
             _logbookEntry: _id,
             distance: Number(req.body.vehicle.newMileAge - req.body.vehicle.currentMileAge).toFixed(2),
@@ -250,29 +259,55 @@ router.post("/", async (req, res, next) => {
             ...req.body.vehicle
         });
 
+        let additionalInformation = new AdditionalInformation({
+            _logbookEntry: _id,
+            distanceSinceLastInformation: 0
+        });
 
-        const lastAdditionalInformationLog = await AdditionalInformation.findOne().sort({createdAt: -1}).populate("_logbookEntry", "", "LogbookModel");
-        let lastAdditionalInformationVehicle = null;
-        let additionalInformation = null;
 
+        if (req.body.additionalInformation != null) {
 
-        if (lastAdditionalInformationLog !== null) {
-            lastAdditionalInformationVehicle = await Vehicle.findOne({_id: lastAdditionalInformationLog._logbookEntry.vehicle}).populate("_logbookEntry", "", "LogbookModel");
-            additionalInformation = new AdditionalInformation({
-                _logbookEntry: _id,
-                distanceSinceLastInformation: Number(req.body.vehicle.newMileAge - lastAdditionalInformationVehicle.newMileAge),
-                ...req.body.additionalInformation
-            });
+            // Get Last Additional Information and populate with Logbook Entry
+            const lastAdditionalInformationLog = await AdditionalInformation.findOne().sort({createdAt: -1}).populate("_logbookEntry", "", "LogbookModel");
+            let lastAdditionalInformationVehicle = null;
+
+            if (lastAdditionalInformationLog != null) {
+                lastAdditionalInformationVehicle = await Vehicle.findOne({_id: lastAdditionalInformationLog._logbookEntry.vehicle}).populate("_logbookEntry", "", "LogbookModel");
+                if (req.body.vehicle.typ === lastAdditionalInformationVehicle.typ) {
+
+                    additionalInformation = new AdditionalInformation({
+                        _logbookEntry: _id,
+                        distanceSinceLastInformation: lastAdditionalInformationVehicle && Number(req.body.vehicle.newMileAge - lastAdditionalInformationVehicle.newMileAge) || 0,
+                        ...req.body.additionalInformation
+                    });
+                }
+            }
+
+            // if (lastAdditionalInformationLog != null && req.body.vehicle.typ === lastAdditionalInformationLog.vehicle.typ) {
+            //     lastAdditionalInformationVehicle = await Vehicle.findOne({_id: lastAdditionalInformationLog._logbookEntry.vehicle}).populate("_logbookEntry", "", "LogbookModel");
+            //
+            //     additionalInformation = new AdditionalInformation({
+            //         _logbookEntry: _id,
+            //         distanceSinceLastInformation: lastAdditionalInformationVehicle && Number(req.body.vehicle.newMileAge - lastAdditionalInformationVehicle.newMileAge) || 0,
+            //         ...req.body.additionalInformation
+            //     });
+            // } else {
+            //     additionalInformation = new AdditionalInformation({
+            //         _logbookEntry: _id,
+            //         distanceSinceLastInformation: 0,
+            //         ...req.body.additionalInformation
+            //     });
+            // }
         }
 
-
+        // ._logbookEntry.additionalInformation
         let logbook = new Logbook({
             _id: _id,
             driver: req.body.driver,
             date: req.body.date,
             driveReason: req.body.driveReason,
             vehicle: vehicle,
-            additionalInformation: req.body.additionalInformation && additionalInformation,
+            additionalInformation: req.body.additionalInformation && additionalInformation || null,
         });
 
 
@@ -287,8 +322,8 @@ router.post("/", async (req, res, next) => {
                     next(createHttpError(500, err));
                     return;
                 }
-                if (additionalInformation === null) {
-                    res.json(logbook);
+                if (req.body.additionalInformation == null) {
+                    res.status(201).json(logbook);
                     return;
                 }
                 additionalInformation.save((err) => {
@@ -296,7 +331,7 @@ router.post("/", async (req, res, next) => {
                         next(createHttpError(500, err));
                         return;
                     }
-                    res.json(logbook);
+                    res.status(201).json(logbook);
                 });
             });
         });

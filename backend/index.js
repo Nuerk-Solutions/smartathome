@@ -13,6 +13,7 @@ const radioRouter = require("./routes/radio");
 const errorHandlerMiddleware = require("./utils/error-handler.js");
 
 const PORT = process.env.PORT || 4000;
+let database = process.env.NODE_ENV === 'production' ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_TEST;
 
 const FileSync = require("lowdb/adapters/FileSync");
 const helmet = require("helmet");
@@ -23,9 +24,8 @@ const {cleanupTimers} = require("./utils/schedules");
 const adapter = new FileSync("db.json");
 const db = low(adapter);
 
-const dbURI = "mongodb://admin:minda@134.255.234.93:3002/storage?authSource=admin&retryWrites=true&w=majority";
 
-mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(database, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log("MongoDB connected"))
     .catch(err => console.log(err));
 
@@ -69,3 +69,5 @@ app.use("/radio", radioRouter);
 
 app.use(errorHandlerMiddleware);
 app.listen(PORT, () => console.log(`The server is running on port http://localhost:${PORT} \n Server Ready!`));
+
+module.exports = app;

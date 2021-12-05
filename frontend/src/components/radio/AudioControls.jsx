@@ -44,6 +44,7 @@ export default function AudioControls({
                         onClick={() => {
                             onPlayPauseClick(true)
                             audio.current = new Audio(mp3);
+                            audio.current.volume = volume / 100;
                             audio.current.play().then(() => {
                                 setIsLoading(false);
                             });

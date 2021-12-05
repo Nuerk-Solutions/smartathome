@@ -173,7 +173,7 @@ export default function () {
             driveReason: reason
         }
 
-        await axois.post(production + '/logbook', additionalInformation && {
+        await axios.post(production + '/logbook', additionalInformation && {
             ...data,
             additionalInformation: {
                 informationTyp: convertAdditionalInformation(additionalInformation),
@@ -220,7 +220,7 @@ export default function () {
             return result.isConfirmed;
         });
         if (deleteConfirmation) {
-            await axois.delete(production + '/logbook/last')
+            await axios.delete(production + '/logbook/last')
                 .then(response => {
                     if (response.status === 200) {
                         sweetAlert.fire({
@@ -345,17 +345,6 @@ export default function () {
                                                className="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Datum</label>
                                         <span className="text-sm text-red-600 hidden" id="error">Date is required</span>
                                     </div>
-                                    {/*<div className="relative z-0 w-full">*/}
-                                    {/*    <input*/}
-                                    {/*        type="time"*/}
-                                    {/*        name="time"*/}
-                                    {/*        placeholder=" "*/}
-                                    {/*        className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"*/}
-                                    {/*    />*/}
-                                    {/*    <label htmlFor="time"*/}
-                                    {/*           className="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Uhrzeit</label>*/}
-                                    {/*    <span className="text-sm text-red-600 hidden" id="error">Time is required</span>*/}
-                                    {/*</div>*/}
                                 </div>
 
                                 <div className="relative z-0 w-full mb-5">
@@ -421,6 +410,7 @@ export default function () {
                                 <hr className={"border-none h-1 bg-pink-500 rounded-lg"}/>
                                 <div className="relative z-0 w-full mb-5 mt-5">
                                     <select
+                                        required
                                         id={'additionalInformationId'}
                                         name="additionalInformation"
                                         value={additionalInformation}
@@ -473,6 +463,7 @@ export default function () {
                                         : null
                                 }
                                 <button
+                                    onClick={() => document.getElementById('additionalInformationId').required = false}
                                     id="button"
                                     type="submit"
                                     className="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-green-500 hover:bg-green-600 hover:shadow-lg focus:outline-none"

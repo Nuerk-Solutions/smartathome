@@ -374,44 +374,44 @@ describe("Logbook Route", () => {
 
 
 
-    // Check previous added entry
-    // VW
-    it("should add a new lookbook entry with no additional Information VW Before 1 2", (done) => {
-
-        const entry = entry_Without_Additional_Information_Before_1_2({typ: "VW"});
-        request(app)
-            .post("/logbook")
-            .send(entry)
-            .expect(201)
-            .then((res) => {
-                expect(res.body).to.be.an('object').does.includes.any.keys({
-                    ...entry,
-                    additionalInformation: null,
-                    vehicle: {
-                        ...entry.vehicle,
-                        _logbookEntry: null,
-                    }
-                });
-                uuid = res.body._id;
-                expect(res.body.additionalInformation).to.be.null;
-                done();
-            })
-            .catch((err) => done(err));
-    });
-
-    // Check if the last added entry is the same as the one we just added
-    it("should return the last added entry", (done) => {
-        request(app)
-            .get("/logbook")
-            .expect(200)
-            .then((res) => {
-                expect(res.body).to.be.an('array').length(2);
-                expect(res.body[0]._id).to.be.not.equal(uuid);
-                expect(res.body[0]._id).to.be.equal(lastAddedUuidVW);
-                done();
-            })
-            .catch((err) => done(err));
-    });
+    // // Check previous added entry
+    // // VW
+    // it("should add a new lookbook entry with no additional Information VW Before 1 2", (done) => {
+    //
+    //     const entry = entry_Without_Additional_Information_Before_1_2({typ: "VW"});
+    //     request(app)
+    //         .post("/logbook")
+    //         .send(entry)
+    //         .expect(201)
+    //         .then((res) => {
+    //             expect(res.body).to.be.an('object').does.includes.any.keys({
+    //                 ...entry,
+    //                 additionalInformation: null,
+    //                 vehicle: {
+    //                     ...entry.vehicle,
+    //                     _logbookEntry: null,
+    //                 }
+    //             });
+    //             uuid = res.body._id;
+    //             expect(res.body.additionalInformation).to.be.null;
+    //             done();
+    //         })
+    //         .catch((err) => done(err));
+    // });
+    //
+    // // Check if the last added entry is the same as the one we just added
+    // it("should return the last added entry", (done) => {
+    //     request(app)
+    //         .get("/logbook")
+    //         .expect(200)
+    //         .then((res) => {
+    //             expect(res.body).to.be.an('array').length(2);
+    //             expect(res.body[0]._id).to.be.not.equal(uuid);
+    //             expect(res.body[0]._id).to.be.equal(lastAddedUuidVW);
+    //             done();
+    //         })
+    //         .catch((err) => done(err));
+    // });
 
 });
 

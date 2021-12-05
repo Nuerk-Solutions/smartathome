@@ -1,8 +1,6 @@
 import React, {Fragment, Suspense, useEffect, useMemo, useState} from 'react';
-import axois from 'axios';
 import axios from 'axios';
 
-import '../weather/pump.scss'
 import moment from "moment-timezone";
 import {useLocation} from "react-router-dom";
 import withReactContent from "sweetalert2-react-content";
@@ -289,7 +287,7 @@ export default function () {
                                         <option value="3">Oliver</option>
                                         <option value="4">Thomas</option>
                                     </select>
-                                    <label htmlFor="select"
+                                    <label htmlFor="driver"
                                            className="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Fahrer
                                         auswählen</label>
                                 </div>
@@ -423,7 +421,7 @@ export default function () {
                                 <hr className={"border-none h-1 bg-pink-500 rounded-lg"}/>
                                 <div className="relative z-0 w-full mb-5 mt-5">
                                     <select
-
+                                        id={'additionalInformationId'}
                                         name="additionalInformation"
                                         value={additionalInformation}
                                         onChange={(event) => setAdditionInformation(Number(event.target.value))}
@@ -446,6 +444,7 @@ export default function () {
                                             type="number"
                                             name="fuelAmount"
                                             pattern="[0-9]+([\.,][0-9]+)?"
+                                            step="0.1"
                                             placeholder=" "
                                             className="pt-3 pl-10 pb-2 pl-5 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
                                             onChange={(event) => setFuelAmount(event.target.value)}

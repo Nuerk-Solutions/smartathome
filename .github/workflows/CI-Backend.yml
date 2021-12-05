@@ -32,6 +32,8 @@ jobs:
           cd backend/
           touch .env
           echo NODE_ENV=testing >> .env
+          echo MONGO_URI_PROD=${{ secrets.MONGO_URI_PROD }} >> .env
+          echo MONGO_URI_TEST=${{ secrets.MONGO_URI_TEST }} >> .env
 
       - name: Test
         run: |

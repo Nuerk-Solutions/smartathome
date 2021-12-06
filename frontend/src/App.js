@@ -8,6 +8,7 @@ import {DvbWidget} from "./components/Dvb/DvbComponent";
 import {PumpWidget} from "./components/PumpWidget";
 import Logbook from "./components/logbook/Logbook";
 import Radio from "./components/radio/Radio";
+import PrinterInfo from "./components/printer/PrinterInfo";
 
 const HomeContainer = lazy(() => import('./containers/home/HomeContainer'))
 
@@ -34,6 +35,7 @@ function App() {
                             <Route exact path="/pump" children={() => <PumpWidget/>}/>
                             <Route exact path="/logbook" children={() => <Logbook/>}/>
                             <Route path="/radio" children={() => <Radio/>}/>
+                            <Route path="/printer" children={() => <PrinterInfo/>}/>
                         </Switch>
                     </Suspense>
                 </div>

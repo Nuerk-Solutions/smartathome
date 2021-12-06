@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
             if(err) {
                 throw err;
             }
-            const json = JSON.stringify(result, null, 4);
+            const json = JSON.stringify(result);
             res.send(json);
         });
     }).catch(error => {

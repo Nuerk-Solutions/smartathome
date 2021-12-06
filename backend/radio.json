@@ -1,5 +1,21 @@
 [
   {
+    "id": "deutschlandfunk",
+    "name": "Deutschlandfunk",
+    "mp3": "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web",
+    "image": "https://cdn-radiotime-logos.tunein.com/s42828d.png",
+    "current_song": "https://streamtext.dradio.de/dlf.txt",
+    "color": "#198aff"
+  },
+  {
+    "id": "mdr_jump",
+    "name": "MDR Jump",
+    "mp3": "https://mdr-284320-0.sslcast.mdr.de/mdr/284320/0/mp3/high/stream.mp3",
+    "image": "https://cdn.jumpradio.de/musik/channel/livechannel-100-resimage_v-variantSmall1x1_w-512.jpg",
+    "current_song": "https://www.mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&protocol=1&idwelle=1&amount=1",
+    "color": "#00bc8c"
+  },
+  {
     "id": "nrj_sachsen",
     "name": "NRJ Sachsen",
     "mp3": "https://scdn.nrjaudio.fm/adwz1/de/33013/mp3_128.mp3",

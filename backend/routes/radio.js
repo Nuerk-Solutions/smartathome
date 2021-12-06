@@ -13,6 +13,19 @@ router.get("/currentSong/:channel", (req, res) => {
     json.map(channel => {
         if (channel.id === req.params.channel) {
             switch (channel.id) {
+                case "deutschlandfunk":
+                    fetchData(channel.current_song).then(data => {
+                        res.send(data);
+                    });
+                    break;
+
+                case "mdr_jump":
+                    fetchData(channel.current_song).then(data => {
+                        const currentInfos = data.Songs[1];
+                        res.send(currentInfos.title + (currentInfos.subtitle && "(" + currentInfos.subtitle + ")") + " - " + (currentInfos.interpret || currentInfos.author));
+                    });
+                    break;
+
                 case "nrj_sachsen":
                     fetchData(channel.current_song).then(data => {
                         res.send(data.title + " - " + data.artist);
@@ -38,7 +51,6 @@ router.get("/currentSong/:channel", (req, res) => {
                         res.send(data.data.weihnachtsradio.title + " - " + data.data.weihnachtsradio.interpret);
                     });
                     break;
-
             }
         }
     });

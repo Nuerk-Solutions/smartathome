@@ -10,6 +10,7 @@ const timersRouter = require("./routes/timers");
 const pumpRouter = require("./routes/pump");
 const logbookRouter = require("./routes/logbook");
 const radioRouter = require("./routes/radio");
+const printerRouter = require("./routes/printer");
 const errorHandlerMiddleware = require("./utils/error-handler.js");
 
 const PORT = process.env.PORT || 4000;
@@ -66,6 +67,7 @@ app.use("/pump", pumpRouter);
 app.use("/pump/timers", timersRouter);
 app.use("/logbook", logbookRouter);
 app.use("/radio", radioRouter);
+app.use("/printer", printerRouter);
 
 app.use(errorHandlerMiddleware);
 app.listen(PORT, () => console.log(`The server is running on port http://localhost:${PORT} \n Server Ready!`));

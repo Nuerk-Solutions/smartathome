@@ -121,7 +121,6 @@ export function DvbWidget(props) {
 }
 
 function StateVisualComponent(props) {
-    console.log(props.theme);
     return (
         <div>
             <div className={`text-${props.colorTheme} pb-3`}

@@ -1,9 +1,10 @@
 const express = require("express");
 const axios = require("axios");
 const xml2js = require("xml2js");
+const createHttpError = require("http-errors");
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
 
     const params = new URLSearchParams();
     params.append('GETINFO', '0');
@@ -17,14 +18,14 @@ router.get("/", (req, res) => {
         data: params
     }).then(response => {
         xml2js.parseString(response.data, (err, result) => {
-            if(err) {
-                throw err;
+            if (err) {
+                next(createHttpError(500, err));
             }
             const json = JSON.stringify(result);
             res.send(json);
         });
     }).catch(error => {
-        console.log(error);
+        console.error(error);
     });
 });
 

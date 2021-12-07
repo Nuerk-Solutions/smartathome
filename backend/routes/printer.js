@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
     params.append('GETINFO', '0');
     axios({
         method: 'post',
-        url: 'http://192.168.200.165/rui/prninfo_data.cgi',
+        url: 'http://printer.nuerk.dynv6.net/rui/prninfo_data.cgi',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Access-Control-Allow-Origin': '*'

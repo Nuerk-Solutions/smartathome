@@ -58,7 +58,7 @@ export default function ({
 
     return (
         <div
-            className={`text-${getContrastYIQ(color)}  relative z-0 max-h-96 w-full md:max-w-sm px-6 pt-5 pb-5 border-0 shadow-lg rounded-2xl mt-5 mb-5 cursor-pointer`}
+            className={`text-${getContrastYIQ(color)} relative z-0 max-h-96 w-full md:max-w-sm px-6 pt-5 pb-5 border-0 shadow-lg rounded-2xl mt-5 mb-5 cursor-pointer`}
             style={{
                 background: (isPlaying ? color : `linear-gradient(180deg, ${color}, #000000)`),
             }}

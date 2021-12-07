@@ -8,7 +8,7 @@ export default function RecipeWizard() {
 
     const [state, updateState] = useState({
         form: {},
-        demo: true, // uncomment to see more
+        // demo: true, // uncomment to see more
     });
 
     const updateForm = (key, value) => {
@@ -34,8 +34,8 @@ export default function RecipeWizard() {
     const {SW, demo} = state;
 
     return (
-        <div className='container'>
-            <h3>React Step Wizard</h3>
+        <div className={"border-0 shadow-lg rounded-2xl mt-5 mb-5 bg-gray-400 overflow-hidden"}>
+            <h3 className={"text-center pt-5"}>Rezept hinzufügen</h3>
             <div className={'jumbotron'}>
                 <div className='row'>
                     <div className={`col-12 col-sm-6 offset-sm-3`}>
@@ -89,18 +89,17 @@ const Stats = ({
                }) => (
     <div>
         {step > 1 &&
-            <button className='rounded-lg shadow outline-none bg-red-500 hover:bg-red-600' onClick={previousStep}>Go
-                Back</button>
+            <button className='rounded-lg shadow outline-none bg-red-500 hover:bg-red-600'
+                    onClick={previousStep}>Zurück</button>
         }
         {step < totalSteps ?
             <button className='rounded-lg shadow outline-none bg-green-500 hover:bg-green-600'
-                    onClick={nextStep}>Continue</button>
+                    onClick={nextStep}>Weiter</button>
             :
             <button className='rounded-lg shadow outline-none bg-blue-500 hover:bg-blue-600'
-                    onClick={nextStep}>Finish</button>
+                    onClick={nextStep}>Fertig</button>
         }
-        <div style={{fontSize: '21px', fontWeight: '200'}}>
-            <h4>Other Functions</h4>
+        <div style={{fontSize: '21px', fontWeight: '200'}} className={"grid place-items-center"}>
             <div>Current Step: {currentStep}</div>
             <div>Total Steps: {totalSteps}</div>
         </div>
@@ -153,7 +152,7 @@ const Progress = (props) => {
 
     return (
         <div>
-            <p className='text-center'>Automated Progress...</p>
+            <p className='text-center'>Speichern...</p>
             <div>
                 <LinearProgress variant="indeterminate" color="secondary"/>
             </div>

@@ -7,14 +7,14 @@ const Nav = (props) => {
         dots.push((
             <span
                 key={`step-${i}`}
-                className={`${isActive ? "bg-green" : 'bg-red'}`}
+                className={`${isActive ? "text-cyan-400" : 'text-gray-600'} text-6xl mx-2`}
                 onClick={() => props.goToStep(i)}
             >&bull;</span>
         ));
     }
 
     return (
-        <div>{dots}</div>
+        <div className={"flex flex-row justify-center"}>{dots}</div>
     );
 };
 

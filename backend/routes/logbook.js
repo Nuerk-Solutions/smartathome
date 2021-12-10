@@ -7,6 +7,7 @@ const Vehicle = require("../models/vehicle.model");
 const AdditionalInformation = require("../models/logbookAddition.model");
 const XLSX = require("xlsx");
 const mongoose = require("mongoose");
+const {add} = require("nodemon/lib/rules");
 
 /**
  * @swagger
@@ -267,38 +268,31 @@ router.post("/", async (req, res, next) => {
 
 
         if (req.body.additionalInformation != null) {
+            let lastAdditionalInformationLog = await AdditionalInformation.findOne({informationTyp: req.body.additionalInformation.informationTyp}).sort({createdAt: -1}).populate("_logbookEntry", "", "LogbookModel");
 
-            // Get Last Additional Information and populate with Logbook Entry
-            const lastAdditionalInformationLog = await AdditionalInformation.findOne().sort({createdAt: -1}).populate("_logbookEntry", "", "LogbookModel");
+            // Logbook.find().sort({createdAt: -1}).populate("vehicle").populate("additionalInformation").exec((error, entry) => {
+            //     entry.map(item => {
+            //         if (item.additionalInformation != null) {
+            //             if (item.vehicle.typ === req.body.vehicle.typ) {
+            //                 if (item.additionalInformation.informationTyp === req.body.additionalInformation.informationTyp) {
+            //                     lastAdditionalInformationLog = item
+            //                 }
+            //             }
+            //         }
+            //     })
+            // })
+
             let lastAdditionalInformationVehicle = null;
 
             if (lastAdditionalInformationLog != null) {
                 lastAdditionalInformationVehicle = await Vehicle.findOne({_id: lastAdditionalInformationLog._logbookEntry.vehicle}).populate("_logbookEntry", "", "LogbookModel");
-                if (req.body.vehicle.typ === lastAdditionalInformationVehicle.typ) {
-
-                    additionalInformation = new AdditionalInformation({
-                        ...req.body.additionalInformation,
-                        _logbookEntry: _id,
-                        distanceSinceLastInformation: lastAdditionalInformationVehicle && Number(req.body.vehicle.newMileAge - lastAdditionalInformationVehicle.newMileAge) || 0,
-                    });
-                }
+                console.log(lastAdditionalInformationVehicle)
+                additionalInformation = new AdditionalInformation({
+                    ...req.body.additionalInformation,
+                    _logbookEntry: _id,
+                    distanceSinceLastInformation: lastAdditionalInformationVehicle && Number(req.body.vehicle.newMileAge - lastAdditionalInformationVehicle.newMileAge) || 0,
+                });
             }
-
-            // if (lastAdditionalInformationLog != null && req.body.vehicle.typ === lastAdditionalInformationLog.vehicle.typ) {
-            //     lastAdditionalInformationVehicle = await Vehicle.findOne({_id: lastAdditionalInformationLog._logbookEntry.vehicle}).populate("_logbookEntry", "", "LogbookModel");
-            //
-            //     additionalInformation = new AdditionalInformation({
-            //         _logbookEntry: _id,
-            //         distanceSinceLastInformation: lastAdditionalInformationVehicle && Number(req.body.vehicle.newMileAge - lastAdditionalInformationVehicle.newMileAge) || 0,
-            //         ...req.body.additionalInformation
-            //     });
-            // } else {
-            //     additionalInformation = new AdditionalInformation({
-            //         _logbookEntry: _id,
-            //         distanceSinceLastInformation: 0,
-            //         ...req.body.additionalInformation
-            //     });
-            // }
         }
 
         // ._logbookEntry.additionalInformation

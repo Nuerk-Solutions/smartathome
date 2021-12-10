@@ -270,6 +270,32 @@ router.post("/", async (req, res, next) => {
         if (req.body.additionalInformation != null) {
             let lastAdditionalInformationLog = await AdditionalInformation.findOne({informationTyp: req.body.additionalInformation.informationTyp}).sort({createdAt: -1}).populate("_logbookEntry", "", "LogbookModel");
 
+            const test = await AdditionalInformation
+                .find({informationTyp: req.body.additionalInformation.informationTyp})
+                .sort({createdAt: -1})
+                .populate({
+                    path: "_logbookEntry",
+                    model: "LogbookModel",
+                    populate: {
+                        path: "vehicle"
+                    }
+                }).then(item => {
+                    let json = JSON.parse(JSON.stringify(item));
+                    json = json.filter(item => item._logbookEntry.vehicle.typ === req.body.vehicle.typ);
+                    lastAdditionalInformationLog = json[0];
+                    // json.map(i => {
+                    //     console.log("________________", i)
+                    //     lastAdditionalInformationLog = i;
+                    // })
+                })
+            // console.log(test)
+                // .exec((error, items) => {
+                // items = items.filter(item => {
+                //     return item.vehicle.typ === 'VW';
+                // })
+                // console.log(items);
+                // return items;
+            // })
             // Logbook.find().sort({createdAt: -1}).populate("vehicle").populate("additionalInformation").exec((error, entry) => {
             //     entry.map(item => {
             //         if (item.additionalInformation != null) {
@@ -286,7 +312,7 @@ router.post("/", async (req, res, next) => {
 
             if (lastAdditionalInformationLog != null) {
                 lastAdditionalInformationVehicle = await Vehicle.findOne({_id: lastAdditionalInformationLog._logbookEntry.vehicle}).populate("_logbookEntry", "", "LogbookModel");
-                console.log(lastAdditionalInformationVehicle)
+                console.log(req.body.vehicle.newMileAge, lastAdditionalInformationVehicle.newMileAge, lastAdditionalInformationVehicle.currentMileAge, false);
                 additionalInformation = new AdditionalInformation({
                     ...req.body.additionalInformation,
                     _logbookEntry: _id,

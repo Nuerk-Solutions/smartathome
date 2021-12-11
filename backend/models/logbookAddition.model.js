@@ -13,6 +13,9 @@ const AdditionalInformationSchema = new Schema({
     information: {
         type: String
     },
+    cost: {
+        type: String
+    },
     distanceSinceLastInformation: {
         type: Number
     },

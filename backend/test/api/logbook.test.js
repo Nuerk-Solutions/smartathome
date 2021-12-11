@@ -29,21 +29,6 @@ function entry_Without_Additional_Information_1({typ}) {
     };
 }
 
-// function entry_Without_Additional_Information_Before_1_2({typ}) {
-//     return {
-//         driver: "Thomas",
-//         date: "2018-01-01T00:00:00.000Z",
-//         driveReason: "Test_Without_1",
-//         vehicle: {
-//             typ,
-//             currentMileAge: 5,
-//             newMileAge: 10,
-//             distance: 5,
-//             cost: (5 * 0.2),
-//         }
-//     };
-// }
-
 function entry_With_Additional_Information_Fuel_1({typ}) {
     return {
         driver: "Thomas",
@@ -97,8 +82,6 @@ function entry_Without_Additional_Information_2({typ}) {
     };
 }
 
-
-
 function entry_With_Additional_Information_Fuel_2({typ}) {
     return {
         driver: "Thomas",
@@ -133,6 +116,36 @@ function entry_Without_Additional_Information_3({typ}) {
     };
 }
 
+function entry_Without_Additional_Information_4({typ}) {
+    return {
+        driver: "Thomas",
+        date: "2021-01-01T00:00:00.000Z",
+        driveReason: "Test_Without_4_" + typ,
+        vehicle: {
+            typ,
+            currentMileAge: 150,
+            newMileAge: 160,
+            distance: 10,
+            cost: (10 * 0.2),
+        }
+    };
+}
+
+function entry_Without_Additional_Information_3_1({typ}) {
+    return {
+        driver: "Thomas",
+        date: "2021-01-01T00:00:00.000Z",
+        driveReason: "Test_Without_3_" + typ,
+        vehicle: {
+            typ,
+            currentMileAge: 70,
+            newMileAge: 150,
+            distance: 80,
+            cost: (80 * 0.2),
+        }
+    };
+}
+
 function entry_With_Additional_Information_Fuel_3({typ}) {
     return {
         driver: "Thomas",
@@ -140,10 +153,10 @@ function entry_With_Additional_Information_Fuel_3({typ}) {
         driveReason: "Test_Fuel_3_" + typ,
         vehicle: {
             typ,
-            currentMileAge: 150,
-            newMileAge: 160,
-            distance: 10,
-            cost: (10 * 0.2),
+            currentMileAge: 160,
+            newMileAge: 180,
+            distance: 20,
+            cost: (20 * 0.2),
         },
         additionalInformation: {
             informationTyp: "Getankt",
@@ -163,7 +176,6 @@ describe("Logbook Route", () => {
             .send(entry)
             .expect(201)
             .then((res) => {
-                console.log(res.body.vehicle.newMileAge - res.body.vehicle.currentMileAge);
                 expect(res.body).to.be.an('object');
                 expect(res.body.driver).to.be.equal("Thomas");
                 expect(res.body.date).to.be.equal("2019-01-01T00:00:00.000Z");
@@ -243,7 +255,6 @@ describe("Logbook Route", () => {
             .send(entry)
             .expect(201)
             .then((res) => {
-                console.log(res.body.vehicle.newMileAge - res.body.vehicle.currentMileAge);
                 expect(res.body).to.be.an('object');
                 expect(res.body.driver).to.be.equal("Thomas");
                 expect(res.body.date).to.be.equal("2019-01-01T00:00:00.000Z");
@@ -317,7 +328,6 @@ describe("Logbook Route", () => {
             .send(entry)
             .expect(201)
             .then((res) => {
-                console.log(res.body.vehicle.newMileAge - res.body.vehicle.currentMileAge);
                 expect(res.body).to.be.an('object');
                 expect(res.body.driver).to.be.equal("Thomas");
                 expect(res.body.date).to.be.equal("2020-01-01T00:00:00.000Z");
@@ -501,7 +511,7 @@ describe("Logbook Route", () => {
                 });
                 lastAddedUuidVW = res.body._id;
                 expect(res.body.additionalInformation).to.be.not.null;
-                expect(res.body.additionalInformation.distanceSinceLastInformation).to.be.equal(80);
+                expect(res.body.additionalInformation.distanceSinceLastInformation).to.be.equal(60);
                 done();
             })
             .catch((err) => done(err));
@@ -515,7 +525,6 @@ describe("Logbook Route", () => {
             .send(entry)
             .expect(201)
             .then((res) => {
-                console.log(res.body.vehicle.distance)
                 expect(res.body).to.be.an('object');
                 expect(res.body.driver).to.be.equal("Thomas");
                 expect(res.body.date).to.be.equal("2021-01-01T00:00:00.000Z");
@@ -525,6 +534,82 @@ describe("Logbook Route", () => {
                 expect(res.body.vehicle.newMileAge).to.be.equal(150);
                 expect(res.body.vehicle.distance).to.be.equal(50);
                 expect(res.body.vehicle.cost).to.be.equal(50 * 0.2);
+                expect(res.body.additionalInformation).to.be.null;
+                uuid = res.body._id;
+                lastAddedUuidVW = res.body._id;
+                done();
+            })
+            .catch((err) => done(err));
+    });
+
+    it("should add a new lookbook entry with no additional Information VW 4", (done) => {
+
+        const entry = entry_Without_Additional_Information_4({typ: "VW"});
+        request(app)
+            .post("/logbook")
+            .send(entry)
+            .expect(201)
+            .then((res) => {
+                expect(res.body).to.be.an('object');
+                expect(res.body.driver).to.be.equal("Thomas");
+                expect(res.body.date).to.be.equal("2021-01-01T00:00:00.000Z");
+                expect(res.body.driveReason).to.be.equal("Test_Without_4_VW");
+                expect(res.body.vehicle.typ).to.be.equal("VW");
+                expect(res.body.vehicle.currentMileAge).to.be.equal(150);
+                expect(res.body.vehicle.newMileAge).to.be.equal(160);
+                expect(res.body.vehicle.distance).to.be.equal(10);
+                expect(res.body.vehicle.cost).to.be.equal(10 * 0.2);
+                expect(res.body.additionalInformation).to.be.null;
+                uuid = res.body._id;
+                lastAddedUuidVW = res.body._id;
+                done();
+            })
+            .catch((err) => done(err));
+    });
+
+    it("should add a new lookbook entry with no additional Information Ferrari 3", (done) => {
+
+        const entry = entry_Without_Additional_Information_3_1({typ: "Ferrari"});
+        request(app)
+            .post("/logbook")
+            .send(entry)
+            .expect(201)
+            .then((res) => {
+                expect(res.body).to.be.an('object');
+                expect(res.body.driver).to.be.equal("Thomas");
+                expect(res.body.date).to.be.equal("2021-01-01T00:00:00.000Z");
+                expect(res.body.driveReason).to.be.equal("Test_Without_3_Ferrari");
+                expect(res.body.vehicle.typ).to.be.equal("Ferrari");
+                expect(res.body.vehicle.currentMileAge).to.be.equal(70);
+                expect(res.body.vehicle.newMileAge).to.be.equal(150);
+                expect(res.body.vehicle.distance).to.be.equal(80);
+                expect(res.body.vehicle.cost).to.be.equal(80 * 0.2);
+                expect(res.body.additionalInformation).to.be.null;
+                uuid = res.body._id;
+                lastAddedUuidVW = res.body._id;
+                done();
+            })
+            .catch((err) => done(err));
+    });
+
+
+    it("should add a new lookbook entry with no additional Information Ferrari 4", (done) => {
+
+        const entry = entry_Without_Additional_Information_4({typ: "Ferrari"});
+        request(app)
+            .post("/logbook")
+            .send(entry)
+            .expect(201)
+            .then((res) => {
+                expect(res.body).to.be.an('object');
+                expect(res.body.driver).to.be.equal("Thomas");
+                expect(res.body.date).to.be.equal("2021-01-01T00:00:00.000Z");
+                expect(res.body.driveReason).to.be.equal("Test_Without_4_Ferrari");
+                expect(res.body.vehicle.typ).to.be.equal("Ferrari");
+                expect(res.body.vehicle.currentMileAge).to.be.equal(150);
+                expect(res.body.vehicle.newMileAge).to.be.equal(160);
+                expect(res.body.vehicle.distance).to.be.equal(10);
+                expect(res.body.vehicle.cost).to.be.equal(10 * 0.2);
                 expect(res.body.additionalInformation).to.be.null;
                 uuid = res.body._id;
                 lastAddedUuidVW = res.body._id;
@@ -549,51 +634,33 @@ describe("Logbook Route", () => {
                 });
                 lastAddedUuidVW = res.body._id;
                 expect(res.body.additionalInformation).to.be.not.null;
-                expect(res.body.additionalInformation.distanceSinceLastInformation).to.be.equal(60);
+                expect(res.body.additionalInformation.distanceSinceLastInformation).to.be.equal(80);
                 done();
             })
             .catch((err) => done(err));
     });
 
-    // // Check previous added entry
-    // // VW
-    // it("should add a new lookbook entry with no additional Information VW Before 1 2", (done) => {
-    //
-    //     const entry = entry_Without_Additional_Information_Before_1_2({typ: "VW"});
-    //     request(app)
-    //         .post("/logbook")
-    //         .send(entry)
-    //         .expect(201)
-    //         .then((res) => {
-    //             expect(res.body).to.be.an('object').does.includes.any.keys({
-    //                 ...entry,
-    //                 additionalInformation: null,
-    //                 vehicle: {
-    //                     ...entry.vehicle,
-    //                     _logbookEntry: null,
-    //                 }
-    //             });
-    //             uuid = res.body._id;
-    //             expect(res.body.additionalInformation).to.be.null;
-    //             done();
-    //         })
-    //         .catch((err) => done(err));
-    // });
-    //
-    // // Check if the last added entry is the same as the one we just added
-    // it("should return the last added entry", (done) => {
-    //     request(app)
-    //         .get("/logbook")
-    //         .expect(200)
-    //         .then((res) => {
-    //             expect(res.body).to.be.an('array').length(2);
-    //             expect(res.body[0]._id).to.be.not.equal(uuid);
-    //             expect(res.body[0]._id).to.be.equal(lastAddedUuidVW);
-    //             done();
-    //         })
-    //         .catch((err) => done(err));
-    // });
-
+    it("should add a new lookbook entry with additional Information Fuel Ferrari 3", (done) => {
+        const entry = entry_With_Additional_Information_Fuel_3({typ: "Ferrari"});
+        request(app)
+            .post("/logbook")
+            .send(entry)
+            .expect(201)
+            .then((res) => {
+                expect(res.body).to.be.an('object').does.includes.any.keys({
+                    ...entry,
+                    vehicle: {
+                        ...entry.vehicle,
+                        _logbookEntry: null,
+                    }
+                });
+                lastAddedUuidVW = res.body._id;
+                expect(res.body.additionalInformation).to.be.not.null;
+                expect(res.body.additionalInformation.distanceSinceLastInformation).to.be.equal(140);
+                done();
+            })
+            .catch((err) => done(err));
+    });
 });
 
 after(async function () {

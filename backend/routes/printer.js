@@ -12,8 +12,7 @@ router.get("/", (req, res, next) => {
         method: 'post',
         url: 'http://printer.nuerk.dynv6.net/rui/prninfo_data.cgi',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Access-Control-Allow-Origin': '*'
+            'Content-Type': 'application/x-www-form-urlencoded'
         },
         data: params
     }).then(response => {

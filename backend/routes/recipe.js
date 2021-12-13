@@ -44,42 +44,41 @@ router.post("/", (req, res) => {
 
 
     // Create an array of steps from body steps
-    // const steps = req.body.steps.map(item => {
-    //     let step = new Step({
-    //         recipe_id: _id,
-    //         step: item.step,
-    //         name: item.name,
-    //         description: item.description,
-    //     });
-    //     step.save();
-    // });
+    const steps = req.body.steps.map(item => {
+        return new Step({
+            recipe_id: _id,
+            step: item.step,
+            name: item.name,
+            description: item.description,
+        });
+    });
 
-    Step.insertMany(req.steps, function (err, docs) {
+    Step.insertMany(steps, function (err, docs) {
         if (err) {
             console.log(err);
             return;
         }
-        const stepIds = docs.ops.map(doc => {return doc._id});
+        const stepIds = docs.map(doc => {return doc._id});
         let recipe = new Recipe({
+            ...req.body,
             _id: _id,
-            name: req.body.name,
-            description: req.body.description,
             ingredients: ingredients,
             steps: stepIds
         });
-        recipe.save();
+        recipe.save().then(r => res.send(r));
     });
 
-    const recipe = new Recipe({
-        _id: _id,
-        name: req.body.name,
-        author: req.body.author,
-        duration: req.body.duration,
-        description: req.body.description,
-        ingredients: ingredients,
-        steps: steps,
-        image: req.body.image
-    });
+
+    // const recipe = new Recipe({
+    //     _id: _id,
+    //     name: req.body.name,
+    //     author: req.body.author,
+    //     duration: req.body.duration,
+    //     description: req.body.description,
+    //     ingredients: ingredients,
+    //     steps: steps,
+    //     image: req.body.image
+    // });
     // recipe.save().then((error, result) => {
     //     if (error) {
     //         res.status(500).send(error);

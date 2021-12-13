@@ -11,6 +11,7 @@ const pumpRouter = require("./routes/pump");
 const logbookRouter = require("./routes/logbook");
 const radioRouter = require("./routes/radio");
 const printerRouter = require("./routes/printer");
+const recipeRouter = require("./routes/recipe");
 const errorHandlerMiddleware = require("./utils/error-handler.js");
 
 const PORT = process.env.PORT || 4000;
@@ -60,6 +61,7 @@ app.db = db;
 app.use(helmet());
 app.use(cors());
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json());
 app.use(morgan("dev"));
 
@@ -68,6 +70,7 @@ app.use("/pump/timers", timersRouter);
 app.use("/logbook", logbookRouter);
 app.use("/radio", radioRouter);
 app.use("/printer", printerRouter);
+app.use("/recipe", recipeRouter);
 
 app.use(errorHandlerMiddleware);
 app.listen(PORT, () => console.log(`The server is running on port http://localhost:${PORT} \n Server Ready!`));

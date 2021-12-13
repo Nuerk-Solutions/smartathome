@@ -1,9 +1,9 @@
 require('dotenv').config();
 const expect = require('chai').expect;
 const request = require('supertest');
-const Logbook = require("../../models/logbook.model");
-const Vehicle = require("../../models/vehicle.model");
-const AdditionalInformation = require("../../models/logbookAddition.model");
+const Logbook = require("../../models/logbook/logbook.model");
+const Vehicle = require("../../models/logbook/vehicle.model");
+const AdditionalInformation = require("../../models/logbook/logbookAddition.model");
 const app = require("../../index.js");
 
 before(function (done) {

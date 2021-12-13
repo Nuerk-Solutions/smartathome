@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const createHttpError = require("http-errors");
-const Logbook = require("../models/logbook.model");
-const Vehicle = require("../models/vehicle.model");
-const AdditionalInformation = require("../models/logbookAddition.model");
+const Logbook = require("../models/logbook/logbook.model");
+const Vehicle = require("../models/logbook/vehicle.model");
+const AdditionalInformation = require("../models/logbook/logbookAddition.model");
 const XLSX = require("xlsx");
 const mongoose = require("mongoose");
 const {add} = require("nodemon/lib/rules");

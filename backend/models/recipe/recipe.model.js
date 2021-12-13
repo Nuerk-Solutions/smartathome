@@ -30,7 +30,8 @@ const RecipeSchema = new Schema({
         required: true
     }],
     image: {
-        type: String,
+        data: Buffer,
+        contentType: String,
         required: true
     }
 }, {timestamps: true});

@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import LoaderComponent from "../weather/loader/LoaderComponent";
 import autosize from "autosize/dist/autosize";
 import ErrorComponent from "../weather/error/ErrorComponent";
+import {TiDelete} from "react-icons/all";
 
 export default function () {
 
@@ -351,6 +352,7 @@ export default function () {
 
                                 <div className="relative z-0 w-full mb-5">
                                     <input
+                                        required
                                         value={reason}
                                         onChange={(event) => setReason(event.target.value)}
                                         type="text"
@@ -358,6 +360,12 @@ export default function () {
                                         placeholder=" "
                                         className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
                                     />
+                                    {
+                                        reason && <button type={"button"}
+                                                          className="absolute top-0 right-0 mt-2.5 mr-4 text-gray-400 transition-all duration-150 ease-linear"
+                                                          onClick={() => setReason('')}>
+                                            <TiDelete size={30}/></button>
+                                    }
                                     <label htmlFor="reasonForUse"
                                            className="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Reiseziel</label>
                                     <span className="text-sm text-red-600 hidden" id="error">Grund wird benötigt</span>

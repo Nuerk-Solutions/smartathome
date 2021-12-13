@@ -19,7 +19,7 @@ const StepSchema = new Schema({
         type: String,
         required: true
     }
-}, {timestamps: true});
+});
 
 const StepModel = mongoose.model('StepModel', StepSchema, "steps");
 module.exports = StepModel;

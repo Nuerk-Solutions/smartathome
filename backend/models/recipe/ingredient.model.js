@@ -19,7 +19,7 @@ const IngredientSchema = new Schema({
         type: String,
         required: true
     }
-}, {timestamps: true});
+});
 
 const IngredientModel = mongoose.model('IngredientModel', IngredientSchema, "ingredients");
 module.exports = IngredientModel;

@@ -145,7 +145,7 @@ router.get("/", async (req, res, next) => {
         path: "vehicle", match: {
             typ: 'VW'
         }
-    }).sort({createdAt: -1}).exec(function (err, vw) {
+    }).sort({createdAt: -1}).populate("additionalInformation").exec(function (err, vw) {
         if (err) return next(createHttpError(500, err));
         vw = vw.filter(logbook => {
             return logbook.vehicle;
@@ -155,7 +155,7 @@ router.get("/", async (req, res, next) => {
             path: "vehicle", match: {
                 typ: 'Ferrari'
             }
-        }).sort({createdAt: -1}).exec(function (err, ferrari) {
+        }).sort({createdAt: -1}).populate("additionalInformation").exec(function (err, ferrari) {
             if (err) return next(createHttpError(500, err));
             ferrari = ferrari.filter(logbook => {
                 return logbook.vehicle;

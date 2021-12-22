@@ -65,7 +65,7 @@ export default function () {
             <Fragment>
                 <Suspense
                     fallback={
-                        <LoaderComponent loaderText={'Wettervorhersage-UI wird geladen'}/>
+                        <LoaderComponent loaderText={'Radio-UI wird geladen'}/>
                     }>
                     <div className={"flex flex-row flex-wrap gap-3 mx-2.5"}>
                         {

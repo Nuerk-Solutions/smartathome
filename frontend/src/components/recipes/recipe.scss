@@ -19,3 +19,7 @@
 .separator:not(:empty)::after {
   margin-left: .25em;
 }
+
+.image-upload > input {
+  display: none;
+}

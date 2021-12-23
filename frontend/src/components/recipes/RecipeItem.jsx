@@ -1,7 +1,6 @@
 import React, { useContext } from "react"
 import { ThemeContext } from "../../context/ThemeContext";
-import {useRouteMatch} from "react-router-dom";
-import Link from "react-router-dom/es/Link";
+import {Link, useRouteMatch} from "react-router-dom";
 
 export default function RecipeItem({
     recipeId,

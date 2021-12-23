@@ -1,8 +1,9 @@
 import React, {Fragment, Suspense, useContext, useEffect, useState} from "react"
-import axios from "axios";
 import LoaderComponent from "../weather/loader/LoaderComponent";
 import ErrorComponent from "../weather/error/ErrorComponent";
 import {ThemeContext} from "../../context/ThemeContext";
+import FileBase64 from "./FileBase64";
+import './recipe.scss';
 
 export default function RecipeCreate() {
 
@@ -10,6 +11,12 @@ export default function RecipeCreate() {
     const [isLoaded, setIsLoaded] = useState(true);
     const [error, setError] = useState(null);
     const {theme, colorTheme} = useContext(ThemeContext);
+    const [files, setFiles] = useState([]);
+
+
+    useEffect(() => {
+        console.log(files)
+    }, [setFiles, files]);
 
     if (error) {
         return (
@@ -27,30 +34,50 @@ export default function RecipeCreate() {
         );
     } else if (!isLoaded) {
         return (
-            <LoaderComponent loaderText={`Abrufen der neusten Daten 😎`} />
+            <LoaderComponent loaderText={`Abrufen der neusten Daten 😎`}/>
         );
     } else {
         return (
             <Fragment>
                 <Suspense
                     fallback={
-                        <LoaderComponent loaderText={'Wettervorhersage-UI wird geladen'} />
+                        <LoaderComponent loaderText={'Wettervorhersage-UI wird geladen'}/>
                     }>
                     <div
                         className={`text-${colorTheme} m-5 p-3 flex flex-col divide-gray-400 shadow-2xl rounded-lg`}
                         style={{
                             backgroundColor: theme === 'dark' ? '#424242' : '#ffffff',
-                        }}>
+                        }}
+                    contentEditable={true}>
                         <h1 className='text-4xl font-bold mb-5 m-auto'>Placeholder</h1>
                         <div className='flex justify-between'>
                             <div className='grow'>
-                                <h2 className='text-xl mb-5' contentEditable={true}>Desc</h2>
+                                <h2 className='text-xl mb-5'>Desc</h2>
                                 <h2 className='text-xl'>Autor: Author</h2>
                                 <h2 className='text-xl'>Dauer: X min</h2>
                             </div>
-                            <div className="w-44 h-40 mx-5 shadow-lg rounded-lg border-2">
-                                <img className='w-full h-full' src='https://via.placeholder.com/300x300' alt='Placeholder'/>
-                            </div>
+                            {
+                                files.length !== 0 ?
+                                    files.map((file, index) => {
+                                        return (
+                                            <img
+                                                key={index}
+                                                className="max-w-xs w-1/6 h-1/6 mx-5 shadow-lg rounded-lg"
+                                                src={file.base64}
+                                                alt={file.name}
+                                            />
+                                        );
+                                    })
+                                    :
+                                    <div className="w-44 h-40 mx-5 shadow-lg rounded-lg image-upload">
+                                        <label htmlFor="file-input" className="cursor-pointer">
+                                            <p className="w-full h-full flex flex-col justify-center items-center border-2 border-dashed border-gray-400 rounded-lg">
+                                                Bild auswählen
+                                            </p>
+                                        </label>
+                                        <FileBase64 multiple={true} onDone={setFiles}/>
+                                    </div>
+                            }
                         </div>
                         <div className='separator mt-5'>Zutaten</div>
                         <div className={"flex flex-col justify-center text-center items-center"}>
@@ -63,8 +90,9 @@ export default function RecipeCreate() {
                                 </div>
                             </div>
                         </div>
-                        <hr className="border-2 mt-5" />
-                        <div className={`${theme === 'dark' ? 'bg-gray-600' : 'bg-gray-300'} border-0 shadow-lg rounded-lg m-5 cursor-pointer`}>
+                        <hr className="border-2 mt-5"/>
+                        <div
+                            className={`${theme === 'dark' ? 'bg-gray-600' : 'bg-gray-300'} border-0 shadow-lg rounded-lg m-5 cursor-pointer`}>
                             <div
                                 className={`${theme === 'dark' ? 'bg-indigo-800' : 'bg-indigo-400'} grid grid-cols-2 h-10 content-center rounded-t-lg shadow-2xl`}>
                                 <div className="inline-flex">
@@ -74,7 +102,7 @@ export default function RecipeCreate() {
                                 {/* <h1 className="text-right mr-2">21 min</h1> */}
                             </div>
                             <div className="p-2">
-                                <div contentEditable={true}>Description</div>
+                                <div>Description</div>
                                 {/* <div className="mt-5">
                                         Hinweis: {stepItem.hint}
                                     </div> */}

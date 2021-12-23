@@ -22,8 +22,17 @@ router.get("/list", (req, res, next) => {
         });
 });
 
-router.get("/:id", (req, res) => {
-
+router.get("/:id", (req, res, next) => {
+    Recipe.findById(req.params.id)
+        .populate("ingredients")
+        .populate("steps")
+        .exec((err, recipes) => {
+            if (err) {
+                next(createHttpError(500, err));
+            } else {
+                res.status(200).send(recipes);
+            }
+        });
 });
 
 router.post("/", (req, res) => {
@@ -58,7 +67,7 @@ router.post("/", (req, res) => {
             console.log(err);
             return;
         }
-        const stepIds = docs.map(doc => {return doc._id});
+        const stepIds = docs.map(doc => { return doc._id });
         let recipe = new Recipe({
             ...req.body,
             _id: _id,

@@ -4,6 +4,8 @@ import ErrorComponent from "../weather/error/ErrorComponent";
 import {ThemeContext} from "../../context/ThemeContext";
 import FileBase64 from "./FileBase64";
 import './recipe.scss';
+import ReactFloatingLabelInputEsm from "react-floating-label-input";
+import {TiDeleteOutline} from "react-icons/all";
 
 export default function RecipeCreate() {
 
@@ -12,7 +14,31 @@ export default function RecipeCreate() {
     const [error, setError] = useState(null);
     const {theme, colorTheme} = useContext(ThemeContext);
     const [files, setFiles] = useState([]);
+    const [ingredients, setIngredients] = useState([]);
 
+    // Generate UUID
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    const addIngredient = () => {
+        let ingredient = {
+            id: uuidv4(),
+            amount: '1',
+            quantity: '',
+            unit: '',
+            name: ''
+        };
+        setIngredients([...ingredients, ingredient]);
+    };
+
+    const removeIngredient = (id) => {
+        const newList = ingredients.filter(ingredient => ingredient.id !== id);
+        setIngredients(newList);
+    };
 
     useEffect(() => {
         console.log(files)
@@ -47,14 +73,31 @@ export default function RecipeCreate() {
                         className={`text-${colorTheme} m-5 p-3 flex flex-col divide-gray-400 shadow-2xl rounded-lg`}
                         style={{
                             backgroundColor: theme === 'dark' ? '#424242' : '#ffffff',
-                        }}
-                    contentEditable={true}>
-                        <h1 className='text-4xl font-bold mb-5 m-auto'>Placeholder</h1>
+                        }}>
+                        <div className={"m-auto text-4xl font-bold mb-5"}>
+                            <ReactFloatingLabelInputEsm
+                                label="Rezeptname"
+                                name="name"
+                            />
+                        </div>
                         <div className='flex justify-between'>
                             <div className='grow'>
-                                <h2 className='text-xl mb-5'>Desc</h2>
-                                <h2 className='text-xl'>Autor: Author</h2>
-                                <h2 className='text-xl'>Dauer: X min</h2>
+                                <ReactFloatingLabelInputEsm
+                                    className={"mb-5"}
+                                    label="Kurzbeschreibung"
+                                    name="description"
+                                />
+                                <ReactFloatingLabelInputEsm
+                                    className={"mb-5"}
+                                    label="Autor"
+                                    name="author"
+                                />
+                                <ReactFloatingLabelInputEsm
+                                    className={"mb-5"}
+                                    label="Dauer in min"
+                                    name="duration"
+                                    type="number"
+                                />
                             </div>
                             {
                                 files.length !== 0 ?
@@ -83,10 +126,70 @@ export default function RecipeCreate() {
                         <div className={"flex flex-col justify-center text-center items-center"}>
                             <div className='m-1'>
                                 <div className='flex flex-row'>
-                                    <h2 className='text-xl mr-2'>Xx</h2>
-                                    <h2 className='text-xl'>Quantity</h2>
-                                    <h2 className='text-xl mr-2'>Unit</h2>
-                                    <h2 className='text-xl'>Name</h2>
+                                    {
+                                        ingredients.length !== 0 ?
+                                            <div className={"flex flex-col justify-center items-center"}>
+                                                {
+                                                    ingredients.map((ingredient, index) => {
+                                                        return (
+                                                            <div key={ingredient.id} className='m-1'>
+                                                                <div className='flex flex-row'>
+                                                                    <ReactFloatingLabelInputEsm
+                                                                        className={"w-11/12"}
+                                                                        defaultValue={ingredient.amount}
+                                                                        label="Anzahl"
+                                                                        name="amount"
+                                                                        type="number"
+                                                                    />
+                                                                    <ReactFloatingLabelInputEsm
+                                                                        className={"w-11/12"}
+                                                                        defaultValue={ingredient.quantity}
+                                                                        label="Menge"
+                                                                        name="quantity"
+                                                                        type="number"
+                                                                    />
+                                                                    <ReactFloatingLabelInputEsm
+                                                                        className={"w-11/12"}
+                                                                        defaultValue={ingredient.unit}
+                                                                        label="Einheit"
+                                                                        name="unit"
+                                                                    />
+                                                                    <ReactFloatingLabelInputEsm
+                                                                        className={"w-11/12"}
+                                                                        defaultValue={ingredient.name}
+                                                                        label="Name"
+                                                                        name="name"
+                                                                    />
+                                                                    <div
+                                                                        className='flex flex-row justify-center items-center'>
+                                                                        <button
+                                                                            className='text-red-500 hover:text-red-700 text-white font-bold py-2 px-4 rounded text-3xl'
+                                                                            onClick={() => removeIngredient(ingredient.id)}
+                                                                        >
+                                                                            <TiDeleteOutline />
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })
+                                                }
+                                                <button
+                                                    className='w-1/4 h-12 mt-5 border-2 border-dashed border-gray-400 rounded-lg'
+                                                    onClick={() => addIngredient()}
+                                                >
+                                                    Zutaten hinzufügen
+                                                </button>
+                                            </div>
+                                            :
+                                            <button
+                                                className='w-full h-full flex flex-col justify-center items-center border-2 border-dashed border-gray-400 rounded-lg'
+                                                onClick={() => addIngredient()}
+                                            >
+                                                Zutaten hinzufügen
+                                            </button>
+
+                                    }
                                 </div>
                             </div>
                         </div>

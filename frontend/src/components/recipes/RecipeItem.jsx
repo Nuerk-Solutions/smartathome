@@ -18,13 +18,13 @@ export default function RecipeItem({
             style={{
                 backgroundColor: theme === 'dark' ? '#424242' : '#9FA6C0',
             }}
-            to={`${match.url}/${recipeId}`}
+            to={`${match.url.endsWith('/') ? match.url.slice(0, -1) : match.url}/${recipeId}`}
         >
 
             {/*Image*/}
             <div className={"grid place-items-center"}>
                 <div className="bg-gray-200 rounded-2xl shadow-lg">
-                    <img className={"rounded-2xl shadow-lg"} src={"data:image/png;base64, " + recipeImage} alt={"No Img"} />
+                    <img className={"rounded-2xl shadow-lg max-h-64"} src={recipeImage} alt={"No Img"} />
                 </div>
             </div>
 

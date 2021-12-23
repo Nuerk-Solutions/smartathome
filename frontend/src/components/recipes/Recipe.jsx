@@ -58,8 +58,14 @@ export default function Recipe() {
                         <div className="flex flex-row justify-center">
                             <Link
                                 className="text-gray-700 font-semibold text-sm border-2 border-gray-700 p-1.5 rounded-lg"
-                                to="recipe/create"
-                            >
+                                to={location => ({
+                                    ...location,
+                                    pathname: '/recipe/create',
+                                    state: {
+                                        from: location.pathname
+                                    }
+                                })}>
+
                                 Neues Rezept erstellen
                             </Link>
                         </div>

@@ -70,7 +70,7 @@ export default function RecipeDetail() {
                                         </div>
                                         <img
                                             className="max-w-xs w-1/6 h-1/6 mx-5 shadow-lg rounded-lg"
-                                            src={"data:image/png;base64, " + item.image}
+                                            src={item.image}
                                             alt={item.name}
                                         />
                                     </div>

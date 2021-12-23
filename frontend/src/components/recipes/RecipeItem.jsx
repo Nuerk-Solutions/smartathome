@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { ThemeContext } from "../../../context/ThemeContext";
+import { ThemeContext } from "../../context/ThemeContext";
 import {useRouteMatch} from "react-router-dom";
 import Link from "react-router-dom/es/Link";
 
@@ -15,7 +15,7 @@ export default function RecipeItem({
 
     return (
         <Link
-            className={`text-${colorTheme} relative z-0 max-h-96 w-full md:max-w-xs p-7 border-0 shadow-lg rounded-2xl my-5 cursor-pointer`}
+            className={`text-${colorTheme} flex flex-col justify-center relative z-0 max-h-96 w-full md:max-w-xs p-7 border-0 shadow-lg rounded-2xl my-5 cursor-pointer`}
             style={{
                 backgroundColor: theme === 'dark' ? '#424242' : '#9FA6C0',
             }}

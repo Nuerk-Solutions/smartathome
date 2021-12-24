@@ -16,7 +16,7 @@ export default function RecipeDetail() {
     const {id} = useParams();
 
     useEffect(async () => {
-        await axois.get("http://localhost:2000/recipe/" + id).then(
+        await axois.get("https://api.nuerk-solutions.de/recipe/" + id).then(
             (result) => {
                 setJson(result.data);
                 setIsLoaded(true);

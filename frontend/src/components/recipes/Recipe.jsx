@@ -13,7 +13,7 @@ export default function Recipe() {
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
-        axios.get("http://localhost:2000/recipe/list").then(
+        axios.get("https://api.nuerk-solutions.de/recipe/list").then(
             (res) => {
                 setJson(res.data);
                 setIsLoaded(true);

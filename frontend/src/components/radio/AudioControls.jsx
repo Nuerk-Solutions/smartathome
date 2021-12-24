@@ -60,7 +60,7 @@ export default function AudioControls({
                 step="1"
                 min="0"
                 max={100}
-                className="mt-5"
+                className="mt-5 invisible md:visible"
                 onChange={(e) => {
                     setVolume(Number(e.target.value))
                     audio.current.volume = Number(e.target.value) / 100;

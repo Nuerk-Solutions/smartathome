@@ -1,7 +1,7 @@
 // tailwind.config.js
 
 module.exports = {
-    purge: ['./src/**/*.html', './src/**/*.css', './src/**/*.scss', './src/**/*.js', './src/**/*.jsx'],
+    purge: ["./src/**/*.{js,jsx,ts,tsx}"],
     darkMode: false,
     theme: {
         colors: {

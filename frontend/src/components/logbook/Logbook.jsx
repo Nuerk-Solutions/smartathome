@@ -478,7 +478,8 @@ export default function () {
                                     </div>
                                     : additionalInformation === 2 ?
                                         // vehicle service with small description about 500 characters
-                                        <div className="relative z-0 w-full mb-5">
+                                        <div>
+                                            <div className="relative z-0 w-full mb-5">
                                             <textarea
                                                 required
                                                 id={"serviceDescription"}
@@ -486,10 +487,27 @@ export default function () {
                                                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
                                                 onChange={(event) => setServiceDescription(event.target.value)}
                                             />
-                                            <label htmlFor="serviceDescription"
-                                                   className="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Beschreibung</label>
+                                                <label htmlFor="serviceDescription"
+                                                       className="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Beschreibung</label>
+                                            </div>
+                                            <div className="relative z-0 w-full mb-5">
+                                                <input
+                                                    type="number"
+                                                    min={1}
+                                                    name="money"
+                                                    pattern="[0-9]+([\.,][0-9]+)?"
+                                                    step="0.01"
+                                                    placeholder=" "
+                                                    className="pt-3 pb-2 pl-5 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
+                                                    onChange={(event) => setCost(event.target.value)}
+                                                />
+                                                <div className="absolute top-0 left-0 mt-3 ml-1 text-gray-400">€</div>
+                                                <label htmlFor="money"
+                                                       className="absolute duration-300 top-3 left-7 -z-1 origin-0 text-gray-500">Preis</label>
+                                                <span className="text-sm text-red-600 hidden"
+                                                      id="error">Preis is required</span>
+                                            </div>
                                         </div>
-
                                         : null
                                 }
                                 <button

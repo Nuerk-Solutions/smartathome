@@ -33,7 +33,7 @@ export default function RecipeCreate() {
     }
 
     const handleSubmit = (data) => {
-        axois.post("http://localhost:2000/recipe", data).then(res => {
+        axois.post("https://api.nuerk-solutions.de", data).then(res => {
             console.log(res);
         })
             .catch(error => {

@@ -1,6 +1,6 @@
 {
-  "short_name": "Fahrtenbuch",
-  "name": "Fahrtenbuch",
+  "short_name": "Smarthome",
+  "name": "Smarthome",
   "icons": [],
   "start_url": "/",
   "display": "standalone",

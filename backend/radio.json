@@ -8,6 +8,14 @@
     "color": "#198aff"
   },
   {
+    "id": "deutschlandfunk_kultur",
+    "name": "Deutschlandfunk Kultur",
+    "mp3": "https://st02.sslstream.dlf.de/dlf/02/128/mp3/stream.mp3?aggregator=web",
+    "image": "https://static.tuneyou.com/images/logos/500_500/4/1104/DeutschlandfunkKultur89.6FM.png",
+    "current_song": "https://streamtext.dradio.de/drk.txt",
+    "color": "#ff3608"
+  },
+  {
     "id": "mdr_jump",
     "name": "MDR Jump",
     "mp3": "https://mdr-284320-0.sslcast.mdr.de/mdr/284320/0/mp3/high/stream.mp3",

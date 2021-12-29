@@ -13,7 +13,7 @@ router.get("/currentSong/:channel", (req, res) => {
     json.map(channel => {
         if (channel.id === req.params.channel) {
             switch (channel.id) {
-                case "deutschlandfunk":
+                case "deutschlandfunk": case 'deutschlandfunk_kultur':
                     fetchData(channel.current_song).then(data => {
                         res.send(data);
                     });

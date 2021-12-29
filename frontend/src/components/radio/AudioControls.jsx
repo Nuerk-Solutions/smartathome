@@ -6,7 +6,10 @@ import './inputRangeSlieder.css';
 export default function AudioControls({
                                           isPlaying,
                                           onPlayPauseClick,
-                                          mp3
+                                          mp3,
+                                          radioName,
+                                          radioImage,
+                                          title,
                                       }) {
 
     const [volume, setVolume] = useState(50);
@@ -46,6 +49,21 @@ export default function AudioControls({
                             audio.current = new Audio(mp3);
                             audio.current.volume = volume / 100;
                             audio.current.play().then(() => {
+                                navigator.mediaSession.metadata = new MediaMetadata({
+                                    title: title,
+                                    artist: radioName,
+                                    artwork: [
+                                        {src: radioImage, sizes: '512x512', type: 'image/png'},
+                                    ],
+                                });
+                                // mediaSession.setActionHandler('play', () => {
+                                //     setIsPlaying(true);
+                                //     onClick();
+                                // });
+                                // mediaSession.setActionHandler('pause', () => {
+                                //     setIsPlaying(false);
+                                //     onClick();
+                                // });
                                 setIsLoading(false);
                             });
                         }}

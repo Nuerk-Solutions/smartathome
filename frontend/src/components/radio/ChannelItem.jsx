@@ -19,6 +19,7 @@ export default function ({
     const {theme, colorTheme} = useContext(ThemeContext);
     const [isPlaying, setIsPlaying] = useState(false);
     const [seconds, setSeconds] = useState(-1);
+    const [publicTitle, publicTitleSet] = useState('Loading...');
     let refreshDelay = 31 * 10; //30 seconds
 
 
@@ -28,8 +29,10 @@ export default function ({
         async function fetchData() {
             await axois.get("https://api.nuerk-solutions.de/radio/currentSong/" + id).then(res => {
                 setTitle(res.data);
+                publicTitleSet(res.data);
             });
         }
+
 
         useEffect(async () => {
             await fetchData();
@@ -86,7 +89,8 @@ export default function ({
             </div>
 
             {/*Audio Controls*/}
-            <AudioControls isPlaying={currentlyPlay} onPlayPauseClick={setIsPlaying} mp3={mp3}/>
+            <AudioControls isPlaying={currentlyPlay} onPlayPauseClick={setIsPlaying} radioName={radioName}
+                           radioImage={radioImage} title={publicTitle} mp3={mp3}/>
 
             {/*Backdrop*/}
             <Backdrop activeColor={color} isPlaying={currentlyPlay}/>

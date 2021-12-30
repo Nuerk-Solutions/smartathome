@@ -70,6 +70,14 @@
     "image": "https://i1.sndcdn.com/artworks-000141272914-y2s36e-t500x500.jpg",
     "current_song": "https://iris-psr.loverad.io/flow.json?station=7&offset=1&count=1",
     "color": "#45c080"
+  },
+  {
+    "id": "radio_rsa",
+    "name": "Radio RSA",
+    "mp3": "https://streams.rsa-sachsen.de/rsa-live/mp3-192/mediaplayerrsa",
+    "image": "https://i1.sndcdn.com/artworks-000141272914-y2s36e-t500x500.jpg",
+    "current_song": "https://iris-rsa.loverad.io/flow.json?station=8&offset=1&count=1",
+    "color": "#6ab7e4"
   }
 ]
 

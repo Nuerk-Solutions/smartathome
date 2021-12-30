@@ -62,6 +62,14 @@
     "image": "https://webradio.radiodresden.de/local/FB_Weihnachtsradio_300x300.png",
     "current_song": "https://webradio.radiodresden.de/Station_ALL_Current.json",
     "color": "#004f9f"
+  },
+  {
+    "id": "radio_psr",
+    "name": "Radio PSR",
+    "mp3": "https://streams.radiopsr.de/psr-live/mp3-192/mediaplayer",
+    "image": "https://www.radiopsr.de/_nuxt/36ac373e59412227091fb612f51fed11.svg",
+    "current_song": "https://iris-psr.loverad.io/flow.json?station=7&offset=1&count=1",
+    "color": "#45c080"
   }
 ]
 

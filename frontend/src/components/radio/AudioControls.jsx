@@ -73,7 +73,7 @@ export default function AudioControls({
                     </button>
                 )}
             {
-                !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) &&
+                !("/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i".test(navigator.userAgent)) &&
                 <input
                     type="range"
                     value={volume}

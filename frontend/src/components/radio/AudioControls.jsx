@@ -72,18 +72,22 @@ export default function AudioControls({
                         <IoPlayOutline size={50}/>
                     </button>
                 )}
-            <input
-                type="range"
-                value={volume}
-                step="1"
-                min="0"
-                max={100}
-                className="mt-5 invisible md:visible"
-                onChange={(e) => {
-                    setVolume(Number(e.target.value))
-                    audio.current.volume = Number(e.target.value) / 100;
-                }}
-            />
+            {
+                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
+                <input
+                    type="range"
+                    value={volume}
+                    step="1"
+                    min="0"
+                    max={100}
+                    className="mt-5"
+                    onChange={(e) => {
+                        setVolume(Number(e.target.value))
+                        audio.current.volume = Number(e.target.value) / 100;
+                    }}
+                />
+
+            }
         </div>
     );
 }

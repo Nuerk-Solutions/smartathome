@@ -51,7 +51,7 @@ router.get("/currentSong/:channel", (req, res) => {
                         res.send(data.data.weihnachtsradio.title + " - " + data.data.weihnachtsradio.interpret);
                     });
                     break;
-                case "radio_psr": case "radio_rsa":
+                case "radio_psr": case "radio_rsa": case "sunshine_live":
                     fetchData(channel.current_song).then(data => {
                         res.send(data.result.entry[0].song.entry[0].title + " - " + data.result.entry[0].song.entry[0].artist.entry[0].name);
                     });

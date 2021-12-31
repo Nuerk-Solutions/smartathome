@@ -78,6 +78,14 @@
     "image": "https://www.radio.de/images/broadcasts/4a/e6/2228/1/c300.png",
     "current_song": "https://iris-rsa.loverad.io/flow.json?station=8&offset=1&count=1",
     "color": "#6ab7e4"
+  },
+  {
+    "id": "sunshine_live",
+    "name": "SUNSHINE LIVE",
+    "mp3": "https://stream.sunshine-live.de/live/mp3-192/mediaplayer",
+    "image": "https://images.sunshine-live.de/files/streams/stream-tile-ssl-SUNSHINELIVEv2.jpg",
+    "current_song": "https://iris-sunshinelive.loverad.io/flow.json?station=3&offset=1&count=1",
+    "color": "#2f4d62"
   }
 ]
 

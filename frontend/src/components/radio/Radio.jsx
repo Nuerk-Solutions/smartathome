@@ -79,6 +79,7 @@ export default function () {
                                         color={item.color}
                                         mp3={item.mp3}
                                         currentlyPlay={channelIndexPlaying === index && channelIndexPlaying !== -1}
+                                        style={`${channelIndexPlaying !== -1 && channelIndexPlaying !== index ? 'opacity-50' : ''}`}
                                         onClick={() => {
                                             if(channelIndexPlaying === index) {
                                                 setChannelIndexPlaying(-1)

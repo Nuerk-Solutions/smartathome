@@ -133,8 +133,9 @@ router.get("/", async (req, res, next) => {
     }
 
     if (req.query.all) {
-        await Logbook.find().populate("vehicle").populate("additionalInformation").exec(function (err, result) {
+        await Logbook.find().populate("vehicle").populate("additionalInformation").sort(`${req.query.sort || 'asc'}`).exec(function (err, result) {
             if (err) return next(createHttpError(500, err));
+
             res.json(result);
         });
         return;

@@ -81,25 +81,25 @@ class AddressContextProvider extends Component {
             const data = await fetchIPAddress()
             if (isValid(data)) {
                 const {
-                    latitude,
-                    longitude,
+                    lat,
+                    lon,
                     city,
-                    region,
-                    country_name,
+                    regionName,
+                    country,
                 } = data
-                const cityName = `${city}, ${region}, ${country_name}`
+                const cityName = `${city}, ${regionName}, ${country}`
 
                 // check whether latitude and longitude are strings which are NaN as well as if value is null or undefined
                 const Latitude =
-                    isNil(latitude) || isNaN(Number(latitude)) ? '00' : latitude
+                    isNil(lat) || isNaN(Number(lat)) ? '00' : lat
                 const Longitude =
-                    isNil(longitude) || isNaN(Number(longitude)) ? '00' : longitude
+                    isNil(lon) || isNaN(Number(lon)) ? '00' : lon
                 this.updateState({
                     showLoader: false,
                     address: {
                         cityName,
                     },
-                    latlong: this.formatCoords(Longitude, Latitude),
+                    latlong: this.formatCoords(Latitude, Longitude),
                 })
             } else {
                 this.updateState({showLoader: false})

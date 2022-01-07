@@ -18,7 +18,7 @@ export default () => {
             <NavItem icon={<GiOilPump/>} destinationPath="/pump"/>
             <NavItem icon={<MdOutlineRadio/>} destinationPath="/radio"/>
             <NavItem icon={<RiBookLine/>} destinationPath="/logbook?key=ADDC5742944D56A26E8C7CD2EB1F5"/>
-            <NavItem icon={<BsBook/>} destinationPath="/recipe"/>
+            {/*<NavItem icon={<BsBook/>} destinationPath="/recipe"/>*/}
             <CustomNavItem >
                 {/*<div>*/}
                 {/* below condition to avoid toggle glitch effect on page refresh */}

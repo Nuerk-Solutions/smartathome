@@ -88,7 +88,7 @@ const {add} = require("nodemon/lib/rules");
 router.get("/", async (req, res, next) => {
 
     if (req.query.dl) {
-        await Logbook.find().populate("vehicle").populate("additionalInformation").exec(function (err, result) {
+        await Logbook.find().populate("vehicle").populate("additionalInformation").sort({date: 1}).exec(function (err, result) {
             if (err) return next(createHttpError(500, err));
 
             const data = result.map(logbook => {

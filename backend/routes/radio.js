@@ -56,6 +56,11 @@ router.get("/currentSong/:channel", (req, res) => {
                         res.send(data.result.entry[0].song.entry[0].title + " - " + data.result.entry[0].song.entry[0].artist.entry[0].name);
                     });
                     break;
+                case "mdr_sachsen":
+                    fetchData(channel.current_song).then(data => {
+                        res.send(data.Songs[0].title + " - " + data.Songs[0].interpret);
+                    });
+                    break;
             }
         }
     });

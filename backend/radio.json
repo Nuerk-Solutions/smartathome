@@ -16,6 +16,14 @@
     "color": "#ff3608"
   },
   {
+    "id": "mdr_sachsen",
+    "name": "MDR Sachsen",
+    "mp3": "https://mdr-284280-0.sslcast.mdr.de/mdr/284280/0/mp3/high/stream.mp3",
+    "image": "https://cdn.mdr.de/administratives/av/bild218-resimage_v-variantSmall1x1_w-512.png?version=44740",
+    "current_song": "https://www.mdr.de/XML/titellisten/mdr1_sn_2.json",
+    "color": "#77b92a"
+  },
+  {
     "id": "mdr_jump",
     "name": "MDR Jump",
     "mp3": "https://mdr-284320-0.sslcast.mdr.de/mdr/284320/0/mp3/high/stream.mp3",

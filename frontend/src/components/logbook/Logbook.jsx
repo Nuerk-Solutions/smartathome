@@ -511,7 +511,7 @@ export default function () {
                                         : null
                                 }
                                 <button
-                                    disabled
+
                                     onClick={() => document.getElementById('additionalInformationId').required = false}
                                     id="button"
                                     type="submit"
@@ -521,7 +521,6 @@ export default function () {
                                 </button>
                             </form>
                             <button
-                                disabled
                                 id="button"
                                 className="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-red-400-accent hover:bg-red-700-accent hover:shadow-lg focus:outline-none"
                                 onClick={handleDelete}

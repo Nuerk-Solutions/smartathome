@@ -14,10 +14,10 @@ export default () => {
         // <div className='flex justify-end items-center px-10 py-5'>
         <Navbar >
             <NavItem icon={<TiWeatherCloudy/>} destinationPath="/"/>
-            <NavItem icon={<GiBusStop/>} destinationPath="/dvb"/>
-            <NavItem icon={<GiOilPump/>} destinationPath="/pump"/>
+            //<NavItem icon={<GiBusStop/>} destinationPath="/dvb"/>
+            //<NavItem icon={<GiOilPump/>} destinationPath="/pump"/>
             <NavItem icon={<MdOutlineRadio/>} destinationPath="/radio"/>
-            <NavItem icon={<RiBookLine/>} destinationPath="/logbook?key=ADDC5742944D56A26E8C7CD2EB1F5"/>
+            //<NavItem icon={<RiBookLine/>} destinationPath="/logbook?key=ADDC5742944D56A26E8C7CD2EB1F5"/>
             {/*<NavItem icon={<BsBook/>} destinationPath="/recipe"/>*/}
             <CustomNavItem >
                 {/*<div>*/}
